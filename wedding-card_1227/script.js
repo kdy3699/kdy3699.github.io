@@ -1,7 +1,17 @@
-// 페이지 로드 시 자동으로 모달 열기
-window.addEventListener('load', () => {
-  openSurvey();
-});
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('surveyModal');
+  const form = document.getElementById('surveyForm');
+  const msg = document.getElementById('surveyMsg');
+
+  function openSurvey() {
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+  }
+
+  function closeSurvey() {
+    modal.classList.add('hidden');
+    modal.style.display = '';
+  }
 
 const password = '7757';  // 관리자 비밀번호
 
