@@ -1,77 +1,113 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>우리의 청첩장</title>
+
+  <!-- Tailwind CDN (빌드 필요 없음, 빠른 개발용) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-50 font-sans text-gray-800">
+<body class="bg-[#fff8f9] text-gray-800 font-sans">
 
-  <!-- 상단 배경 -->
-  <section class="relative w-full h-[60vh] bg-cover bg-center" style="background-image:url('assets/main-bg.jpg');">
-    <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-white">
-      <h1 class="text-3xl md:text-4xl font-bold mb-2">신랑 ○○ & 신부 △△</h1>
-      <p class="text-lg">2025년 12월 27일 토요일</p>
-      <p class="text-base">서울 ○○웨딩홀</p>
+  <!-- HERO -->
+  <header class="relative h-screen md:h-[70vh] bg-cover bg-center" style="background-image: url('assets/hero.jpg')">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center">
+      <div class="text-center text-white px-6">
+        <h1 class="text-3xl md:text-5xl font-serif mb-2">신랑 김도엽 &amp; 신부 나두리</h1>
+        <p class="text-base md:text-lg mb-4">2025년 12월 27일 (토) · 삼성전자 서초사옥</p>
+        <div class="space-x-2">
+          <button onclick="scrollToSection('about')" class="px-4 py-2 bg-white/20 rounded-md">청첩장 보기</button>
+          <button onclick="openSurvey()" class="px-4 py-2 bg-pink-500 rounded-md">참석/버스 신청</button>
+        </div>
+      </div>
     </div>
-  </section>
+  </header>
 
-  <!-- 인사말 -->
-  <section class="max-w-xl mx-auto text-center py-10 px-4">
-    <p class="mb-4 leading-relaxed">
-      소중한 분들을 모시고 저희의 새로운 시작을 함께 하고자 합니다.<br>
-      귀한 걸음을 하셔서 축복해 주시면 큰 기쁨이겠습니다.
-    </p>
-    <button onclick="openSurvey()" class="px-5 py-3 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600">
-      참석 여부 & 버스 신청하기
-    </button>
-  </section>
+  <!-- MAIN -->
+  <main class="max-w-xl mx-auto -mt-10 relative z-10 px-4">
 
-  <!-- 지도 -->
-  <section class="max-w-xl mx-auto py-10 px-4">
-    <h2 class="text-xl font-semibold mb-4 text-center">오시는 길</h2>
-    <iframe 
-      src="https://www.google.com/maps/embed?pb=!1m18!..." 
-      class="w-full h-64 rounded-lg shadow"
-      allowfullscreen=""
-      loading="lazy">
-    </iframe>
-  </section>
+    <!-- 카드: 인사말 -->
+    <section id="about" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-2">초대의 말씀</h2>
+      <p class="text-sm leading-relaxed">
+        저희의 소중한 날에 기쁜 마음으로 초대합니다.
+        함께해 주시면 큰 기쁨이 되겠습니다.
+      </p>
+    </section>
 
-  <!-- 설문 모달 -->
-  <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-xl p-6 w-80 shadow-lg relative">
-      <button onclick="closeSurvey()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">✕</button>
-      <h3 class="text-lg font-bold mb-4 text-center">참석 여부 조사</h3>
-      <form id="surveyForm" class="space-y-4">
-        <!-- 참석 여부 -->
+    <!-- 일정 / 장소 -->
+    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <h3 class="text-lg font-semibold mb-3">행사 안내</h3>
+      <ul class="text-sm space-y-2">
+        <li><strong>예식:</strong> 2025년 12월 27일 (토) 오후 1시</li>
+        <li><strong>장소:</strong> 삼성전자 서초사옥 (5층 웨딩홀)</li>
+        <li><strong>연락:</strong> 010-1234-5678</li>
+      </ul>
+      <div class="mt-4">
+        <iframe class="w-full h-44 rounded-md" src="https://www.google.com/maps/embed?pb=!1m18!..." loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <!-- 갤러리 -->
+    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <h3 class="text-lg font-semibold mb-3">사진 갤러리</h3>
+      <div class="grid grid-cols-2 gap-2">
+        <img src="assets/couple1.jpg" alt="couple1" class="rounded-md object-cover h-36 w-full" />
+        <img src="assets/couple2.jpg" alt="couple2" class="rounded-md object-cover h-36 w-full" />
+      </div>
+    </section>
+
+    <!-- 타임라인 -->
+    <section class="bg-white rounded-2xl shadow-lg p-6 mb-16">
+      <h3 class="text-lg font-semibold mb-3">당일 순서</h3>
+      <ol class="text-sm list-decimal ml-5 space-y-1">
+        <li>입장 및 안내 (13:30)</li>
+        <li>본식 (14:00)</li>
+        <li>피로연 & 촬영 (15:00)</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- RSVP 모달 -->
+  <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg">
+      <div class="flex justify-between items-center mb-3">
+        <h4 class="font-semibold">참석 여부 및 버스 신청</h4>
+        <button onclick="closeSurvey()" class="text-gray-500">✕</button>
+      </div>
+      <form id="surveyForm" class="space-y-3">
         <div>
-          <label class="block mb-1 font-medium">참석 여부</label>
-          <select name="attend" class="w-full border rounded-lg p-2">
-            <option value="yes">참석합니다</option>
-            <option value="no">불참합니다</option>
+          <label class="text-sm">이름</label>
+          <input name="name" type="text" required class="mt-1 w-full border rounded-md px-3 py-2" placeholder="홍길동" />
+        </div>
+
+        <div>
+          <label class="text-sm">참석 여부</label>
+          <select name="attend" class="mt-1 w-full border rounded-md px-3 py-2">
+            <option value="참석">참석합니다</option>
+            <option value="불참">불참합니다</option>
           </select>
         </div>
 
-        <!-- 버스 탑승 여부 -->
         <div>
-          <label class="block mb-1 font-medium">버스 탑승 여부</label>
-          <select name="bus" class="w-full border rounded-lg p-2">
-            <option value="yes">탑승합니다</option>
-            <option value="no">개별 이동</option>
+          <label class="text-sm">버스 탑승</label>
+          <select name="bus" class="mt-1 w-full border rounded-md px-3 py-2">
+            <option value="탑승">탑승합니다</option>
+            <option value="개별">개별 이동</option>
           </select>
         </div>
 
-        <!-- 이름 -->
         <div>
-          <label class="block mb-1 font-medium">이름</label>
-          <input type="text" name="name" class="w-full border rounded-lg p-2" required>
+          <label class="text-sm">메모 (선택)</label>
+          <input name="note" type="text" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="알려주실 내용이 있으면 적어주세요" />
         </div>
 
-        <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600">제출하기</button>
+        <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-md">제출하기</button>
       </form>
+      <p id="surveyMsg" class="text-center text-sm text-green-600 mt-2 hidden">제출 완료되었습니다.</p>
     </div>
   </div>
 
