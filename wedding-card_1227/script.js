@@ -27,30 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     console.log("📩 폼 제출 이벤트 발생");
 
-    /*const data = {
+    const data = {
       name: form.name.value.trim(),
       eat: form.eat.value,
       bus: form.bus.value,
       person: form.person.value || ''
-    };*/
-    const data = new URLSearchParams({
-      name: form.name.value.trim(),
-      eat: form.eat.value,
-      bus: form.bus.value,
-      person: form.person.value || ''
-    }).toString();
+    };
     console.log("➡️ 전송 데이터:", data);
 
     try {
       const res = await fetch(SCRIPT_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: data
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
       });
       console.log("✅ fetch 요청 성공:", res);
 
-//      const result = await res.json();
-//      console.log("📥 서버 응답:", result);
+      const result = await res.json();
+      console.log("📥 서버 응답:", result);
 
       if (result && (result.result === 'success' || result.message)) {
         msg.classList.remove('hidden');
