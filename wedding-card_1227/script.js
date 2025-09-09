@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzgBeQfgUjpRn6ZF2atoh5CyOtqvphdUa2tjaW0p9lavuxb-QhC6wdBRKvaNHYVNZsp/exec"; // 반드시 교체
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTeeWckxiNa4fwy2KB7kJgbIB5ykoxXPYj7MIxQRT0hSVlwZqbfMtYrcYTezLFH_c/exec"; // 반드시 교체
 
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('surveyModal');
