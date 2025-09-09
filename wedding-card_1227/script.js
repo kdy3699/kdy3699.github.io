@@ -62,3 +62,9 @@ adminBtn.addEventListener('click', () => {
 window.addEventListener('load', () => {
   openSurvey();
 });
+
+// 스크롤 함수
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
