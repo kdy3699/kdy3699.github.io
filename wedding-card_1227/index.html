@@ -71,13 +71,16 @@
 
   </main>
 
-  <!-- RSVP 모달 -->
+<!-- RSVP 모달 -->
   <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg">
-      <div class="flex justify-between items-center mb-3">
-        <h4 class="font-semibold">식사 여부 및 버스 탑승 여부</h4>
-        <button onclick="closeSurvey()" class="text-gray-500">✕</button>
+    <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg relative">
+      <!-- 닫기 버튼 -->
+      <button onclick="closeSurvey()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl">✕</button>
+    
+      <div class="flex justify-center mb-3">
+        <h4 class="font-semibold text-lg">식사여부 & 버스탑승여부</h4>
       </div>
+    
       <form id="surveyForm" class="space-y-3">
         <div>
           <label class="text-sm">이름</label>
@@ -96,10 +99,10 @@
         <div>
           <label class="text-sm">버스 탑승</label>
           <select name="bus" class="mt-1 w-full border rounded-md px-3 py-2">
+            <option value="미탑승">미탑승</option>
             <option value="안동탑승">안동탑승</option>
             <option value="광주탑승">광주탑승</option>
             <option value="수원탑승">수원탑승</option>
-            <option value="미탑승">미탑승</option>
           </select>
         </div>
 
