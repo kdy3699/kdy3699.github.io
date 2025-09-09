@@ -48,9 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const data = {
       name: form.name.value.trim(),
-      attend: form.eat.value,
+      eat: form.eat.value,
       bus: form.bus.value,
-      note: form.person.value.trim()
+      person: form.person.value.trim()
     };
 
     // 로컬 파일 저장 함수 호출
