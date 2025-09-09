@@ -75,7 +75,7 @@
   <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50 hidden">
     <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg">
       <div class="flex justify-between items-center mb-3">
-        <h4 class="font-semibold">참석 여부 및 버스 신청</h4>
+        <h4 class="font-semibold">식사 여부 및 버스 탑승 여부</h4>
         <button onclick="closeSurvey()" class="text-gray-500">✕</button>
       </div>
       <form id="surveyForm" class="space-y-3">
@@ -85,24 +85,27 @@
         </div>
 
         <div>
-          <label class="text-sm">참석 여부</label>
+          <label class="text-sm">식사여부</label>
           <select name="attend" class="mt-1 w-full border rounded-md px-3 py-2">
-            <option value="참석">참석합니다</option>
-            <option value="불참">불참합니다</option>
+            <option value="한식">한식</option>
+            <option value="일식">일식</option>
+            <option value="미참여">미참여</option>
           </select>
         </div>
 
         <div>
           <label class="text-sm">버스 탑승</label>
           <select name="bus" class="mt-1 w-full border rounded-md px-3 py-2">
-            <option value="탑승">탑승합니다</option>
-            <option value="개별">개별 이동</option>
+            <option value="안동탑승">안동탑승</option>
+            <option value="광주탑승">광주탑승</option>
+            <option value="수원탑승">수원탑승</option>
+            <option value="미탑승">미탑승</option>
           </select>
         </div>
 
         <div>
-          <label class="text-sm">메모 (선택)</label>
-          <input name="note" type="text" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="알려주실 내용이 있으면 적어주세요" />
+          <label class="text-sm">동행인원</label>
+          <input name="note" type="text" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="동행인원 숫자를 적어주세요" />
         </div>
 
         <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-md">제출하기</button>
