@@ -10,6 +10,11 @@ function closeSurvey() {
   modal.style.display = '';
 }
 
+// 페이지 로드 시 자동으로 모달 열기
+window.addEventListener('load', () => {
+  openSurvey();
+});
+
 // 폼 제출 데이터 로컬 파일 저장 함수
 function saveSurveyToFile(data) {
   const content = 
