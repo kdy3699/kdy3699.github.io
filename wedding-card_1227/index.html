@@ -1,122 +1,74 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>우리의 청첩장</title>
-
-  <!-- Tailwind CDN (빌드 필요 없음, 빠른 개발용) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <title>설문조사</title>
 </head>
-<body class="bg-[#fff8f9] text-gray-800 font-sans">
+<body>
+  <h2>식사여부 & 버스탑승여부 설문</h2>
+  <form id="surveyForm">
+    <label>이름: <input type="text" name="name" required /></label><br />
+    <label>식사여부:
+      <select name="eat" required>
+        <option value="">선택</option>
+        <option value="한식">한식</option>
+        <option value="일식">일식</option>
+        <option value="미참여">미참여</option>
+      </select>
+    </label><br />
+    <label>버스 탑승:
+      <select name="bus" required>
+        <option value="">선택</option>
+        <option value="미탑승">미탑승</option>
+        <option value="안동탑승">안동탑승</option>
+        <option value="광주탑승">광주탑승</option>
+        <option value="수원탑승">수원탑승</option>
+      </select>
+    </label><br />
+    <label>동행인원: <input type="number" name="person" min="0" required /></label><br />
+    <button type="submit">제출하기</button>
+  </form>
 
-  <!-- HERO -->
-  <header class="relative h-screen md:h-[70vh] bg-cover bg-center" style="background-image: url('assets/hero.jpg')">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center">
-      <div class="text-center text-white px-6">
-        <h1 class="text-3xl md:text-5xl font-serif mb-2">신랑 김도엽 &amp; 신부 나두리</h1>
-        <p class="text-base md:text-lg mb-4">2025년 12월 27일 (토) · 삼성전자 서초사옥</p>
-        <div class="space-x-2">
-          <button onclick="scrollToSection('about')" class="px-4 py-2 bg-white/20 rounded-md">청첩장 보기</button>
-          <button onclick="openSurvey()" class="px-4 py-2 bg-pink-500 rounded-md">식사여부&버스탑승여부</button>
-        </div>
-      </div>
-    </div>
-  </header>
+  <h3>설문 제출 내역</h3>
+  <ul id="surveyList"></ul>
 
-  <!-- MAIN -->
-  <main class="max-w-xl mx-auto -mt-10 relative z-10 px-4">
+  <script>
+    const form = document.getElementById('surveyForm');
+    const surveyList = document.getElementById('surveyList');
 
-    <!-- 카드: 인사말 -->
-    <section id="about" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h2 class="text-xl font-semibold mb-2">초대의 말씀11</h2>
-      <p class="text-sm leading-relaxed">
-        저희의 소중한 날에 기쁜 마음으로 초대합니다.
-        함께해 주시면 큰 기쁨이 되겠습니다.
-      </p>
-    </section>
+    // 저장된 설문 데이터를 불러와 화면에 표시
+    function loadSurveys() {
+      const surveys = JSON.parse(localStorage.getItem('surveys') || '[]');
+      surveyList.innerHTML = '';
+      surveys.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name}님 - 식사: ${item.eat}, 버스: ${item.bus}, 동행: ${item.person}명`;
+        surveyList.appendChild(li);
+      });
+    }
 
-    <!-- 일정 / 장소 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h3 class="text-lg font-semibold mb-3">행사 안내</h3>
-      <ul class="text-sm space-y-2">
-        <li><strong>예식:</strong> 2025년 12월 27일 (토) 오후 1시</li>
-        <li><strong>장소:</strong> 삼성전자 서초사옥 (5층 웨딩홀)</li>
-        <li><strong>연락:</strong> 010-1234-5678</li>
-      </ul>
-      <div class="mt-4">
-        <iframe class="w-full h-44 rounded-md" src="https://www.google.com/maps/embed?pb=!1m18!..." loading="lazy"></iframe>
-      </div>
-    </section>
+    // 폼 제출 시 데이터 저장
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const newEntry = {
+        name: formData.get('name').trim(),
+        eat: formData.get('eat'),
+        bus: formData.get('bus'),
+        person: formData.get('person')
+      };
 
-    <!-- 갤러리 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h3 class="text-lg font-semibold mb-3">사진 갤러리</h3>
-      <div class="grid grid-cols-2 gap-2">
-        <img src="assets/couple1.jpg" alt="couple1" class="rounded-md object-cover h-36 w-full" />
-        <img src="assets/couple2.jpg" alt="couple2" class="rounded-md object-cover h-36 w-full" />
-      </div>
-    </section>
+      const surveys = JSON.parse(localStorage.getItem('surveys') || '[]');
+      surveys.push(newEntry);
+      localStorage.setItem('surveys', JSON.stringify(surveys));
 
-    <!-- 타임라인 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-16">
-      <h3 class="text-lg font-semibold mb-3">당일 순서</h3>
-      <ol class="text-sm list-decimal ml-5 space-y-1">
-        <li>입장 및 안내 (13:30)</li>
-        <li>본식 (14:00)</li>
-        <li>피로연 & 촬영 (15:00)</li>
-      </ol>
-    </section>
+      form.reset();
+      loadSurveys();
+      alert('제출 완료되었습니다!');
+    });
 
-  </main>
-
-<!-- RSVP 모달 -->
-  <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg relative">
-      <!-- 닫기 버튼 -->
-      <button onclick="closeSurvey()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl">✕</button>
-    
-      <div class="flex justify-center mb-3">
-        <h4 class="font-semibold text-lg">식사여부 & 버스탑승여부</h4>
-      </div>
-    
-      <form id="surveyForm" class="space-y-3">
-        <div>
-          <label class="text-sm">이름</label>
-          <input name="name" type="text" required class="mt-1 w-full border rounded-md px-3 py-2" placeholder="홍길동" />
-        </div>
-
-        <div>
-          <label class="text-sm">식사여부</label>
-          <select name="eat" class="mt-1 w-full border rounded-md px-3 py-2">
-            <option value="한식">한식</option>
-            <option value="일식">일식</option>
-            <option value="미참여">미참여</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="text-sm">버스 탑승</label>
-          <select name="bus" class="mt-1 w-full border rounded-md px-3 py-2">
-            <option value="미탑승">미탑승</option>
-            <option value="안동탑승">안동탑승</option>
-            <option value="광주탑승">광주탑승</option>
-            <option value="수원탑승">수원탑승</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="text-sm">동행인원</label>
-          <input name="person" type="text" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="동행인원 숫자를 적어주세요" />
-        </div>
-
-        <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-md">제출하기</button>
-      </form>
-      <p id="surveyMsg" class="text-center text-sm text-green-600 mt-2 hidden">제출 완료되었습니다.</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    // 페이지 로드 시 저장 내역 표시
+    loadSurveys();
+  </script>
 </body>
 </html>
