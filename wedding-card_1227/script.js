@@ -23,9 +23,9 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = {
     name: form.name.value.trim(),
-    attend: form.attend.value,
+    attend: form.eat.value,
     bus: form.bus.value,
-    note: form.note.value || ''
+    note: form.person.value || ''
   };
 
   try {
