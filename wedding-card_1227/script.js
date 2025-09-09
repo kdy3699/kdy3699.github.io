@@ -1,73 +1,63 @@
-// 설문 모달 열기/닫기 함수 (원래 코드 유지)
-function openSurvey() {
-  const modal = document.getElementById('surveyModal');
-  modal.classList.remove('hidden');
-  modal.style.display = 'flex';
-}
-function closeSurvey() {
-  const modal = document.getElementById('surveyModal');
-  modal.classList.add('hidden');
-  modal.style.display = '';
-}
-
 // 페이지 로드 시 자동으로 모달 열기
 window.addEventListener('load', () => {
   openSurvey();
 });
 
-// 폼 제출 데이터 로컬 파일 저장 함수
-function saveSurveyToFile(data) {
-  const content = 
-    `설문 응답\n` +
-    `이름: ${data.name}\n` +
-    `식사여부: ${data.eat}\n` +
-    `버스 탑승: ${data.bus}\n` +
-    `동행인원: ${data.person}\n` +
-    `제출일시: ${new Date().toLocaleString()}\n`;
+const password = '7757';  // 관리자 비밀번호
 
-  const blob = new Blob([content], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${data.name || '응답'}_청첩장_설문.txt`;
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => {
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }, 100);
+function openAdminPanel() {
+  const inputPwd = prompt('관리자 비밀번호를 입력하세요:');
+  if (inputPwd === password) {
+    showSurveyResults();
+  } else {
+    alert('비밀번호가 올바르지 않습니다.');
+  }
 }
 
-// DOMContentLoaded 이벤트 후 로직 작성
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('surveyForm');
-  const msg = document.getElementById('surveyMsg');
-
-  if (!form) {
-    console.error("❌ surveyForm 요소를 찾을 수 없습니다.");
+function showSurveyResults() {
+  // 예: 로컬스토리지에 설문 저장 데이터가 있다면 불러와서 보여주기
+  // 로컬저장소 키 'surveyData' 사용 예
+  const dataJSON = localStorage.getItem('surveyData');
+  if (!dataJSON) {
+    alert('아직 설문 데이터가 없습니다.');
     return;
   }
+  const dataList = JSON.parse(dataJSON);
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = {
-      name: form.name.value.trim(),
-      eat: form.eat.value,
-      bus: form.bus.value,
-      person: form.person.value.trim()
-    };
+  const resultsWindow = window.open('', '설문결과', 'width=600,height=400,scrollbars=yes');
+  resultsWindow.document.write('<h2>설문 결과 목록</h2>');
+  if (dataList.length === 0) {
+    resultsWindow.document.write('<p>설문 응답이 없습니다.</p>');
+  } else {
+    dataList.forEach((entry, idx) => {
+      resultsWindow.document.write(
+        `<p><strong>${idx + 1}.</strong> 이름: ${entry.name}, 식사: ${entry.eat}, 버스: ${entry.bus}, 동행인원: ${entry.person}</p>`
+      );
+    });
+  }
+  resultsWindow.document.close();
+}
 
-    // 로컬 파일 저장 함수 호출
-    saveSurveyToFile(data);
+// example: 참여 버튼에 연결
+document.getElementById('adminButton').addEventListener('click', openAdminPanel);
 
-    // 제출 완료 메시지 표시 후 폼 초기화 및 모달 닫기
-    msg.classList.remove('hidden');
-    msg.textContent = "제출 완료되었습니다.";
-    setTimeout(() => {
-      msg.classList.add('hidden');
-      closeSurvey();
-      form.reset();
-    }, 1400);
-  });
+// 설문 제출 시 로컬 저장 (form submit 핸들러 예시)
+document.getElementById('surveyForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const newEntry = {
+    name: form.name.value,
+    eat: form.eat.value,
+    bus: form.bus.value,
+    person: form.person.value,
+  };
+
+  let surveyData = JSON.parse(localStorage.getItem('surveyData') || '[]');
+  surveyData.push(newEntry);
+  localStorage.setItem('surveyData', JSON.stringify(surveyData));
+
+  alert('제출이 완료되었습니다.');
+
+  form.reset();
+  closeSurvey();
 });
