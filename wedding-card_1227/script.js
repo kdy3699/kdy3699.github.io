@@ -18,6 +18,11 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
+// 페이지 로드 시 자동으로 모달 열기
+window.addEventListener('load', () => {
+  openSurvey();
+});
+
 // 제출 처리
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
