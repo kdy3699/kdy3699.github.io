@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = await fetch(SCRIPT_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(data)
       });
       console.log("✅ fetch 요청 성공:", res);
