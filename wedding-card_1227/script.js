@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.classList.add('hidden');
     modal.style.display = '';
   }
-
+}
 const password = '7757';  // 관리자 비밀번호
 
 function openAdminPanel() {
