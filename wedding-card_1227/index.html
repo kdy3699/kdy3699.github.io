@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>나두리 × 김도엽 모바일 청첩장 | 1227</title>
   <meta name="description" content="12월 27일 결혼식 모바일 청첩장 RSVP (참석/식사/버스 설문)" />
+  <meta name="color-scheme" content="light only" />
 
   <style>
     :root {
@@ -23,7 +24,9 @@
     html, body {
       margin: 0; padding: 0;
       color: var(--fg); background: var(--bg);
-      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Arial, "맑은 고딕", "Malgun Gothic", sans-serif;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+        "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "맑은 고딕", "Malgun Gothic", sans-serif;
     }
     .wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 72px; }
     header { text-align: center; padding: 16px 8px 8px; }
@@ -68,6 +71,12 @@
     .msg { display: none; margin-top: 6px; font-size: 14px; }
     .footnote { margin-top: 10px; font-size: 12px; color: var(--muted); }
     .required::after { content: " *"; color: var(--err); }
+
+    /* a11y */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
   </style>
 </head>
 <body>
@@ -89,18 +98,20 @@
       <h2 id="rsvp-heading" class="section-title">RSVP • 참석/식사/버스 설문</h2>
       <p class="lead">빠른 운영을 위해 최소 항목만 받아요. 개인정보는 행사 운영 용도로만 사용됩니다.</p>
 
-      <!-- ⬇⬇⬇ Apps Script 웹앱 URL로 교체 -->
+      <!-- ⬇⬇⬇ Apps Script 웹앱 /exec URL로 교체 -->
       <form id="rsvpForm"
             action="https://script.google.com/macros/s/AKfycbzgBeQfgUjpRn6ZF2atoh5CyOtqvphdUa2tjaW0p9lavuxb-QhC6wdBRKvaNHYVNZsp/exec"
             method="POST"
             target="rsvp_iframe"
-            novalidate>
+            novalidate
+            autocomplete="on">
         <div class="row">
           <label class="required">이름
-            <input name="name" type="text" required placeholder="예: 홍길동" />
+            <input name="name" type="text" required placeholder="예: 홍길동" autocomplete="name" />
           </label>
           <label>연락처(휴대폰)
-            <input name="phone" type="tel" inputmode="tel" pattern="[0-9\-+\s()]{7,}" placeholder="예: 010-1234-5678" />
+            <input name="phone" type="tel" inputmode="tel" pattern="[0-9\\-+\\s()]{7,}"
+                   placeholder="예: 010-1234-5678" autocomplete="tel" />
           </label>
         </div>
 
@@ -142,7 +153,11 @@
           <textarea name="memo" rows="3" placeholder="예: 견과류 알레르기, 버스 좌석 요청 등"></textarea>
         </label>
 
-        <!-- 허니팟 -->
+        <!-- 숨은 메타(참고용): 소스 페이지 경로/시간 -->
+        <input type="hidden" name="source_path" value="">
+        <input type="hidden" name="client_time" value="">
+
+        <!-- 허니팟(스팸 방지) -->
         <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
 
         <button id="rsvpSubmit" type="submit" class="btn">제출하기</button>
@@ -162,6 +177,10 @@
       const msg  = document.getElementById('rsvpMessage');
       const iframe = document.getElementById('rsvp_iframe');
 
+      // 숨은 메타 채우기 (참고용)
+      form.source_path.value = location.origin + location.pathname;
+      form.client_time.value = new Date().toISOString();
+
       let submitted = false;
 
       function setLoading(v) {
@@ -171,7 +190,7 @@
       function show(text, ok=true) {
         msg.textContent = text;
         msg.style.display = 'block';
-        msg.style.color = ok ? '#0a7a33' : '#b00020';
+        msg.style.color = ok ? 'var(--ok)' : 'var(--err)';
         msg.scrollIntoView({ behavior:'smooth', block:'center' });
       }
 
@@ -179,9 +198,12 @@
       iframe.addEventListener('load', function() {
         if (!submitted) return; // 첫 로드는 무시
         setLoading(false);
-        // Apps Script는 'ok'와 같은 간단 텍스트를 돌려주므로, 일단 성공으로 처리
+        // 백엔드가 정상 응답을 보냈다고 가정하고 성공 메시지 표시
         show('제출이 완료되었습니다! 참여해주셔서 감사합니다 :)', true);
         form.reset();
+        // 메타 갱신(동일 탭 재제출 시 갱신)
+        form.source_path.value = location.origin + location.pathname;
+        form.client_time.value = new Date().toISOString();
         submitted = false;
       });
 
