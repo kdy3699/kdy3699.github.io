@@ -140,7 +140,7 @@
     
       <!-- iframe 제출: CORS 없이 POST -->
       <form id="surveyForm"
-            action="https://script.google.com/macros/s/AKfycbwTOJVZ8IPP6tx3KZH74Twjv5jBHyDbDPKm2skmu8yli9L6BqVCS2H25r1gjzMtSLoE/exec"
+            action="https://script.google.com/macros/s/AKfycbzAl77U20vY9S6yizY6Jo2CIBQi6hhoNOG4Q4uJsOCzdQu5ZvZXqqrFfp8FLwjeYZKW/exec"
             method="POST"
             target="survey_iframe"
             class="space-y-3">
@@ -178,10 +178,15 @@
         </div>
 
         <div>
-          <label class="text-sm">동행인원</label>
-          <input name="person" type="number" min="0"
-                 class="mt-1 w-full border rounded-md px-3 py-2"
-                 placeholder="동행인원 수를 입력해주세요(본인 포함)" />
+          <label class="text-sm block mb-1">동행인원</label>
+          <!-- 커스텀 스텝퍼 -->
+          <div class="stepper">
+            <button type="button" class="stepper-btn" data-action="decrement" aria-label="동행인원 감소">−</button>
+            <input name="person" id="personInput" type="number" min="1" step="1" value="1" inputmode="numeric"
+                   class="stepper-input" aria-label="동행인원" />
+            <button type="button" class="stepper-btn" data-action="increment" aria-label="동행인원 증가">＋</button>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">최소 1명부터 입력됩니다. (본인 포함 X, 동행 인원 수)</p>
         </div>
 
         <!-- 메타(참고) -->
