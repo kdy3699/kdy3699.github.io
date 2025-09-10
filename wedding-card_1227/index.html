@@ -1,189 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:image" content="assets/hero.jpg">
-  <meta property="og:description" content="2024.03.01 도엽🤍두리 결혼합니다."/>
   <meta charset="utf-8" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>💕결혼합니다💕</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>나두리 × 김도엽 모바일 청첩장 | 1227</title>
+  <meta name="description" content="12월 27일 결혼식 모바일 청첩장 RSVP (참석/식사/버스 설문)" />
 
-  <!-- Tailwind CDN (빌드 필요 없음, 빠른 개발용) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --fg: #222;
+      --muted: #6b6b6b;
+      --brand: #5a7cff;
+      --brand-2: #2e5bff;
+      --ok: #0a7a33;
+      --err: #b00020;
+      --card: #ffffff;
+      --border: #e6e1db;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      color: var(--fg); background: var(--bg);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Arial, "맑은 고딕", "Malgun Gothic", sans-serif;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 72px; }
+    header { text-align: center; padding: 16px 8px 8px; }
+    .title { font-size: 28px; font-weight: 700; margin: 0 0 4px; letter-spacing: 0.2px; }
+    .sub { font-size: 14px; color: var(--muted); margin: 0 0 8px; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      margin-bottom: 16px;
+    }
+    .hero { text-align: center; }
+    .hero .date {
+      display: inline-block; background: #fff; padding: 6px 12px;
+      border: 1px solid var(--border); border-radius: 999px;
+      font-size: 13px; color: var(--muted);
+    }
+    h2.section-title { font-size: 20px; margin: 0 0 12px; }
+    p.lead { color: var(--muted); margin-top: 0; }
+
+    form { display: grid; gap: 14px; }
+    label { display: grid; gap: 6px; font-size: 14px; }
+    input[type="text"], input[type="tel"], input[type="number"], select, textarea {
+      width: 100%; padding: 12px; border: 1px solid var(--border);
+      border-radius: 12px; font-size: 16px; background: #fff;
+    }
+    textarea { resize: vertical; min-height: 84px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 100%; padding: 14px 16px; border-radius: 12px; border: 0;
+      background: var(--brand); color: #fff; font-weight: 700; font-size: 16px; cursor: pointer;
+      transition: transform .04s ease, background .2s ease;
+    }
+    .btn:hover { background: var(--brand-2); }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    .btn:active { transform: translateY(1px); }
+
+    .msg { display: none; margin-top: 6px; font-size: 14px; }
+    .footnote { margin-top: 10px; font-size: 12px; color: var(--muted); }
+    .required::after { content: " *"; color: var(--err); }
+  </style>
 </head>
-<body class="bg-[#fff8f9] text-gray-800 font-sans">
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="title">나두리 × 김도엽</h1>
+      <p class="sub">우리의 시작에 함께 해주세요</p>
+    </header>
 
-  <!-- HERO -->
-  <header class="relative h-screen md:h-[70vh] bg-cover bg-center" style="background-image: url('assets/hero.jpg')">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center">
-      <div class="text-center text-white px-8">
-        <h2 style="font-family: 'Amatic SC', sans-serif; color: white; font-weight: bold;">DoYeob & DuRi</h1>
-        <br>
-        <!--<h1 class="text-3xl md:text-5xl font-serif mb-2">신랑 김도엽 &amp; 신부 나두리</h1>-->
-        <h2 style="font-family: 'Amatic SC', sans-serif; color: white; font-weight: bold;">| We invite you to our wedding |</h2>
-        <br>
-        <p class="text-base md:text-lg mb-4">2025년 12월 27일 (토) · 삼성전자 서초사옥</p>
-        <br>
-        <div class="space-x-2">
-          <button onclick="scrollToSection('about')" class="px-4 py-1 bg-white/20 rounded-md">청첩장 보기</button>
-          <button onclick="openSurvey()" class="px-4 py-1 bg-pink-500 rounded-md">식사여부&버스탑승여부</button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN -->
-  <main class="max-w-xl mx-auto -mt-10 relative z-10 px-4">
-
-    <!-- 카드: 인사말 -->
-    <section id="about" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h2 class="text-xl font-semibold mb-2">초대의 말씀</h2>
-      <p class="text-sm leading-relaxed">
-        저희의 소중한 날에 기쁜 마음으로 초대합니다.
-        함께해 주시면 큰 기쁨이 되겠습니다.
-      </p>
+    <!-- 인트로 -->
+    <section class="card hero" aria-labelledby="intro-heading">
+      <h2 id="intro-heading" class="sr-only">초대 안내</h2>
+      <div class="date">2025.12.27 (토)</div>
+      <p class="lead" style="margin:10px 0 0;">소중한 마음 전해주셔서 감사합니다. 아래에서 참석/식사/버스 여부를 알려주세요.</p>
     </section>
 
-    <!-- Introduction -->
-    <section class="content-section bg-primary text-white text-center" id="services">
-      <div class="container px-4 px-lg-5">
-        <div class="content-section-heading">
-          <p style="font-family: 'Song Myung', serif; font-size: 25px; font-weight: bold;">신랑&신부</p>
-        </div>
-        <br>
-        <div class="row gx-4 gx-lg-5">
-          <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-            <p style="font-family: 'Song Myung', serif; font-size: 20px;">故김낙년 권영미의 장남</p>
-              <h3 style="font-family: 'Song Myung', serif;">신랑 김도엽👰🏻‍♂️</h3>
-                <img src="assets/img/ys.jpg" class="img-fluid rounded-circle" alt="신랑 이미지">
-                  <p><br></p>
-                    <ul class="list-inline">
-                      <li class="list-inline-item">
-                        <a class="social-link rounded-circle text-white mr-3" href="xxxxxxxx-"><i class="fa-solid fa-phone"></i></a> --> 수정 필요
-                      </li>
-                      <li class="list-inline-item">
-                        <a class="social-link rounded-circle text-white mr-3" onclick="doyeobAccountNumber(); return false;" href="#!"><i class="fa-solid fa-comments-dollar"></i></a>
-                      </li>
-                    </ul>
-                    <div id="foldableSection">
-                      <p style="font-family: 'Song Myung', serif; font-size: 20px;" class="toggle-button" onclick="toggleFoldable()">혼주 연락처보기<span id="toggleIcon">▼</span></p>
-                    <div class="foldable-content">
-                      <p style="font-family: 'Song Myung', serif; font-size: 15px;">권영미&nbsp;&nbsp;&nbsp;<a href="tel:01000000000"><i class="fa-solid fa-phone fa-sm"></i></a>&nbsp;&nbsp;&nbsp;<a href="sms:01000000000"><i class="fa-solid fa-envelope fa-sm"></i></a>&nbsp;&nbsp;&nbsp;<a onclick="doyeobmotherAccountNumber(); return false;" href="#!"><i class="fa-solid fa-comments-dollar"></i></a></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-                  <p style="font-family: 'Song Myung', serif; font-size: 20px;">나형준 한임순의 차녀</p>
-                  <h3 style="font-family: 'Song Myung', serif;">신부 나두리🤵🏻‍♀️</h3>
-                  <img src="assets/신부.jpg" class="img-fluid rounded-circle" alt="신부 이미지">
-                  <p><br></p>
-                      <ul class="list-inline">
-                          <li class="list-inline-item">
-                              <a class="social-link rounded-circle text-white mr-5" href="xxxxxxxx"><i class="fa-solid fa-phone"></i></a> --> 수정 필요
-                          </li>
-                          <li class="list-inline-item">
-                              <a class="social-link rounded-circle text-white mr-5" onclick="duriAccountNumber(); return false;" href="#!"><i class="fa-solid fa-comments-dollar"></i></a>
-                          </li>
-                      </ul>
+    <!-- RSVP -->
+    <section class="card" id="rsvp" aria-labelledby="rsvp-heading">
+      <h2 id="rsvp-heading" class="section-title">RSVP • 참석/식사/버스 설문</h2>
+      <p class="lead">빠른 운영을 위해 최소 항목만 받아요. 개인정보는 행사 운영 용도로만 사용됩니다.</p>
 
-                      <div id="foldableSection">
-                          <p style="font-family: 'Song Myung', serif; font-size: 20px;" class="toggle-button" onclick="toggleFoldable2()">혼주 연락처보기<span id="toggleIcon2">▼</span></p> 
-                          <div class="foldable-content2">
-                              <p style="font-family: 'Song Myung', serif; font-size: 15px;">나형준&nbsp;&nbsp;&nbsp;<a href="tel:01000000000"><i class="fa-solid fa-phone fa-sm"></i></a>&nbsp;&nbsp;&nbsp;<a href="sms:01000000000"><i class="fa-solid fa-envelope fa-sm"></i></a></p>
-                              <p style="font-family: 'Song Myung', serif; font-size: 15px;">한임순&nbsp;&nbsp;&nbsp;<a href="tel:01000000000"><i class="fa-solid fa-phone fa-sm"></i></a>&nbsp;&nbsp;&nbsp;<a href="sms:01000000000"><i class="fa-solid fa-envelope fa-sm"></i></a></p>
-                          </div>
-                      </div>
-              </div>
-          </div>
-        </div>
-    </section>
-
-    
-    <!-- 일정 / 장소 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h3 class="text-lg font-semibold mb-3">행사 안내</h3>
-      <ul class="text-sm space-y-2">
-        <li><strong>예식:</strong> 2025년 12월 27일 (토) 오후 1시</li>
-        <li><strong>장소:</strong> 삼성전자 서초사옥 (5층 웨딩홀)</li>
-        <li><strong>연락:</strong> 010-1234-5678</li>
-      </ul>
-      <div class="mt-4">
-        <iframe class="w-full h-44 rounded-md" src="https://www.google.com/maps/embed?pb=!1m18!..." loading="lazy"></iframe>
-      </div>
-    </section>
-
-    <!-- 갤러리 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h3 class="text-lg font-semibold mb-3">사진 갤러리</h3>
-      <div class="grid grid-cols-2 gap-2">
-        <img src="assets/couple1.jpg" alt="couple1" class="rounded-md object-cover h-36 w-full" />
-        <img src="assets/couple2.jpg" alt="couple2" class="rounded-md object-cover h-36 w-full" />
-      </div>
-    </section>
-
-    <!-- 타임라인 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-16">
-      <h3 class="text-lg font-semibold mb-3">당일 순서</h3>
-      <ol class="text-sm list-decimal ml-5 space-y-1">
-        <li>입장 및 안내 (13:30)</li>
-        <li>본식 (14:00)</li>
-        <li>피로연 & 촬영 (15:00)</li>
-      </ol>
-    </section>
-
-    <button id="adminButton"
-      class="fixed bottom-2 left-2 px-2 py-1 text-xs bg-gray-700 text-white rounded opacity-30 hover:opacity-80 transition-opacity duration-300 z-50">관리자 로그인
-    </button>
-  </main>
-
-<!-- RSVP 모달 -->
-  <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg relative">
-      <!-- 닫기 버튼 -->
-      <button onclick="closeSurvey()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl">✕</button>
-    
-      <div class="flex justify-center mb-3">
-        <h4 class="font-semibold text-lg">식사여부 & 버스탑승여부</h4>
-      </div>
-    
-      <form id="surveyForm" class="space-y-3">
-        <div>
-          <label class="text-sm">이름</label>
-          <input name="name" type="text" required class="mt-1 w-full border rounded-md px-3 py-2" placeholder="홍길동" />
+      <!-- ⬇⬇⬇ Apps Script 웹앱 URL로 교체 -->
+      <form id="rsvpForm"
+            action="https://script.google.com/macros/s/AKfycbzgBeQfgUjpRn6ZF2atoh5CyOtqvphdUa2tjaW0p9lavuxb-QhC6wdBRKvaNHYVNZsp/exec"
+            method="POST"
+            target="rsvp_iframe"
+            novalidate>
+        <div class="row">
+          <label class="required">이름
+            <input name="name" type="text" required placeholder="예: 홍길동" />
+          </label>
+          <label>연락처(휴대폰)
+            <input name="phone" type="tel" inputmode="tel" pattern="[0-9\-+\s()]{7,}" placeholder="예: 010-1234-5678" />
+          </label>
         </div>
 
-        <div>
-          <label class="text-sm">식사여부</label>
-          <select name="eat" class="mt-1 w-full border rounded-md px-3 py-2">
-            <option value="한식">한식</option>
-            <option value="일식">일식</option>
-            <option value="미참여">미참여</option>
+        <div class="row">
+          <label class="required">참석 여부
+            <select name="attendance" required>
+              <option value="">선택</option>
+              <option value="yes">참석</option>
+              <option value="no">불참</option>
+            </select>
+          </label>
+
+          <label class="required">식사 여부
+            <select name="meal" required>
+              <option value="">선택</option>
+              <option value="yes">식사함</option>
+              <option value="no">식사 안함</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="required">버스 탑승
+          <select name="bus" required>
+            <option value="">선택</option>
+            <option value="round">왕복</option>
+            <option value="oneway">편도</option>
+            <option value="none">미탑승</option>
           </select>
+        </label>
+
+        <div class="row">
+          <label>동반 인원(본인 제외)
+            <input name="guests" type="number" min="0" value="0" />
+          </label>
+          <div></div>
         </div>
 
-        <div>
-          <label class="text-sm">버스 탑승</label>
-          <select name="bus" class="mt-1 w-full border rounded-md px-3 py-2">
-            <option value="미탑승">미탑승</option>
-            <option value="안동탑승">안동탑승</option>
-            <option value="광주탑승">광주탑승</option>
-            <option value="수원탑승">수원탑승</option>
-          </select>
-        </div>
+        <label>메모 (알레르기/요청사항)
+          <textarea name="memo" rows="3" placeholder="예: 견과류 알레르기, 버스 좌석 요청 등"></textarea>
+        </label>
 
-        <div>
-          <label class="text-sm">동행인원</label>
-          <input name="person" type="text" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="동행인원 숫자를 적어주세요" />
-        </div>
+        <!-- 허니팟 -->
+        <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
 
-        <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-md">제출하기</button>
+        <button id="rsvpSubmit" type="submit" class="btn">제출하기</button>
+        <p id="rsvpMessage" class="msg" aria-live="polite"></p>
+        <p class="footnote">※ 제출 후 동일 화면에서 결과가 표시됩니다. 문제가 있으면 다시 시도하거나 연락 부탁드려요.</p>
       </form>
-      <p id="surveyMsg" class="text-center text-sm text-green-600 mt-2 hidden">제출 완료되었습니다.</p>
-    </div>
+
+      <!-- 숨은 iframe: 페이지 이탈 없이 제출 -->
+      <iframe name="rsvp_iframe" id="rsvp_iframe" style="display:none;"></iframe>
+    </section>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    (function() {
+      const form = document.getElementById('rsvpForm');
+      const btn  = document.getElementById('rsvpSubmit');
+      const msg  = document.getElementById('rsvpMessage');
+      const iframe = document.getElementById('rsvp_iframe');
+
+      let submitted = false;
+
+      function setLoading(v) {
+        btn.disabled = v;
+        btn.textContent = v ? '제출 중...' : '제출하기';
+      }
+      function show(text, ok=true) {
+        msg.textContent = text;
+        msg.style.display = 'block';
+        msg.style.color = ok ? '#0a7a33' : '#b00020';
+        msg.scrollIntoView({ behavior:'smooth', block:'center' });
+      }
+
+      // Apps Script 응답이 iframe으로 로드되면 실행
+      iframe.addEventListener('load', function() {
+        if (!submitted) return; // 첫 로드는 무시
+        setLoading(false);
+        // Apps Script는 'ok'와 같은 간단 텍스트를 돌려주므로, 일단 성공으로 처리
+        show('제출이 완료되었습니다! 참여해주셔서 감사합니다 :)', true);
+        form.reset();
+        submitted = false;
+      });
+
+      // HTML 기본 검증 + 허니팟 처리 + 로딩 처리
+      form.addEventListener('submit', function(e) {
+        if (!form.name.value.trim() || !form.attendance.value || !form.meal.value || !form.bus.value) {
+          e.preventDefault();
+          show('필수 항목을 모두 입력/선택해주세요.', false);
+          return;
+        }
+        if (form._hp.value) {
+          e.preventDefault();
+          show('제출이 완료되었습니다! 감사합니다 :)', true);
+          form.reset();
+          return;
+        }
+        submitted = true;
+        setLoading(true);
+      });
+    })();
+  </script>
 </body>
 </html>
