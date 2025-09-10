@@ -1,3 +1,8 @@
-/* style.css */
-body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-h1, h2, h3 { font-family: 'Georgia', serif; }
+/* 추가 커스텀 스타일 (Tailwind와 병행) */
+.foldable-content,
+.foldable-content2 { display: none; }
+
+.foldable-content.show,
+.foldable-content2.show { display: block; }
+
+.hidden { display: none; }
