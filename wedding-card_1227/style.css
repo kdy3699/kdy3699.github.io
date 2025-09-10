@@ -33,3 +33,18 @@
   font-size: 16px;
   background: #fff;
 }
+
+/* ===== Masonry gallery ===== */
+.gallery-masonry { column-count: 2; column-gap: 8px; }
+@media (min-width: 640px){ .gallery-masonry { column-count: 3; column-gap: 12px; } }
+.gallery-item { break-inside: avoid; display: block; margin-bottom: 8px; border-radius: 10px; overflow: hidden; }
+.gallery-item img { width: 100%; height: auto; display: block; }
+
+/* ===== Lightbox ===== */
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 60; }
+.lightbox.show { display: flex; }
+.lightbox img { max-width: 90vw; max-height: 80vh; border-radius: 12px; }
+.lightbox .close { position: absolute; top: 12px; right: 12px; font-size: 28px; background: rgba(0,0,0,.35); color: #fff; border: 0; border-radius: 999px; width: 44px; height: 44px; cursor: pointer; }
+.lightbox .nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 28px; background: rgba(0,0,0,.35); color:#fff; border:0; border-radius: 999px; width: 44px; height: 44px; cursor: pointer; display:flex; align-items:center; justify-content:center; }
+.lightbox .prev { left: 12px; }
+.lightbox .next { right: 12px; }
