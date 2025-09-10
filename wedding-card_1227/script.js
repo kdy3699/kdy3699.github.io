@@ -32,7 +32,7 @@ function closeSurvey() {
 
 /* 페이지 진입 시 자동 팝업 */
 window.addEventListener('load', () => {
-  // 필요 시 중복 방지: 세션당 1회만 열고 싶으면 아래 주석 해제
+  // 세션당 1회만 열고 싶으면 아래 2줄 주석 해제
   // if (sessionStorage.getItem('surveyShown') === '1') return;
   openSurvey();
   // sessionStorage.setItem('surveyShown', '1');
@@ -59,14 +59,19 @@ window.addEventListener('load', () => {
 
   form.addEventListener('submit', (e) => {
     // 간단 유효성 검사 및 허니팟
-    const name = form.name?.value?.trim();
-    const hp   = form._hp?.value || '';
+    const name  = form.name?.value?.trim();
+    const phone = form.phone?.value?.trim();
+    const hp    = form._hp?.value || '';
+
     if (!name) {
       e.preventDefault();
       alert('이름을 입력해주세요.');
       form.name?.focus();
       return;
     }
+    // 전화번호는 선택 입력. 패턴을 썼다면 유효성 체크 추가 가능
+    // if (phone && !/^[0-9\-+\s()]{7,}$/.test(phone)) { ... }
+
     if (hp) {
       e.preventDefault();
       alert('제출 완료되었습니다.');
@@ -93,7 +98,7 @@ window.addEventListener('load', () => {
     if (src) src.value = location.origin + location.pathname;
     if (tm)  tm.value  = new Date().toISOString();
 
-    // 원하면 자동 닫기 (예: 1.2초 뒤)
+    // 원하면 자동 닫기
     // setTimeout(closeSurvey, 1200);
   });
 })();
