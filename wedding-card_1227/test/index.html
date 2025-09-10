@@ -1,1 +1,57 @@
+<section id="rsvp" class="rsvp">
+  <h2>참석/식사/버스 설문</h2>
+
+  <form id="rsvpForm" novalidate>
+    <label>이름
+      <input name="name" required autocomplete="name" />
+    </label>
+
+    <label>연락처(휴대폰)
+      <input name="phone" inputmode="tel" pattern="[0-9\-+\s()]{7,}" autocomplete="tel" />
+    </label>
+
+    <label>참석 여부
+      <select name="attendance" required>
+        <option value="">선택</option>
+        <option value="yes">참석</option>
+        <option value="no">불참</option>
+      </select>
+    </label>
+
+    <label>식사 여부
+      <select name="meal" required>
+        <option value="">선택</option>
+        <option value="yes">식사함</option>
+        <option value="no">식사 안함</option>
+      </select>
+    </label>
+
+    <label>버스 탑승
+      <select name="bus" required>
+        <option value="">선택</option>
+        <option value="round">왕복</option>
+        <option value="oneway">편도</option>
+        <option value="none">미탑승</option>
+      </select>
+    </label>
+
+    <label>동반 인원(본인 제외)
+      <input name="guests" type="number" min="0" value="0" />
+    </label>
+
+    <label>메모
+      <textarea name="memo" rows="3" placeholder="알레르기/요청사항"></textarea>
+    </label>
+
+    <!-- 봇 방지 허니팟 -->
+    <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
+
+    <button id="rsvpSubmit" type="submit">제출하기</button>
+
+    <p id="rsvpMessage" class="rsvp-msg" aria-live="polite" style="display:none;"></p>
+  </form>
+</section>
+
+<!-- JS 연결 -->
+<script src="/wedding-card_1227/test/rsvp.js" defer></script>
 
