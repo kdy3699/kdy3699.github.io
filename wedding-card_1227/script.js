@@ -158,9 +158,59 @@ function initGallery(){
   const btnNext  = lightbox.querySelector('.next');
   const btnPrev  = lightbox.querySelector('.prev');
   let idx = 0;
+  let wheelLock = false; // 휠 내비 과실입력 방지
+  // 라이트박스에서 핀치/더블탭 확대 금지용 핸들러
+  const prevent = (e) => { e.preventDefault(); };
 
-  function open(i){ idx = i; lbImg.src = imgs[idx]; lightbox.classList.add('show'); lightbox.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-  function close(){ lightbox.classList.remove('show'); lightbox.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  function setImageTo3xOfThumb(i){
+    // 썸네일 실제 렌더 크기 측정 → 3배로 요청
+    const thumb = items[i].querySelector('img');
+    if (!thumb) return;
+    const rect = thumb.getBoundingClientRect();
+    const desiredW = Math.round((rect.width || 0) * 3);
+    // 뷰포트 한계 내에서만 적용
+    lbImg.style.width = desiredW ? desiredW + 'px' : '';
+    // 높이는 비율 맞춰 자동, CSS max-*로 상한 제한
+  }
+
+  function bindNoZoom(){
+    // 모바일 Safari 핀치줌 방지
+    document.addEventListener('gesturestart', prevent, { passive:false });
+    document.addEventListener('gesturechange', prevent, { passive:false });
+    document.addEventListener('gestureend', prevent, { passive:false });
+    // 라이트박스 내부 더블클릭 확대 방지
+    lightbox.addEventListener('dblclick', prevent, { passive:false });
+    // 휠 스크롤을 페이지로 전달하지 않음(내비에 사용)
+    lightbox.addEventListener('wheel', prevent, { passive:false });
+    // 이미지 우클릭/드래그 방지(임의 확대 방지 보조)
+    lbImg.addEventListener('contextmenu', prevent);
+    lbImg.addEventListener('dragstart', prevent);
+  }
+  function unbindNoZoom(){
+    document.removeEventListener('gesturestart', prevent);
+    document.removeEventListener('gesturechange', prevent);
+    document.removeEventListener('gestureend', prevent);
+    lightbox.removeEventListener('dblclick', prevent);
+    lightbox.removeEventListener('wheel', prevent);
+    lbImg.removeEventListener('contextmenu', prevent);
+    lbImg.removeEventListener('dragstart', prevent);
+  }
+
+  function open(i){
+    idx = i;
+    lbImg.src = imgs[idx];
+    setImageTo3xOfThumb(idx);
+    lightbox.classList.add('show');
+    lightbox.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    bindNoZoom();
+  }
+  function close(){
+    lightbox.classList.remove('show');
+    lightbox.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    unbindNoZoom();
+  }
   function next(){ idx = (idx + 1) % imgs.length; lbImg.src = imgs[idx]; }
   function prev(){ idx = (idx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[idx]; }
 
@@ -174,5 +224,21 @@ function initGallery(){
     if (e.key === 'Escape') close();
     if (e.key === 'ArrowRight') next();
     if (e.key === 'ArrowLeft')  prev();
+  });
+  
+  // 스크롤(휠)로 다음/이전 이동
+  lightbox.addEventListener('wheel', (e) => {
+    if (!lightbox.classList.contains('show')) return;
+    if (wheelLock) return;
+    wheelLock = true;
+    const dir = (Math.abs(e.deltaX) > Math.abs(e.deltaY)) ? e.deltaX : e.deltaY;
+    if (dir > 0) next(); else if (dir < 0) prev();
+    setTimeout(() => { wheelLock = false; }, 350); // 스크롤 연속 입력 완충
+  }, { passive:false });
+
+  // 창 크기 바뀌면 현재 이미지도 3배 규칙으로 재계산
+  window.addEventListener('resize', () => {
+    if (!lightbox.classList.contains('show')) return;
+    setImageTo3xOfThumb(idx);
   });
 }
