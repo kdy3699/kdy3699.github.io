@@ -103,14 +103,33 @@
       </div>
     </section>
 
-    <!-- 갤러리 -->
+    <!-- 갤러리 (directwedcard 스타일: masonry + 라이트박스) -->
     <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
       <h3 class="text-lg font-semibold mb-3">사진 갤러리</h3>
-      <div class="grid grid-cols-2 gap-2">
-        <img src="assets/couple1.jpg" alt="couple1" class="rounded-md object-cover h-36 w-full" />
-        <img src="assets/couple2.jpg" alt="couple2" class="rounded-md object-cover h-36 w-full" />
+      <div id="gallery" class="gallery-masonry">
+        <!-- 썸네일/원본 동일 경로 사용. assets/gallery/ 에 이미지 배치 -->
+        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 01"></a>
+        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 02"></a>
+        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 03"></a>
+        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 04"></a>
+        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 05"></a>
+        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 06"></a>
+        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 07"></a>
+        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 08"></a>
+        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 09"></a>
+        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 10"></a>
+        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 11"></a>
+        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 12"></a>
       </div>
     </section>
+
+    <!-- 라이트박스 -->
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+      <button class="close" aria-label="닫기">✕</button>
+      <button class="nav prev" aria-label="이전">‹</button>
+      <img src="" alt="확대 이미지" />
+      <button class="nav next" aria-label="다음">›</button>
+    </div>
 
     <!-- 타임라인 -->
     <section class="bg-white rounded-2xl shadow-lg p-6 mb-16">
