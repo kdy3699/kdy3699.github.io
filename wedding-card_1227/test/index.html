@@ -1,57 +1,243 @@
-<section id="rsvp" class="rsvp">
-  <h2>참석/식사/버스 설문</h2>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>나두리 × 김도엽 모바일 청첩장 | 1227</title>
+  <meta name="description" content="12월 27일 결혼식 모바일 청첩장 RSVP (참석/식사/버스 설문)" />
 
-  <form id="rsvpForm" novalidate>
-    <label>이름
-      <input name="name" required autocomplete="name" />
-    </label>
+  <!-- 기본 스타일 (필요시 테마 CSS와 병행 가능) -->
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --fg: #222;
+      --muted: #6b6b6b;
+      --brand: #5a7cff;
+      --brand-2: #2e5bff;
+      --ok: #0a7a33;
+      --err: #b00020;
+      --card: #ffffff;
+      --border: #e6e1db;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; color: var(--fg); background: var(--bg); font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Arial, "맑은 고딕", "Malgun Gothic", sans-serif; }
+    a { color: var(--brand-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 72px; }
 
-    <label>연락처(휴대폰)
-      <input name="phone" inputmode="tel" pattern="[0-9\-+\s()]{7,}" autocomplete="tel" />
-    </label>
+    header { text-align: center; padding: 16px 8px 8px; }
+    .title { font-size: 28px; font-weight: 700; margin: 0 0 4px; letter-spacing: 0.2px; }
+    .sub { font-size: 14px; color: var(--muted); margin: 0 0 8px; }
 
-    <label>참석 여부
-      <select name="attendance" required>
-        <option value="">선택</option>
-        <option value="yes">참석</option>
-        <option value="no">불참</option>
-      </select>
-    </label>
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    .hero { text-align: center; margin: 12px 0 20px; }
+    .hero .date { display: inline-block; background: #fff; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; color: var(--muted); }
 
-    <label>식사 여부
-      <select name="meal" required>
-        <option value="">선택</option>
-        <option value="yes">식사함</option>
-        <option value="no">식사 안함</option>
-      </select>
-    </label>
+    h2.section-title { font-size: 20px; margin: 0 0 12px; }
+    p.lead { color: var(--muted); margin-top: 0; }
 
-    <label>버스 탑승
-      <select name="bus" required>
-        <option value="">선택</option>
-        <option value="round">왕복</option>
-        <option value="oneway">편도</option>
-        <option value="none">미탑승</option>
-      </select>
-    </label>
+    form { display: grid; gap: 14px; }
+    label { display: grid; gap: 6px; font-size: 14px; }
+    input[type="text"], input[type="tel"], input[type="number"], select, textarea {
+      width: 100%; padding: 12px 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 16px; background: #fff;
+    }
+    textarea { resize: vertical; min-height: 84px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
 
-    <label>동반 인원(본인 제외)
-      <input name="guests" type="number" min="0" value="0" />
-    </label>
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; width: 100%;
+      padding: 14px 16px; border-radius: 12px; border: 0;
+      background: var(--brand); color: #fff; font-weight: 700; font-size: 16px; cursor: pointer;
+      transition: transform .04s ease, background .2s ease;
+    }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    .btn:hover { background: var(--brand-2); }
+    .btn:active { transform: translateY(1px); }
 
-    <label>메모
-      <textarea name="memo" rows="3" placeholder="알레르기/요청사항"></textarea>
-    </label>
+    .msg { display: none; margin-top: 6px; font-size: 14px; }
+    .msg.ok { color: var(--ok); }
+    .msg.err { color: var(--err); }
 
-    <!-- 봇 방지 허니팟 -->
-    <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
+    .footnote { margin-top: 10px; font-size: 12px; color: var(--muted); }
 
-    <button id="rsvpSubmit" type="submit">제출하기</button>
+    /* 접근성 보조 */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .required::after { content: " *"; color: var(--err); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="title">나두리 × 김도엽</h1>
+      <p class="sub">우리의 시작에 함께 해주세요</p>
+    </header>
 
-    <p id="rsvpMessage" class="rsvp-msg" aria-live="polite" style="display:none;"></p>
-  </form>
-</section>
+    <!-- 인트로 카드 (원하면 이미지/배경 넣어도 됨) -->
+    <section class="card hero" aria-labelledby="intro-heading">
+      <h2 id="intro-heading" class="sr-only">초대 안내</h2>
+      <div class="date">2025.12.27 (토)</div>
+      <p class="lead" style="margin:10px 0 0;">소중한 마음 전해주셔서 감사합니다. 아래에서 참석/식사/버스 여부를 알려주세요.</p>
+    </section>
 
-<!-- JS 연결 -->
-<script src="/wedding-card_1227/test/rsvp.js" defer></script>
+    <!-- RSVP 카드 -->
+    <section class="card" id="rsvp" aria-labelledby="rsvp-heading">
+      <h2 id="rsvp-heading" class="section-title">RSVP • 참석/식사/버스 설문</h2>
+      <p class="lead">빠른 운영을 위해 최소 항목만 받아요. 개인정보는 행사 운영 용도로만 사용됩니다.</p>
 
+      <form id="rsvpForm" novalidate>
+        <!-- 이름 / 연락처 -->
+        <div class="row">
+          <label class="required">이름
+            <input name="name" type="text" required autocomplete="name" placeholder="예: 홍길동" />
+          </label>
+          <label>연락처(휴대폰)
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                   pattern="[0-9\-+\s()]{7,}" placeholder="예: 010-1234-5678" />
+          </label>
+        </div>
+
+        <!-- 참석/식사/버스 -->
+        <div class="row">
+          <label class="required">참석 여부
+            <select name="attendance" required>
+              <option value="">선택</option>
+              <option value="yes">참석</option>
+              <option value="no">불참</option>
+            </select>
+          </label>
+
+          <label class="required">식사 여부
+            <select name="meal" required>
+              <option value="">선택</option>
+              <option value="yes">식사함</option>
+              <option value="no">식사 안함</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="required">버스 탑승
+          <select name="bus" required>
+            <option value="">선택</option>
+            <option value="round">왕복</option>
+            <option value="oneway">편도</option>
+            <option value="none">미탑승</option>
+          </select>
+        </label>
+
+        <!-- 동반 인원 / 메모 -->
+        <div class="row">
+          <label>동반 인원(본인 제외)
+            <input name="guests" type="number" min="0" step="1" value="0" />
+          </label>
+          <div></div>
+        </div>
+
+        <label>메모 (알레르기/요청사항)
+          <textarea name="memo" rows="3" placeholder="예: 견과류 알레르기, 버스 좌석 요청 등"></textarea>
+        </label>
+
+        <!-- 스팸 방지 허니팟 -->
+        <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
+
+        <button id="rsvpSubmit" type="submit" class="btn" aria-live="polite">제출하기</button>
+        <p id="rsvpMessage" class="msg" aria-live="polite"></p>
+
+        <p class="footnote">※ 제출 후 동일 화면에서 결과가 표시됩니다. 문제가 있으면 다시 시도하거나 연락 부탁드려요.</p>
+      </form>
+    </section>
+
+    <!-- 장소/시간 등 다른 섹션을 이어서 추가 가능 -->
+  </div>
+
+  <!-- 단일 파일 구성을 위해 JS를 아래에 인라인 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('rsvpForm');
+      const btn  = document.getElementById('rsvpSubmit');
+      const msg  = document.getElementById('rsvpMessage');
+
+      // ⬇⬇⬇ Apps Script 웹앱 URL로 교체하세요 ⬇⬇⬇
+      const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgBeQfgUjpRn6ZF2atoh5CyOtqvphdUa2tjaW0p9lavuxb-QhC6wdBRKvaNHYVNZsp/exec';
+      // 예시: 'https://script.google.com/macros/s/AKfycbx.../exec'
+
+      // 세션 단위 중복제출 방지 토큰
+      const token = sessionStorage.getItem('rsvpToken') || (self.crypto?.randomUUID ? crypto.randomUUID() : String(Date.now()));
+      sessionStorage.setItem('rsvpToken', token);
+
+      function setLoading(loading) {
+        btn.disabled = loading;
+        btn.textContent = loading ? '제출 중...' : '제출하기';
+      }
+      function showMsg(text, ok = true) {
+        msg.textContent = text;
+        msg.className = 'msg ' + (ok ? 'ok' : 'err');
+        msg.style.display = 'block';
+        msg.scrollIntoView({ behavior:'smooth', block:'center' });
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 필수값 체크 (브라우저 기본 검증 외 추가 확인)
+        if (!form.name.value.trim() || !form.attendance.value || !form.meal.value || !form.bus.value) {
+          showMsg('필수 항목을 모두 입력/선택해주세요.', false);
+          return;
+        }
+
+        // 허니팟
+        if (form._hp.value) {
+          showMsg('제출이 완료되었습니다! 감사합니다 :)', true);
+          form.reset();
+          return;
+        }
+
+        const payload = {
+          name: form.name.value.trim(),
+          phone: form.phone.value.trim(),
+          attendance: form.attendance.value,
+          meal: form.meal.value,
+          bus: form.bus.value,
+          guests: form.guests.value || '0',
+          memo: form.memo.value.trim(),
+          _token: token
+        };
+
+        try {
+          setLoading(true);
+
+          const res = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json().catch(() => ({}));
+
+          if (res.ok && data.ok) {
+            showMsg('제출이 완료되었습니다! 참여해주셔서 감사합니다 :)', true);
+            form.reset();
+            sessionStorage.setItem('rsvpSubmitted', '1');
+          } else {
+            const err = data && data.error ? data.error : `상태코드 ${res.status}`;
+            showMsg('제출 중 문제가 발생했습니다: ' + err, false);
+          }
+        } catch (error) {
+          showMsg('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', false);
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // 이미 제출한 세션이면 안내 (선택)
+      if (sessionStorage.getItem('rsvpSubmitted') === '1') {
+        msg.style.display = 'block';
+        msg.className = 'msg ok';
+        msg.textContent = '이미 제출해주셨습니다. 수정이 필요하면 연락 부탁드려요 :)';
+      }
+    });
+  </script>
+</body>
+</html>
