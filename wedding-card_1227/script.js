@@ -143,6 +143,98 @@ function initStepper() {
   });
 })();
 
+/* ===== D-DAY & Calendar ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  // 이벤트 날짜: 2025-12-27 13:00 KST
+  const EVENT_DATE = new Date('2025-12-27T13:00:00+09:00');
+  updateDDay(EVENT_DATE);
+  buildCalendar(EVENT_DATE);
+});
+
+function startOfDay(d){
+  const x = new Date(d);
+  x.setHours(0,0,0,0);
+  return x;
+}
+function dayDiff(a,b){ // a-b (일수)
+  const MS = 86400000;
+  return Math.round((startOfDay(a) - startOfDay(b)) / MS);
+}
+function updateDDay(eventDate){
+  const el = document.getElementById('ddayNumber');
+  if (!el) return;
+  const now = new Date();
+  // 행사 '당일'은 D-0로 표시. 이미 지났으면 D+N 표기
+  const diff = dayDiff(eventDate, now);
+  el.textContent = (diff >= 0) ? `-${diff}` : `+${Math.abs(diff)}`;
+}
+
+function buildCalendar(eventDate){
+  const grid  = document.getElementById('calGrid');
+  const title = document.getElementById('calTitle');
+  if (!grid || !title) return;
+
+  const y = eventDate.getFullYear();
+  const m = eventDate.getMonth(); // 0=Jan
+  title.textContent = `${y}년 ${m+1}월`;
+
+  const first = new Date(y, m, 1);
+  const last  = new Date(y, m+1, 0);
+  const firstWeekday = first.getDay();        // 0=일
+  const daysInMonth  = last.getDate();
+
+  // 앞쪽 공백(이전달)
+  const prevDays = firstWeekday;
+  const prevLast = new Date(y, m, 0).getDate();
+
+  // 총 6주(42칸)로 구성
+  const totalCells = 42;
+  const cells = [];
+  for (let i=0; i<totalCells; i++){
+    const cell = document.createElement('div');
+    cell.className = 'cal-day';
+    let dayNum, dateObj, inMonth = false;
+    if (i < prevDays){
+      // 이전달 말일부터
+      dayNum = prevLast - prevDays + 1 + i;
+      dateObj = new Date(y, m-1, dayNum);
+      cell.classList.add('muted');
+    } else if (i >= prevDays && i < prevDays + daysInMonth){
+      // 이번달
+      dayNum = i - prevDays + 1;
+      dateObj = new Date(y, m, dayNum);
+      inMonth = true;
+    } else {
+      // 다음달
+      dayNum = i - (prevDays + daysInMonth) + 1;
+      dateObj = new Date(y, m+1, dayNum);
+      cell.classList.add('muted');
+    }
+    // 요일 색(일/토)
+    const dow = dateObj.getDay();
+    if (dow === 0) cell.classList.add('sun');
+    if (dow === 6) cell.classList.add('sat');
+
+    cell.textContent = String(dayNum);
+
+    // 오늘 표시
+    const today = startOfDay(new Date());
+    if (startOfDay(dateObj).getTime() === today.getTime()){
+      cell.classList.add('today');
+    }
+    // 행사일 표시(이번달에만)
+    if (inMonth && dateObj.getDate() === eventDate.getDate()){
+      cell.classList.add('event');
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.textContent = '예식';
+      cell.appendChild(badge);
+    }
+    cells.push(cell);
+  }
+  grid.replaceChildren(...cells);
+}
+
 /* ===== 갤러리: masonry + 라이트박스 ===== */
 document.addEventListener('DOMContentLoaded', initGallery);
 function initGallery(){
