@@ -157,10 +157,16 @@ function initGallery(){
   const btnClose = lightbox.querySelector('.close');
   const btnNext  = lightbox.querySelector('.next');
   const btnPrev  = lightbox.querySelector('.prev');
+  const lbCounter= document.getElementById('lbCounter') || lightbox.querySelector('.counter');
+
   let idx = 0;
   let wheelLock = false; // 휠 내비 과실입력 방지
   // 라이트박스에서 핀치/더블탭 확대 금지용 핸들러
   const prevent = (e) => { e.preventDefault(); };
+
+  function updateCounter(){
+    if (lbCounter) lbCounter.textContent = (idx + 1) + ' / ' + imgs.length;
+  }
 
   function setImageTo3xOfThumb(i){
     // 썸네일 실제 렌더 크기 측정 → 3배로 요청
@@ -200,6 +206,7 @@ function initGallery(){
     idx = i;
     lbImg.src = imgs[idx];
     setImageTo3xOfThumb(idx);
+    updateCounter();
     lightbox.classList.add('show');
     lightbox.setAttribute('aria-hidden','false');
     document.body.style.overflow='hidden';
@@ -211,8 +218,9 @@ function initGallery(){
     document.body.style.overflow='';
     unbindNoZoom();
   }
-  function next(){ idx = (idx + 1) % imgs.length; lbImg.src = imgs[idx]; }
-  function prev(){ idx = (idx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[idx]; }
+  function next(){ idx = (idx + 1) % imgs.length; lbImg.src = imgs[idx]; setImageTo3xOfThumb(idx); updateCounter(); }
+  function prev(){ idx = (idx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[idx]; setImageTo3xOfThumb(idx); updateCounter(); }
+
 
   items.forEach((a,i) => a.addEventListener('click', (e)=>{ e.preventDefault(); open(i); }));
   btnClose.addEventListener('click', close);
@@ -240,5 +248,6 @@ function initGallery(){
   window.addEventListener('resize', () => {
     if (!lightbox.classList.contains('show')) return;
     setImageTo3xOfThumb(idx);
+    // 카운터는 순번 기반이라 리사이즈로 변화 없음 (유지)
   });
 }
