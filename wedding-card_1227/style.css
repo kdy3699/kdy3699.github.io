@@ -6,3 +6,30 @@
 .foldable-content2.show { display: block; }
 
 .hidden { display: none; }
+
+/* ===== 동행인원 스텝퍼 ===== */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stepper-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e6e1db;
+  background: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.stepper-btn:active { transform: translateY(1px); }
+.stepper-input {
+  width: 90px;
+  text-align: center;
+  border: 1px solid #e6e1db;
+  border-radius: 10px;
+  padding: 10px 8px;
+  font-size: 16px;
+  background: #fff;
+}
