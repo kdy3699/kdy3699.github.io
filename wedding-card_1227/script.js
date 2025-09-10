@@ -147,7 +147,7 @@ function initStepper() {
 document.addEventListener('DOMContentLoaded', () => {
   // 이벤트 날짜: 2025-12-27 13:00 KST
   const EVENT_DATE = new Date('2025-12-27T13:00:00+09:00');
-  updateDDay(EVENT_DATE);
+  renderDday(EVENT_DATE);
   buildCalendar(EVENT_DATE);
 });
 
@@ -160,13 +160,23 @@ function dayDiff(a,b){ // a-b (일수)
   const MS = 86400000;
   return Math.round((startOfDay(a) - startOfDay(b)) / MS);
 }
-function updateDDay(eventDate){
-  const el = document.getElementById('ddayNumber');
-  if (!el) return;
+function renderDday(eventDate){
+  const val = document.getElementById('ddayValue');
+  const dateText = document.getElementById('ddayDate');
+  if (!val || !dateText) return;
   const now = new Date();
-  // 행사 '당일'은 D-0로 표시. 이미 지났으면 D+N 표기
-  const diff = dayDiff(eventDate, now);
-  el.textContent = (diff >= 0) ? `-${diff}` : `+${Math.abs(diff)}`;
+  const diff = dayDiff(eventDate, now); // event - now
+  // 문구: D-0(당일), 이후는 D+N, 이전은 D-N
+  let label = '';
+  if (diff > 0) label = `D-${diff}`;
+  else if (diff === 0) label = 'D-DAY';
+  else label = `D+${Math.abs(diff)}`;
+  val.textContent = label;
+  // 날짜 문자열: YYYY.MM.DD(요일) HH:MM
+  const yoil = ['일','월','화','수','목','금','토'][eventDate.getDay()];
+  const hh = String(eventDate.getHours()).padStart(2,'0');
+  const mm = String(eventDate.getMinutes()).padStart(2,'0');
+  dateText.textContent = `${eventDate.getFullYear()}.${String(eventDate.getMonth()+1).padStart(2,'0')}.${String(eventDate.getDate()).padStart(2,'0')}(${yoil}) ${hh}:${mm}`;
 }
 
 function buildCalendar(eventDate){
@@ -223,12 +233,11 @@ function buildCalendar(eventDate){
       cell.classList.add('today');
     }
     // 행사일 표시(이번달에만)
-    if (inMonth && dateObj.getDate() === eventDate.getDate()){
+    if (inMonth &&
+        dateObj.getFullYear() === eventDate.getFullYear() &&
+        dateObj.getMonth() === eventDate.getMonth() &&
+        dateObj.getDate() === eventDate.getDate()){
       cell.classList.add('event');
-      const badge = document.createElement('span');
-      badge.className = 'badge';
-      badge.textContent = '예식';
-      cell.appendChild(badge);
     }
     cells.push(cell);
   }
