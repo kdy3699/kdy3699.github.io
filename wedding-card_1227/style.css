@@ -67,6 +67,22 @@
   user-select: none;
   -webkit-user-drag: none;
 }
+
+/* ===== Lightbox counter (현재/총 개수) ===== */
+.lightbox .counter{
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: .2px;
+  pointer-events: none;
+}
+
 .lightbox .close { position: absolute; top: 12px; right: 12px; font-size: 28px; background: rgba(0,0,0,.35); color: #fff; border: 0; border-radius: 999px; width: 44px; height: 44px; cursor: pointer; }
 .lightbox .nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 28px; background: rgba(0,0,0,.35); color:#fff; border:0; border-radius: 999px; width: 44px; height: 44px; cursor: pointer; display:flex; align-items:center; justify-content:center; }
 .lightbox .prev { left: 12px; }
