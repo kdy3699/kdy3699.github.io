@@ -114,32 +114,32 @@
       </div>
     </section>
 
-    <!-- D-DAY & 달력 -->
+    <!-- D-DAY & 달력 (directwedcard 참고 스타일) -->
     <section class="bg-white rounded-2xl shadow-lg p-6 mb-6" id="dday-section">
       <h3 class="text-lg font-semibold mb-4">D-DAY & 달력</h3>
       <div class="flex flex-col sm:flex-row sm:items-stretch gap-4">
-        <!-- D-DAY 박스 -->
-        <div class="dday-card flex-1 flex items-center justify-center">
-          <div class="text-center">
-            <div class="dday-label">D-DAY</div>
-            <div class="dday-number" id="ddayNumber">--</div>
-            <div class="dday-sub">2025.12.27(토) 13:00</div>
+        <!-- D-DAY 카드 -->
+        <div class="dday-card flex-1">
+          <div class="dday-circle">
+            <div class="dday-kicker">D-DAY</div>
+            <div class="dday-value" id="ddayValue">D--</div>
           </div>
+          <div class="dday-date" id="ddayDate">2025.12.27(토) 13:00</div>
         </div>
-        <!-- 달력 -->
+        <!-- 달력 카드 -->
         <div class="calendar-card flex-[2]">
           <div class="cal-header">
             <div class="cal-title" id="calTitle">2025년 12월</div>
           </div>
-          <div class="cal-week-head">
+          <div class="cal-week-head" aria-hidden="true">
             <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
           </div>
           <div class="cal-grid" id="calGrid" aria-label="2025년 12월 달력">
-            <!-- JS로 채워짐 -->
+            <!-- JS 렌더 -->
           </div>
           <div class="cal-legend">
-            <span class="dot event"></span> 예식일
-            <span class="dot today"></span> 오늘
+            <span class="chip"><span class="dot event"></span>예식일</span>
+            <span class="chip"><span class="dot today"></span>오늘</span>
           </div>
         </div>
       </div>
