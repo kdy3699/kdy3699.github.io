@@ -251,3 +251,48 @@ function initGallery(){
     // 카운터는 순번 기반이라 리사이즈로 변화 없음 (유지)
   });
 }
+
+/* ===== 계좌 복사: href 내용을 복사하고 토스트 표시 ===== */
+document.addEventListener('click', async (e) => {
+  const a = e.target.closest('a.copy-link');
+  if (!a) return;
+  e.preventDefault(); // 페이지 이동 방지
+  const text = a.getAttribute('href') || '';
+  try {
+    await copyToClipboard(text);
+    showToast('계좌가 복사되었습니다');
+  } catch (err) {
+    console.error('Copy failed:', err);
+    showToast('복사에 실패했습니다');
+  }
+});
+
+async function copyToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  }
+  // fallback
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.top = '-1000px';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+}
+
+let toastTimer = null;
+function showToast(message) {
+  let t = document.querySelector('.toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.className = 'toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = message;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1600);
+}
