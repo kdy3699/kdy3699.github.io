@@ -34,6 +34,17 @@
   background: #fff;
 }
 
+/* ===== 혼주 연락처 가독성 향상 ===== */
+.toggle-button { color: #111827; } /* gray-900 */
+.contact-box {
+  background: rgba(255,255,255,.95);
+  color: #1f2937;               /* gray-800 본문 */
+  border: 1px solid #e5e7eb;    /* gray-200 경계선 */
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
 /* ===== Grid gallery (3 cols) ===== */
 .gallery-grid {
   display: grid;
