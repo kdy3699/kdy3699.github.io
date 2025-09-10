@@ -34,16 +34,39 @@
   background: #fff;
 }
 
-/* ===== Masonry gallery ===== */
-.gallery-masonry { column-count: 2; column-gap: 8px; }
-@media (min-width: 640px){ .gallery-masonry { column-count: 3; column-gap: 12px; } }
-.gallery-item { break-inside: avoid; display: block; margin-bottom: 8px; border-radius: 10px; overflow: hidden; }
-.gallery-item img { width: 100%; height: auto; display: block; }
+/* ===== Grid gallery (3 cols) ===== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+@media (min-width: 640px){
+  .gallery-grid { gap: 12px; }
+}
+.gallery-item { display:block; border-radius:10px; overflow:hidden; }
+/* 정사각 썸네일(바둑판 느낌) */
+.gallery-item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
 
 /* ===== Lightbox ===== */
 .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 60; }
 .lightbox.show { display: flex; }
-.lightbox img { max-width: 90vw; max-height: 80vh; border-radius: 12px; }
+.lightbox {
+  /* 라이트박스에서 추가 확대 방지(모바일 제스처/더블탭) */
+  touch-action: none;
+}
+.lightbox img {
+  max-width: 95vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  /* 드래그/더블클릭 확대 방지 */
+  user-select: none;
+  -webkit-user-drag: none;
+}
 .lightbox .close { position: absolute; top: 12px; right: 12px; font-size: 28px; background: rgba(0,0,0,.35); color: #fff; border: 0; border-radius: 999px; width: 44px; height: 44px; cursor: pointer; }
 .lightbox .nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 28px; background: rgba(0,0,0,.35); color:#fff; border:0; border-radius: 999px; width: 44px; height: 44px; cursor: pointer; display:flex; align-items:center; justify-content:center; }
 .lightbox .prev { left: 12px; }
