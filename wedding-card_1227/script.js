@@ -27,7 +27,8 @@ async function initKakao(){
     if (!KAKAO_JS_KEY || KAKAO_JS_KEY.includes('여기에_')) {
       console.warn('Kakao JS Key 필요');
     }
-    await loadScript(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false`);
+    // libraries 파라미터 추가(services/clusterer 등 필요시 확장)
+    await loadScript(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&libraries=services&autoload=false`);
   }
   return new Promise((resolve) => {
     kakao.maps.load(() => {
@@ -56,9 +57,9 @@ async function initNaver(){
   container.innerHTML = ''; // reset
   const center = new naver.maps.LatLng(VENUE.lat, VENUE.lng);
   const map = new naver.maps.Map(container, { center, zoom: 16 });
-  new naver.maps.Marker({ position: center, map });
+  const marker = new naver.maps.Marker({ position: center, map });
   const iw = new naver.maps.InfoWindow({ content: `<div style="padding:6px 8px;font-size:12px;">${VENUE.title}</div>` });
-  iw.open(map, new naver.maps.Marker({ position: center }));
+  iw.open(map, marker);
   mapInstance = map;
   return map;
 }
