@@ -1,220 +1,206 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:image" content="assets/hero.jpg">
-  <meta property="og:description" content="2024.03.01 도엽🤍두리 결혼합니다."/>
   <meta charset="utf-8" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>💕결혼합니다💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Tailwind CDN (빌드 불필요) -->
+  <title>One Breath | 모바일 청첩장</title>
+  <meta name="description" content="김도엽 ❤️ 나두리 결혼식 모바일 청첩장" />
+  <meta property="og:title" content="One Breath | 모바일 청첩장" />
+  <meta property="og:description" content="2025.12.27(토) 13:00 삼성전자 서초사옥 5F" />
+  <meta property="og:image" content="assets/hero.jpg" />
+  <meta name="theme-color" content="#111827" />
+
+  <!-- Tailwind (CDN) + 폰트 -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-[#fff8f9] text-gray-800 font-sans">
+<body class="bg-[#fff8f9] text-gray-800 font-['Noto_Sans_KR',ui-sans-serif]">
 
-  <!-- HERO -->
-  <header class="relative h-screen md:h-[70vh] bg-cover bg-center" style="background-image: url('assets/hero.jpg')">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center">
-      <div class="text-center text-white px-8">
-        <h2 style="font-family: 'Amatic SC', sans-serif; color: white; font-weight: bold;">DoYeob & DuRi</h2>
-        <br>
-        <h2 style="font-family: 'Amatic SC', sans-serif; color: white; font-weight: bold;">| We invite you to our wedding |</h2>
-        <br>
-        <p class="text-base md:text-lg mb-4">2025년 12월 27일 (토) · 삼성전자 서초사옥</p>
-        <br>
-        <div class="space-x-2">
-          <button onclick="scrollToSection('about')" class="px-4 py-1 bg-white/20 rounded-md">청첩장 보기</button>
-          <button onclick="openSurvey()" class="px-4 py-1 bg-pink-500 rounded-md">식사여부&버스탑승여부</button>
-        </div>
+  <!-- 상단 고정 내비(엠보싱 버튼) -->
+  <nav class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-pink-100">
+    <div class="max-w-xl mx-auto px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar">
+      <button class="emboss-btn" data-scroll="#hero">전체</button>
+      <button class="emboss-btn" data-scroll="#info">기본정보</button>
+      <button class="emboss-btn" data-scroll="#credits">출연/제작진</button>
+      <button class="emboss-btn" data-scroll="#schedule">상영일정</button>
+      <button class="emboss-btn" data-scroll="#photos">포토</button>
+      <div class="grow"></div>
+      <button id="likeBtn" class="emboss-btn !bg-pink-50 !border-pink-200 !shadow-emboss-pink">
+        💗 <span id="likeCount">0</span>
+      </button>
+      <button id="ctaAttend" class="emboss-btn-primary">참석하기</button>
+    </div>
+  </nav>
+
+  <!-- HERO (영화 포스터 톤) -->
+  <header id="hero" class="relative h-[68vh] md:h-[72vh] bg-cover bg-center" style="background-image:url('assets/hero.jpg')">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/10"></div>
+    <div class="absolute inset-0 flex items-end md:items-center justify-center">
+      <div class="text-center text-white px-6 pb-10">
+        <h1 class="font-['Cinzel'] text-4xl md:text-5xl font-extrabold tracking-wide">One Breath</h1>
+        <p class="mt-3 text-sm md:text-base opacity-90">2025. 12. 27. Sat. &nbsp; 삼성전자 서초사옥 5F</p>
       </div>
     </div>
   </header>
 
-  <!-- MAIN -->
-  <main class="max-w-xl mx-auto -mt-10 relative z-10 px-4">
+  <main class="max-w-xl mx-auto px-4 -mt-6 relative z-10">
 
-    <!-- 카드: 인사말 -->
-    <section id="about" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h2 class="text-xl font-semibold mb-2">초대의 말씀</h2>
-      <p class="text-sm leading-relaxed">
-        저희의 소중한 날에 기쁜 마음으로 초대합니다.
-        함께해 주시면 큰 기쁨이 되겠습니다.
+    <!-- 개요 (영화 정보 카드) -->
+    <section class="card">
+      <div class="flex items-start gap-4">
+        <img src="assets/poster.jpg" alt="포스터" class="w-24 h-36 object-cover rounded-lg shadow" />
+        <div class="flex-1">
+          <h2 class="section-title">개요</h2>
+          <p class="text-sm text-gray-600">로맨스 코미디 · 한국 · 90분</p>
+          <p class="text-sm text-gray-600">개봉 : 2025.12.27.</p>
+          <p class="text-sm mt-2 line-clamp-3" id="synopsis">
+            서로 다른 길 위에서 살아온 ‘두리’와 ‘도엽’. 우연 같은 만남은 점점 필연이 되어
+            서울의 분주한 하루와 바다의 고요한 숨결 속에서 하나의 호흡으로 이어졌다...
+          </p>
+          <button id="moreBtn" class="text-pink-600 text-sm mt-1">더보기</button>
+          <div class="mt-3 flex gap-2">
+            <button id="likeBtn2" class="emboss-btn !bg-pink-50 !border-pink-200 !shadow-emboss-pink">기대돼요 💗 <span id="likeCount2">0</span></button>
+            <button id="ctaAttend2" class="emboss-btn-primary">참석하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 기본정보 -->
+    <section id="info" class="card">
+      <h2 class="section-title">기본정보</h2>
+      <p class="text-sm text-gray-700">
+        김도엽 ❤️ 나두리의 결혼식<br/>
+        2025.12.27(토) 13:00 &nbsp; 삼성전자 서초사옥 5F
       </p>
-    </section>
 
-   <!-- Introduction -->
-    <section class="content-section bg-primary text-gray-800 text-center" id="services">
-      <div class="container px-4 px-lg-5">
-        <div class="content-section-heading">
-          <p style="font-family: 'Song Myung', serif; font-size: 25px; font-weight: bold;">신랑&신부</p>
+      <!-- 구글맵 + 주소/길찾기 -->
+      <div class="mt-3 grid gap-2">
+        <div class="rounded-lg overflow-hidden border">
+          <iframe class="w-full h-52"
+                  src="https://www.google.com/maps?q=삼성전자%20서초사옥&output=embed"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <br>
-        <div class="row gx-4 gx-lg-5 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-            <p style="font-family: 'Song Myung', serif; font-size: 20px;">나형준 한임순의 차녀</p>
-            <h3 style="font-family: 'Song Myung', serif;">신부 나두리👰🏻</h3>
-            <img src="assets/신부.jpg" class="img-fluid rounded-full mx-auto w-40 h-40 object-cover" alt="신부 이미지">
-            <p><br></p>
-            <ul class="list-inline flex items-center justify-center gap-4 text-gray-700">
-              <!-- 📞: tel: 링크로 전화 화면 이동 -->
-              <li><a class="social-link call-link rounded-circle text-gray-700 hover:text-pink-600 mr-5" href="tel:01050207757">📞</a></li>
-              <!-- 💸: href 내용(계좌 문자열) 복사 -->
-              <li><a class="social-link copy-link rounded-circle text-gray-700 hover:text-pink-600 mr-5" href="신한 110-987-654321 나두리">💸</a></li>
-            </ul>
-            <div id="foldableSection2">
-              <p style="font-family: 'Song Myung', serif; font-size: 20px;"
-                 class="toggle-button cursor-pointer text-gray-900 hover:text-pink-600"
-                 onclick="toggleFoldable2()">혼주 연락처보기
-                 <span id="toggleIcon2">▼</span>
-              </p> 
-              <div class="foldable-content2 hidden contact-box">
-                <p style="font-family: 'Song Myung', serif; font-size: 15px;">나형준&nbsp;&nbsp;&nbsp;<a class="call-link" href="tel:01000000000">📞</a>&nbsp;&nbsp;&nbsp;<a class="sms-link" href="sms:01000000000">✉️</a></p>
-                <p style="font-family: 'Song Myung', serif; font-size: 15px;">한임순&nbsp;&nbsp;&nbsp;<a class="call-link" href="tel:01000000000">📞</a>&nbsp;&nbsp;&nbsp;<a class="sms-link" href="sms:01000000000">✉️</a></p>
-              </div>
-            </div>
-          </div>
+        <div class="flex flex-wrap items-center gap-2 text-sm">
+          <span id="venueText" class="px-2 py-1 rounded bg-gray-50 border">삼성전자 서초사옥 5F</span>
+          <button class="emboss-mini" id="copyVenue">복사</button>
+          <a class="emboss-mini" href="https://maps.google.com/?q=삼성전자%20서초사옥" target="_blank" rel="noopener">길찾기</a>
         </div>
-        <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-            <p style="font-family: 'Song Myung', serif; font-size: 20px;">故김낙년 권영미의 장남</p>
-            <h3 style="font-family: 'Song Myung', serif;">신랑 김도엽🤵🏻</h3>
-            <img src="assets/신랑.jpg" class="img-fluid rounded-full mx-auto w-40 h-40 object-cover" alt="신랑 이미지">
-            <p><br></p>
-            <ul class="list-inline flex items-center justify-center gap-4 text-gray-700">
-              <!-- 📞: tel: 링크로 전화 화면 이동 -->
-              <li><a class="social-link call-link rounded-circle text-gray-700 hover:text-pink-600 mr-3" href="tel:01020231078">📞</a></li>
-              <!-- 💸: href 내용(계좌 문자열) 복사 -->
-              <li><a class="social-link copy-link rounded-circle text-gray-700 hover:text-pink-600 mr-3" href="새마을금고 9003240076282 김도엽">💸</a></li>
-            </ul>
-            <div id="foldableSection">
-              <p style="font-family: 'Song Myung', serif; font-size: 20px;"
-                 class="toggle-button cursor-pointer text-gray-900 hover:text-pink-600"
-                 onclick="toggleFoldable()">혼주 연락처보기
-                 <span id="toggleIcon">▼</span>
-              </p>
-              <div class="foldable-content hidden contact-box">
-                <p style="font-family: 'Song Myung', serif; font-size: 15px;">권영미&nbsp;&nbsp;&nbsp;<a class="call-link" href="tel:01098701078">📞</a>&nbsp;&nbsp;&nbsp;<a class="sms-link" href="sms:01098701078">✉️</a>&nbsp;&nbsp;&nbsp;<a class="copy-link" href=" 권영미">💸</a></p>
-              </div>
-            </div>
-        </div>
+        <p class="text-xs text-gray-500">대중교통: 강남역 8번출구 도보 5분</p>
       </div>
-    </section>
 
-    <!-- 일정 / 장소 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h3 class="text-lg font-semibold mb-3">행사 안내</h3>
-      <ul class="text-sm space-y-2">
-        <li><strong>예식:</strong> 2025년 12월 27일 (토) 오후 1시</li>
-        <li><strong>장소:</strong> 삼성전자 서초사옥 (5층 웨딩홀)</li>
-      </ul>
+      <!-- 초대의 말 -->
       <div class="mt-4">
-        <iframe class="w-full h-44 rounded-md" src="https://www.google.com/maps/embed?pb=!1m18!..." loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <h3 class="font-semibold mb-1">초대의 말</h3>
+        <p class="text-sm text-gray-700">
+          두 개의 호흡이 만나 하나의 이야기가 시작됩니다. 새로운 첫 막에 함께해 주세요.
+        </p>
       </div>
     </section>
 
-<!-- D-DAY & 달력 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6" id="dday-section">
-      <div class="flex flex-col sm:flex-row sm:items-stretch gap-4">
-        <!-- D-DAY 박스 -->
-        <div class="dday-card flex-1 flex items-center justify-center">
-          <div class="text-center">
-            <div class="dday-label">김도엽 ❤ 나두리 의 결혼식</div>
-            <div class="dday-number" id="ddayNumber">일 전</div>
-            <div class="dday-sub">2025.12.27(토) 13:00</div>
-          </div>
-        </div>
-        <!-- 달력 -->
-        <div class="calendar-card flex-[2]">
-          <div class="cal-header">
-            <div class="cal-title" id="calTitle">2025년 12월</div>
-          </div>
-          <div class="cal-week-head">
-            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
-          </div>
-          <div class="cal-grid" id="calGrid" aria-label="2025년 12월 달력">
-            <!-- JS로 채워짐 -->
-          </div>
-          <div class="cal-legend">
-            <span class="dot event"></span> 예식일
-            <span class="dot today"></span> 오늘
-          </div>
-        </div>
+    <!-- 출연/제작진 (영화 크레딧 스타일) -->
+    <section id="credits" class="card">
+      <h2 class="section-title">출연 / 제작진</h2>
+      <ul class="credit-list">
+        <li><span class="role">감독</span> <span class="name">예수님, 부처님</span></li>
+        <li><span class="role">신랑</span> <span class="name">김도엽</span></li>
+        <li><span class="role">신부</span> <span class="name">나두리</span></li>
+        <li><span class="role">신부 父</span> <span class="name">—</span></li>
+        <li><span class="role">신부 母</span> <span class="name">—</span></li>
+        <li><span class="role">신랑 父</span> <span class="name">—</span></li>
+        <li><span class="role">신랑 母</span> <span class="name">—</span></li>
+      </ul>
+    </section>
+
+    <!-- 상영일정 (D-DAY 문구 + 달력 이미지) -->
+    <section id="schedule" class="card">
+      <h2 class="section-title">상영일정</h2>
+      <p id="ddayLine" class="text-sm text-gray-700">
+        김도엽 ❤️ 나두리의 결혼식 &nbsp; D-— &nbsp; 2025.12.27(토) 13:00 &nbsp; 삼성전자 서초사옥 5F
+      </p>
+      <!-- 달력은 이미지로 (모바일에서 날짜 틀어짐 이슈 회피) -->
+      <div class="mt-3 rounded-lg overflow-hidden border">
+        <img src="assets/calendar.jpg" alt="12월 달력" class="w-full h-auto block">
       </div>
     </section>
-    
-    <!-- 갤러리 (바둑판 3열 + 라이트박스) -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-      <h3 class="text-lg font-semibold mb-3">사진 갤러리</h3>
+
+    <!-- 포토 (3열 그리드 + 라이트박스) -->
+    <section id="photos" class="card">
+      <h2 class="section-title">포토</h2>
       <div id="gallery" class="gallery-grid">
-        <!-- 썸네일/원본 동일 경로 사용. assets/gallery/ 에 이미지 배치 -->
-        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 01"></a>
-        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 02"></a>
-        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 03"></a>
-        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 04"></a>
-        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 05"></a>
-        <a href="assets/couple1.jpg" class="gallery-item"><img loading="lazy" src="assets/couple1.jpg" alt="gallery 06"></a>
-        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 07"></a>
-        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 08"></a>
-        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 09"></a>
-        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 10"></a>
-        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 11"></a>
-        <a href="assets/couple2.jpg" class="gallery-item"><img loading="lazy" src="assets/couple2.jpg" alt="gallery 12"></a>
+        <!-- assets/gallery/* 추가해 주세요 -->
+        <a class="gallery-item" href="assets/gallery/01.jpg"><img src="assets/gallery/01.jpg" alt="photo 01"></a>
+        <a class="gallery-item" href="assets/gallery/02.jpg"><img src="assets/gallery/02.jpg" alt="photo 02"></a>
+        <a class="gallery-item" href="assets/gallery/03.jpg"><img src="assets/gallery/03.jpg" alt="photo 03"></a>
+        <a class="gallery-item" href="assets/gallery/04.jpg"><img src="assets/gallery/04.jpg" alt="photo 04"></a>
+        <a class="gallery-item" href="assets/gallery/05.jpg"><img src="assets/gallery/05.jpg" alt="photo 05"></a>
+        <a class="gallery-item" href="assets/gallery/06.jpg"><img src="assets/gallery/06.jpg" alt="photo 06"></a>
       </div>
     </section>
 
-    <!-- 라이트박스 -->
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-      <button class="close" aria-label="닫기">✕</button>
-      <button class="nav prev" aria-label="이전">‹</button>
-      <img src="" alt="확대 이미지" />
-      <button class="nav next" aria-label="다음">›</button>
-      <!-- 현재 순번 / 총 개수 표시 -->
-      <div class="counter" id="lbCounter" aria-live="polite" role="status"></div>
-    </div>
-
-    <!-- 타임라인 -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-16">
-      <h3 class="text-lg font-semibold mb-3">당일 순서</h3>
-      <ol class="text-sm list-decimal ml-5 space-y-1">
-        <li>입장 및 안내 (13:30)</li>
-        <li>본식 (14:00)</li>
-        <li>피로연 & 촬영 (15:00)</li>
-      </ol>
+    <!-- 마음 전하실 곳 (신부 먼저 → 신랑 순서, 계좌 복사) -->
+    <section id="accounts" class="card">
+      <h2 class="section-title">마음 전하실 곳</h2>
+      <div class="space-y-3">
+        <div class="acc-row">
+          <div class="acc-label">신부</div>
+          <div class="acc-value">
+            국민은행 91086371822 나두리
+            <a href="국민은행 91086371822 나두리" class="copy-link acc-copy">복사</a>
+          </div>
+        </div>
+        <div class="acc-row">
+          <div class="acc-label">신부 母</div>
+          <div class="acc-value">
+            농협 60115552353837
+            <a href="농협 60115552353837 신부모" class="copy-link acc-copy">복사</a>
+          </div>
+        </div>
+        <div class="acc-row">
+          <div class="acc-label">신부 父</div>
+          <div class="acc-value">
+            농협 61302178747
+            <a href="농협 61302178747 신부부" class="copy-link acc-copy">복사</a>
+          </div>
+        </div>
+        <!-- 필요 시 신랑측 계좌도 아래에 추가 -->
+      </div>
     </section>
+
+    <!-- 관리자/푸터 작은 버튼(옵션) -->
+    <div class="h-16"></div>
   </main>
 
-  <!-- RSVP 모달 (자동 팝업) -->
+  <!-- 라이트박스 -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button class="close" aria-label="닫기">✕</button>
+    <button class="nav prev" aria-label="이전">‹</button>
+    <img src="" alt="확대 이미지" />
+    <button class="nav next" aria-label="다음">›</button>
+    <div class="counter" id="lbCounter" aria-live="polite" role="status"></div>
+  </div>
+
+  <!-- RSVP 모달 (페이지 진입시 자동 오픈은 해제; 상단/개요 버튼으로 열기) -->
   <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50 hidden">
     <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg relative">
-      <!-- 닫기 버튼 -->
       <button onclick="closeSurvey()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl">✕</button>
-    
       <div class="flex justify-center mb-3">
         <h4 class="font-semibold text-lg">식사여부 & 버스탑승여부</h4>
       </div>
-    
-      <!-- iframe 제출: CORS 없이 POST -->
       <form id="surveyForm"
             action="https://script.google.com/macros/s/AKfycbzAl77U20vY9S6yizY6Jo2CIBQi6hhoNOG4Q4uJsOCzdQu5ZvZXqqrFfp8FLwjeYZKW/exec"
-            method="POST"
-            target="survey_iframe"
-            class="space-y-3">
-
+            method="POST" target="survey_iframe" class="space-y-3">
         <div>
           <label class="text-sm">이름</label>
           <input name="name" type="text" required class="mt-1 w-full border rounded-md px-3 py-2" placeholder="홍길동" />
         </div>
-
         <div>
           <label class="text-sm">전화번호</label>
-          <input name="phone" type="tel"
-                 pattern="[0-9\\-+\\s()]{7,}" inputmode="tel"
-                 class="mt-1 w-full border rounded-md px-3 py-2"
-                 placeholder="예: 010-1234-5678" />
+          <input name="phone" type="tel" inputmode="tel" pattern="[0-9\\-+\\s()]{7,}"
+                 class="mt-1 w-full border rounded-md px-3 py-2" placeholder="예: 010-1234-5678" />
         </div>
-
         <div>
           <label class="text-sm">식사여부</label>
           <select name="eat" class="mt-1 w-full border rounded-md px-3 py-2">
@@ -223,7 +209,6 @@
             <option value="미참여">미참여</option>
           </select>
         </div>
-
         <div>
           <label class="text-sm">버스 탑승</label>
           <select name="bus" class="mt-1 w-full border rounded-md px-3 py-2">
@@ -233,31 +218,21 @@
             <option value="수원탑승">수원탑승</option>
           </select>
         </div>
-
         <div>
           <label class="text-sm block mb-1">동행인원</label>
-          <!-- 커스텀 스텝퍼 -->
           <div class="stepper">
             <button type="button" class="stepper-btn" data-action="decrement" aria-label="동행인원 감소">−</button>
-            <input name="person" id="personInput" type="number" min="1" step="1" value="1" inputmode="numeric"
-                   class="stepper-input" aria-label="동행인원" />
+            <input name="person" id="personInput" type="number" min="1" step="1" value="1" inputmode="numeric" class="stepper-input" aria-label="동행인원" />
             <button type="button" class="stepper-btn" data-action="increment" aria-label="동행인원 증가">＋</button>
           </div>
-          <p class="text-xs text-gray-500 mt-1">최소 1명부터 입력됩니다. (본인 포함 인원 수)</p>
+          <p class="text-xs text-gray-500 mt-1">최소 1명부터 입력됩니다. (동행 인원 수)</p>
         </div>
-
-        <!-- 메타(참고) -->
         <input type="hidden" name="source_path" value="">
         <input type="hidden" name="client_time" value="">
-        <!-- 허니팟 -->
         <input type="text" name="_hp" class="hidden" tabindex="-1" autocomplete="off" />
-
         <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-md">제출하기</button>
       </form>
-
-      <!-- 숨은 iframe (응답 수신용) -->
       <iframe name="survey_iframe" id="survey_iframe" class="hidden"></iframe>
-
       <p id="surveyMsg" class="text-center text-sm text-green-600 mt-2 hidden">제출 완료되었습니다.</p>
     </div>
   </div>
