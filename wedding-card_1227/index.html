@@ -170,15 +170,25 @@
           </figcaption>
         </figure>
       </div>
-
-      <!-- 감독: 한 장의 사진 카드 -->
-      <div class="mb-4">
-        <figure class="bg-white border rounded-xl p-3 shadow-sm flex items-center gap-4">
-          <img src="assets/감독.jpg" alt="감독 사진"
-               class="w-36 h-48 md:w-40 md:h-56 rounded-lg object-cover" />
-          <figcaption>
+      
+      <!-- 감독: 같은 줄(2열 그리드, 둥근 작게) -->
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <!-- 예수님 -->
+        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
+          <img src="assets/예수님.jpg" alt="예수님 사진"
+               class="w-24 h-24 rounded-full object-cover" />
+          <figcaption class="mt-2 text-center">
             <div class="text-xs text-gray-500">감독</div>
-            <div class="text-sm font-semibold text-gray-900">예수님 &amp; 부처님</div>
+            <div class="text-sm font-semibold text-gray-900">예수님</div>
+          </figcaption>
+        </figure>
+        <!-- 부처님 -->
+        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
+          <img src="assets/부처님.jpg" alt="부처님 사진"
+               class="w-24 h-24 rounded-full object-cover" />
+          <figcaption class="mt-2 text-center">
+            <div class="text-xs text-gray-500">감독</div>
+            <div class="text-sm font-semibold text-gray-900">부처님</div>
           </figcaption>
         </figure>
       </div>
