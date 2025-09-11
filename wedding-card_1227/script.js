@@ -1,7 +1,7 @@
-/* ===== 지도: Kakao / Naver ===== */
+/* ===== 지도: Kakao / Naver / Leaflet 폴백 ===== */
 const MAP_DEFAULT_PROVIDER = 'kakao'; // 'kakao' | 'naver'
-const KAKAO_JS_KEY = '243bffddd0f090d5a85151747fa7e347';      // ⚠️ 발급받은 키로 교체
-const NAVER_CLIENT_ID = 'v43co5qjet';         // ⚠️ 발급받은 ID로 교체
+const KAKAO_JS_KEY = '243bffddd0f090d5a85151747fa7e347'; // ✅ 카카오 JavaScript 키
+const NAVER_CLIENT_ID = 'v43co5qjet';                      // ✅ 네이버 ncpClientId(Web Dynamic Map)
 
 const VENUE = {
   lat: 37.4966083,
@@ -12,9 +12,26 @@ const VENUE = {
 function loadScript(src){
   return new Promise((res, rej) => {
     const s = document.createElement('script');
-    s.src = src; s.async = true; s.onload = res; s.onerror = rej;
+    s.src = src;
+    s.async = true;
+    s.onload = () => res(src);
+    s.onerror = (e) => rej(new Error(`Script load error: ${src}`));
     document.head.appendChild(s);
   });
+}
+function loadCss(href){
+  return new Promise((res, rej) => {
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = href;
+    l.onload = () => res(href);
+    l.onerror = () => rej(new Error(`CSS load error: ${href}`));
+    document.head.appendChild(l);
+  });
+}
+function showMapError(html){
+  const el = document.getElementById('map');
+  if (!el) return;
+  el.innerHTML = `<div class="w-full h-full flex items-center justify-center text-center text-xs text-red-600 px-3">${html}</div>`;
 }
 
 let currentProvider = null;
@@ -22,12 +39,11 @@ let mapInstance = null;
 
 /* Kakao Map init */
 async function initKakao(){
-  // SDK 로드
   if (!window.kakao || !window.kakao.maps){
-    if (!KAKAO_JS_KEY || KAKAO_JS_KEY.includes('여기에_')) {
-      console.warn('Kakao JS Key 필요');
+    if (!KAKAO_JS_KEY) {
+      throw new Error('Kakao: JavaScript 키가 비어 있습니다.');
     }
-    // libraries 파라미터 추가(services/clusterer 등 필요시 확장)
+    // libraries 파라미터 포함, autoload=false 후 kakao.maps.load 사용
     await loadScript(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&libraries=services&autoload=false`);
   }
   return new Promise((resolve) => {
@@ -48,9 +64,10 @@ async function initKakao(){
 /* Naver Map init */
 async function initNaver(){
   if (!window.naver || !window.naver.maps){
-    if (!NAVER_CLIENT_ID || NAVER_CLIENT_ID.includes('여기에_')) {
-      console.warn('Naver Client ID 필요');
+    if (!NAVER_CLIENT_ID) {
+      throw new Error('Naver: ncpClientId가 비어 있습니다.');
     }
+    // ✅ 공식 도메인(oapi) 사용
     await loadScript(`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${NAVER_CLIENT_ID}`);
   }
   const container = document.getElementById('map');
@@ -64,27 +81,96 @@ async function initNaver(){
   return map;
 }
 
-/* Provider 전환 */
+/* Leaflet (OpenStreetMap) 폴백: 키/허용도메인 없이 동작 */
+async function initLeaflet(){
+  await loadCss('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+  await loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+
+  // 아이콘 경로 지정(기본 아이콘이 상대경로라서 CDN 경로로 지정)
+  const DefaultIcon = L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [25,41],
+    iconAnchor: [12,41],
+    popupAnchor: [1,-34],
+    shadowSize: [41,41]
+  });
+  L.Marker.prototype.options.icon = DefaultIcon;
+
+  const container = document.getElementById('map');
+  container.innerHTML = '';
+  const map = L.map(container).setView([VENUE.lat, VENUE.lng], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+  L.marker([VENUE.lat, VENUE.lng]).addTo(map).bindPopup(VENUE.title).openPopup();
+  mapInstance = map;
+  // 안내 문구
+  const note = document.createElement('div');
+  note.className = 'absolute bottom-1 left-1 bg-black/50 text-white text-[10px] px-2 py-1 rounded';
+  note.textContent = '임시 지도(Leaflet/OSM) — 키 인증 실패 시 표시';
+  container.style.position = 'relative';
+  container.appendChild(note);
+  return map;
+}
+
+/* Provider 전환 + 실패 시 폴백 */
 async function setMapProvider(p){
   if (p === currentProvider) return;
   currentProvider = p;
 
-  // 탭 스타일
   document.getElementById('btnKakao')?.classList.toggle('is-active', p === 'kakao');
   document.getElementById('btnNaver')?.classList.toggle('is-active', p === 'naver');
 
   try{
-    if (p === 'kakao') await initKakao();
-    else await initNaver();
+    if (p === 'kakao') {
+      await initKakao();
+    } else {
+      await initNaver();
+    }
   }catch(e){
     console.error('지도를 불러오지 못했습니다:', e);
-    const el = document.getElementById('map');
-    if (el) el.innerHTML = `<div class="w-full h-full flex items-center justify-center text-xs text-gray-500">지도를 불러올 수 없습니다.</div>`;
+    // 에러 내용을 맵 영역에 출력
+    showMapError(`
+      지도 SDK 로드/인증 실패<br/>
+      <span class="text-gray-500">(${String(e.message || e)})</span><br/><br/>
+      <div class="text-gray-500">
+        - 콘솔의 빨간 에러문구를 확인해 주세요<br/>
+        - 카카오: Kakao Developers &gt; 앱 &gt; 플랫폼 &gt; 도메인에
+          <b>kdy3699.github.io</b> 등록<br/>
+        - 네이버: NCP &gt; Maps &gt; Web Dynamic Map 참조자(Referer)에
+          <b>https://kdy3699.github.io/*</b> 등록<br/>
+      </div>
+    `);
+
+    // 네이버 실패 시 → 카카오 폴백, 카카오도 실패하면 → Leaflet 폴백
+    if (p === 'naver') {
+      try {
+        await initKakao();
+        document.getElementById('btnKakao')?.classList.add('is-active');
+        document.getElementById('btnNaver')?.classList.remove('is-active');
+        currentProvider = 'kakao';
+        return;
+      } catch(_) {
+        // 계속 진행하여 Leaflet 폴백
+      }
+    }
+    try {
+      await initLeaflet();
+      // 탭 활성화 해제(임시 지도)
+      document.getElementById('btnKakao')?.classList.remove('is-active');
+      document.getElementById('btnNaver')?.classList.remove('is-active');
+      currentProvider = 'leaflet';
+    } catch(e2){
+      console.error('Leaflet 폴백도 실패:', e2);
+    }
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 초기 로드
+  // 초기: 카카오 → 실패시 네이버 → 실패시 Leaflet
   setMapProvider(MAP_DEFAULT_PROVIDER);
 
   // 탭 버튼
