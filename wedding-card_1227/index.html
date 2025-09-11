@@ -108,24 +108,38 @@
         2025.12.27(토) 13:00 &nbsp; 삼성전자 서초사옥 5F
       </p>
 
-      <!-- 지도(카카오/네이버 탭 전환) + 길찾기 링크 -->
-      <div class="mt-3 rounded-lg border p-2">
-        <div class="flex items-center justify-between mb-2">
-          <div class="map-tabs flex gap-1">
-            <button id="btnKakao" class="emboss-mini is-active" data-map="kakao">카카오맵</button>
-            <button id="btnNaver" class="emboss-mini" data-map="naver">네이버맵</button>
-          </div>
-          <span class="text-[11px] text-gray-500">키/도메인 등록 필요</span>
+      <!-- ✅ Google Maps Embed (표시용 지도) -->
+      <div class="mt-3 grid gap-2">
+        <div class="rounded-lg overflow-hidden border">
+          <iframe class="w-full h-52"
+                  src="https://www.google.com/maps?q=37.4966083,127.0269028&z=16&output=embed"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <div id="map" class="w-full h-52 rounded-md overflow-hidden bg-gray-50"></div>
+
+        <!-- 장소/복사 + 길찾기(카카오/네이버) -->
+        <div class="flex flex-wrap items-center gap-2 text-sm">
+          <span id="venueText" class="px-2 py-1 rounded bg-gray-50 border">삼성전자 서초사옥 5F</span>
+          <button class="emboss-mini" id="copyVenue">복사</button>
+
+          <!-- 카카오 길찾기(웹) : 목적지만 세팅 -->
+          <a class="emboss-mini"
+             href="https://map.kakao.com/link/to/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90%20%EC%84%9C%EC%B4%88%EC%82%AC%EC%98%A5,37.4966083,127.0269028"
+             target="_blank" rel="noopener">카카오 길찾기</a>
+
+          <!-- 네이버 길찾기(앱) -->
+          <a class="emboss-mini"
+             href="nmap://route/public?dlat=37.4966083&dlng=127.0269028&dname=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90%20%EC%84%9C%EC%B4%88%EC%82%AC%EC%98%A5">
+             네이버 길찾기(앱)
+          </a>
+
+          <!-- 네이버 지도(웹) : 검색/장소 페이지 -->
+          <a class="emboss-mini"
+             href="https://map.naver.com/v5/search/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90%20%EC%84%9C%EC%B4%88%EC%82%AC%EC%98%A5"
+             target="_blank" rel="noopener">네이버(웹)</a>
+        </div>
+
+        <p class="text-xs text-gray-500">대중교통: 강남역 8번출구 도보 5분</p>
       </div>
-      <div class="flex flex-wrap items-center gap-2 text-sm mt-2">
-        <span id="venueText" class="px-2 py-1 rounded bg-gray-50 border">삼성전자 서초사옥 5F</span>
-        <button class="emboss-mini" id="copyVenue">복사</button>
-        <a class="emboss-mini" id="linkKakao" href="https://map.kakao.com/link/to/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90%20%EC%84%9C%EC%B4%88%EC%82%AC%EC%98%A5,37.4966083,127.0269028" target="_blank" rel="noopener">카카오 길찾기</a>
-        <a class="emboss-mini" id="linkNaver" href="https://map.naver.com/v5/search/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90%20%EC%84%9C%EC%B4%88%EC%82%AC%EC%98%A5" target="_blank" rel="noopener">네이버 지도</a>
-      </div>
-      <p class="text-xs text-gray-500 mt-1">대중교통: 강남역 8번출구 도보 5분</p>
       
       <!-- 초대의 말 -->
       <div class="mt-4">
