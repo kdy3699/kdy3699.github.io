@@ -1,3 +1,96 @@
+/* ===== 지도: Kakao / Naver ===== */
+const MAP_DEFAULT_PROVIDER = 'kakao'; // 'kakao' | 'naver'
+const KAKAO_JS_KEY = '243bffddd0f090d5a85151747fa7e347';      // ⚠️ 발급받은 키로 교체
+const NAVER_CLIENT_ID = 'v43co5qjet';         // ⚠️ 발급받은 ID로 교체
+
+const VENUE = {
+  lat: 37.4966083,
+  lng: 127.0269028,
+  title: '삼성전자 서초사옥 5F'
+};
+
+function loadScript(src){
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = src; s.async = true; s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+
+let currentProvider = null;
+let mapInstance = null;
+
+/* Kakao Map init */
+async function initKakao(){
+  // SDK 로드
+  if (!window.kakao || !window.kakao.maps){
+    if (!KAKAO_JS_KEY || KAKAO_JS_KEY.includes('여기에_')) {
+      console.warn('Kakao JS Key 필요');
+    }
+    await loadScript(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false`);
+  }
+  return new Promise((resolve) => {
+    kakao.maps.load(() => {
+      const container = document.getElementById('map');
+      container.innerHTML = ''; // reset
+      const center = new kakao.maps.LatLng(VENUE.lat, VENUE.lng);
+      const map = new kakao.maps.Map(container, { center, level: 3 });
+      const marker = new kakao.maps.Marker({ position: center, map });
+      const iw = new kakao.maps.InfoWindow({ content: `<div style="padding:6px 8px;font-size:12px;">${VENUE.title}</div>` });
+      iw.open(map, marker);
+      mapInstance = map;
+      resolve(map);
+    });
+  });
+}
+
+/* Naver Map init */
+async function initNaver(){
+  if (!window.naver || !window.naver.maps){
+    if (!NAVER_CLIENT_ID || NAVER_CLIENT_ID.includes('여기에_')) {
+      console.warn('Naver Client ID 필요');
+    }
+    await loadScript(`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${NAVER_CLIENT_ID}`);
+  }
+  const container = document.getElementById('map');
+  container.innerHTML = ''; // reset
+  const center = new naver.maps.LatLng(VENUE.lat, VENUE.lng);
+  const map = new naver.maps.Map(container, { center, zoom: 16 });
+  new naver.maps.Marker({ position: center, map });
+  const iw = new naver.maps.InfoWindow({ content: `<div style="padding:6px 8px;font-size:12px;">${VENUE.title}</div>` });
+  iw.open(map, new naver.maps.Marker({ position: center }));
+  mapInstance = map;
+  return map;
+}
+
+/* Provider 전환 */
+async function setMapProvider(p){
+  if (p === currentProvider) return;
+  currentProvider = p;
+
+  // 탭 스타일
+  document.getElementById('btnKakao')?.classList.toggle('is-active', p === 'kakao');
+  document.getElementById('btnNaver')?.classList.toggle('is-active', p === 'naver');
+
+  try{
+    if (p === 'kakao') await initKakao();
+    else await initNaver();
+  }catch(e){
+    console.error('지도를 불러오지 못했습니다:', e);
+    const el = document.getElementById('map');
+    if (el) el.innerHTML = `<div class="w-full h-full flex items-center justify-center text-xs text-gray-500">지도를 불러올 수 없습니다.</div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 초기 로드
+  setMapProvider(MAP_DEFAULT_PROVIDER);
+
+  // 탭 버튼
+  document.getElementById('btnKakao')?.addEventListener('click', () => setMapProvider('kakao'));
+  document.getElementById('btnNaver')?.addEventListener('click', () => setMapProvider('naver'));
+});
+
 /* ===== 스무스 스크롤 + 메뉴 ===== */
 document.querySelectorAll('.emboss-btn[data-scroll]').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -214,3 +307,5 @@ function initGallery(){
     // setTimeout(closeSurvey, 1200);
   });
 })();
+
+
