@@ -68,3 +68,11 @@
 /* 토스트 */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(8px); background: rgba(0,0,0,.85); color: #fff; padding: 10px 14px; border-radius: 999px; font-size: 13px; letter-spacing: .2px; z-index: 70; opacity: 0; transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* 지도 탭 활성화 표시 */
+.map-tabs .is-active {
+  background: #ffe8ef;
+  border-color: #f0a5b8;
+  color: #9a2047;
+  font-weight: 700;
+}
