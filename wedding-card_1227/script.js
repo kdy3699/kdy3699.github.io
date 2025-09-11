@@ -46,6 +46,11 @@ function openSurvey(){ document.getElementById('surveyModal')?.classList.remove(
 function closeSurvey(){ document.getElementById('surveyModal')?.classList.add('hidden'); }
 window.closeSurvey = closeSurvey; window.openSurvey = openSurvey;
 
+/* ===== 페이지 진입 시 자동 팝업 ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  try { openSurvey(); } catch(e){}
+});
+
 /* ===== 개요 더보기 ===== */
 const synopsis = document.getElementById('synopsis');
 const moreBtn = document.getElementById('moreBtn');
