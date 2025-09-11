@@ -27,21 +27,17 @@
 
   <!-- 상단 고정 내비(엠보싱 버튼) -->
   <nav class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-pink-100">
-    <div class="max-w-xl mx-auto px-3 py-2">
-      <div class="scale-wrap">
-        <div class="scale-block flex gap-2 no-scrollbar" data-scale="620">
-          <button class="emboss-btn" data-scroll="#hero">전체</button>
-          <button class="emboss-btn" data-scroll="#info">기본정보</button>
-          <button class="emboss-btn" data-scroll="#credits">출연/제작진</button>
-          <button class="emboss-btn" data-scroll="#schedule">상영일정</button>
-          <button class="emboss-btn" data-scroll="#photos">포토</button>
-          <div class="grow"></div>
-          <button id="likeBtn" class="emboss-btn !bg-pink-50 !border-pink-200 !shadow-emboss-pink">
-            💗 <span id="likeCount">0</span>
-          </button>
-          <button id="ctaAttend" class="emboss-btn-primary">참석하기</button>
-        </div>
-      </div>
+    <div class="max-w-xl mx-auto px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar">
+      <button class="emboss-btn" data-scroll="#hero">전체</button>
+      <button class="emboss-btn" data-scroll="#info">기본정보</button>
+      <button class="emboss-btn" data-scroll="#credits">출연/제작진</button>
+      <button class="emboss-btn" data-scroll="#schedule">상영일정</button>
+      <button class="emboss-btn" data-scroll="#photos">포토</button>
+      <div class="grow"></div>
+      <button id="likeBtn" class="emboss-btn !bg-pink-50 !border-pink-200 !shadow-emboss-pink">
+        💗 <span id="likeCount">0</span>
+      </button>
+      <button id="ctaAttend" class="emboss-btn-primary">참석하기</button>
     </div>
   </nav>
 
