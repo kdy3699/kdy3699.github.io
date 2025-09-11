@@ -51,7 +51,7 @@ async function initNaver(){
     if (!NAVER_CLIENT_ID || NAVER_CLIENT_ID.includes('여기에_')) {
       console.warn('Naver Client ID 필요');
     }
-    await loadScript(`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${NAVER_CLIENT_ID}`);
+    await loadScript(`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${NAVER_CLIENT_ID}`);
   }
   const container = document.getElementById('map');
   container.innerHTML = ''; // reset
