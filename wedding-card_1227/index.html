@@ -122,18 +122,42 @@
       </div>
     </section>
 
-    <!-- 출연/제작진 (영화 크레딧 스타일) -->
+    <!-- 출연/제작진 (신부 → 신랑, 한 줄 배치 + 사진) -->
     <section id="credits" class="card">
       <h2 class="section-title">출연 / 제작진</h2>
+
+      <!-- 신부/신랑: 같은 줄(2열 그리드) -->
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <!-- 신부 카드 -->
+        <figure class="bg-white border rounded-xl p-2 shadow-sm">
+          <img src="assets/신부.jpg" alt="신부 사진"
+               class="w-full aspect-[3/4] object-cover rounded-lg" />
+          <figcaption class="mt-2 text-center">
+            <div class="text-xs text-pink-700 font-semibold">신부</div>
+            <div class="text-base font-bold text-gray-900">나두리</div>
+          </figcaption>
+        </figure>
+
+        <!-- 신랑 카드 -->
+        <figure class="bg-white border rounded-xl p-2 shadow-sm">
+          <img src="assets/신랑.jpg" alt="신랑 사진"
+               class="w-full aspect-[3/4] object-cover rounded-lg" />
+          <figcaption class="mt-2 text-center">
+            <div class="text-xs text-pink-700 font-semibold">신랑</div>
+            <div class="text-base font-bold text-gray-900">김도엽</div>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- 나머지 크레딧(필요 시 편집) -->
       <ul class="credit-list">
         <li><span class="role">감독</span> <span class="name">예수님, 부처님</span></li>
-        <li><span class="role">신랑</span> <span class="name">김도엽</span></li>
-        <li><span class="role">신부</span> <span class="name">나두리</span></li>
         <li><span class="role">신부 父</span> <span class="name">—</span></li>
         <li><span class="role">신부 母</span> <span class="name">—</span></li>
         <li><span class="role">신랑 父</span> <span class="name">—</span></li>
         <li><span class="role">신랑 母</span> <span class="name">—</span></li>
       </ul>
+      <!-- 필요하면 위/아래 순서, 표기 모두 자유롭게 바꿔도 됩니다 -->
     </section>
 
     <!-- 상영일정 (D-DAY 문구 + 달력 이미지) -->
