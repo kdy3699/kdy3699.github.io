@@ -7,22 +7,45 @@ document.querySelectorAll('.emboss-btn[data-scroll]').forEach(btn=>{
   });
 });
 
-/* ===== 기대돼요(좋아요) 로컬 카운트 ===== */
-const likeBtn = document.getElementById('likeBtn');
-const likeBtn2 = document.getElementById('likeBtn2');
+/* ===== 참석 인원: 스프레드시트 K1 값 표시 ===== */
+const likeBtn   = document.getElementById('likeBtn');
+const likeBtn2  = document.getElementById('likeBtn2');
 const likeCount = document.getElementById('likeCount');
-const likeCount2 = document.getElementById('likeCount2');
-function loadLikes(){
-  const n = parseInt(localStorage.getItem('likeCount')||'0',10)||0;
-  likeCount.textContent = n; likeCount2.textContent = n;
+const likeCount2= document.getElementById('likeCount2');
+// Apps Script 웹앱 URL (index.html의 form action과 동일하게 맞추세요)
+const SURVEY_API = 'https://script.google.com/macros/s/AKfycbyT_VfoiSiIoLyQKnD8-LS8geiKjrVzcOxckrFTkLthkocnWfu4ZxTpgQja_r9xC04o/exec';
+
+function renderK1(n){
+  const v = Number.isFinite(n) ? n : 0;
+  if (likeCount)  likeCount.textContent  = v;
+  if (likeCount2) likeCount2.textContent = v;
 }
-function addLike(){
-  const n = parseInt(localStorage.getItem('likeCount')||'0',10)||0;
-  const next = n+1; localStorage.setItem('likeCount', String(next));
-  likeCount.textContent = next; likeCount2.textContent = next;
+// JSONP 유틸 (CORS 회피)
+function jsonp(url, params, cb, timeoutMs=8000){
+  const cbName = `__jsonp_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
+  const q = new URLSearchParams(params || {});
+  q.set('callback', cbName);
+  const s = document.createElement('script');
+  s.src = `${url}?${q.toString()}`; s.async = true;
+  let done=false;
+  const cleanup=()=>{ if(done) return; done=true; try{ delete window[cbName]; }catch{} s.remove(); };
+  const timer = setTimeout(()=>{ if(done) return; cleanup(); cb && cb(new Error('jsonp timeout')); }, timeoutMs);
+  window[cbName] = (data)=>{ if(done) return; clearTimeout(timer); try{ cb && cb(null,data);} finally{ cleanup(); } };
+  s.onerror = ()=>{ if(done) return; clearTimeout(timer); try{ cb && cb(new Error('jsonp error')); } finally{ cleanup(); } };
+  document.body.appendChild(s);
 }
-[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', addLike));
-loadLikes();
+function fetchK1(){
+  if (likeCount)  likeCount.textContent  = '…';
+  if (likeCount2) likeCount2.textContent = '…';
+  jsonp(SURVEY_API, { action:'getTotal', _ts: Date.now() }, (err, data)=>{
+    if (err || !data || data.ok !== true){ console.warn('getTotal failed', err || data); renderK1(0); return; }
+    renderK1(Number(data.total) || 0);
+  });
+}
+// 하트 버튼 클릭 시 증가 대신 설문 열기(선택)
+[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', openSurvey));
+// 페이지 진입 시 1회 조회
+document.addEventListener('DOMContentLoaded', fetchK1);
 
 /* ===== 참석하기 버튼 → 설문 모달 ===== */
 const ctaAttend = document.getElementById('ctaAttend');
@@ -232,6 +255,8 @@ function initGallery(){
       submitBtn.classList.remove('opacity-60','pointer-events-none');
       submitBtn.textContent = '제출하기';
     }
+    // 설문 종료 후 K1 재조회
+    fetchK1();
   });
 })();
 
