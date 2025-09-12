@@ -1,16 +1,3 @@
-/* ===== 고정 내비 높이 측정 → 컨텐츠 간격 확보 ===== */
-function setNavSpacer(){
-  const nav = document.getElementById('topNav');
-  const sp  = document.getElementById('navSpacer');
-  if (!nav || !sp) return;
-  const h = Math.ceil(nav.getBoundingClientRect().height);
-  document.documentElement.style.setProperty('--nav-h', h + 'px');
-  sp.style.height = `calc(${h}px + env(safe-area-inset-top, 0px))`;
-}
-window.addEventListener('resize', setNavSpacer, { passive:true });
-window.addEventListener('orientationchange', setNavSpacer);
-document.addEventListener('DOMContentLoaded', setNavSpacer);
-
 /* ===== 스무스 스크롤 + 메뉴 ===== */
 document.querySelectorAll('.emboss-btn[data-scroll]').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -20,51 +7,22 @@ document.querySelectorAll('.emboss-btn[data-scroll]').forEach(btn=>{
   });
 });
 
-/* ===== 참석 인원 실시간 집계(=스프레드시트 person 합계) ===== */
-const likeBtn      = document.getElementById('likeBtn');
-const likeBtn2     = document.getElementById('likeBtn2');
-const likeCount    = document.getElementById('likeCount');
-const likeCount2   = document.getElementById('likeCount2');
-const SURVEY_API   = "https://script.google.com/macros/s/AKfycbyT_VfoiSiIoLyQKnD8-LS8geiKjrVzcOxckrFTkLthkocnWfu4ZxTpgQja_r9xC04o/exec"; // ← 본인 Web App URL
-
-function renderHeadcount(n){
-  const v = Number.isFinite(n) ? n : 0;
-  if (likeCount)  likeCount.textContent  = v;
-  if (likeCount2) likeCount2.textContent = v;
+/* ===== 기대돼요(좋아요) 로컬 카운트 ===== */
+const likeBtn = document.getElementById('likeBtn');
+const likeBtn2 = document.getElementById('likeBtn2');
+const likeCount = document.getElementById('likeCount');
+const likeCount2 = document.getElementById('likeCount2');
+function loadLikes(){
+  const n = parseInt(localStorage.getItem('likeCount')||'0',10)||0;
+  likeCount.textContent = n; likeCount2.textContent = n;
 }
-// 과거 코드 호환용: renderTotal 호출을 renderHeadcount로 위임
-function renderTotal(n){ renderHeadcount(n); }
-// JSONP 유틸 (CORS 우회)
-function jsonp(url, params, cb, timeoutMs=8000){
-  const cbName = `__jsonp_cb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
-  const q = new URLSearchParams(params || {});
-  q.set('callback', cbName);
-  const s = document.createElement('script');
-  s.src = `${url}?${q.toString()}`;
-  s.async = true;
-  let done = false;
-  const cleanup = () => { if (done) return; done = true; try{ delete window[cbName]; }catch{} s.remove(); };
-  const timer = setTimeout(() => { if (done) return; cleanup(); cb && cb(new Error('JSONP timeout')); }, timeoutMs);
-  window[cbName] = (data) => { if (done) return; clearTimeout(timer); try{ cb && cb(null, data); } finally { cleanup(); } };
-  s.onerror = () => { if (done) return; clearTimeout(timer); try{ cb && cb(new Error('JSONP load error')); } finally { cleanup(); } };
-  document.body.appendChild(s);
+function addLike(){
+  const n = parseInt(localStorage.getItem('likeCount')||'0',10)||0;
+  const next = n+1; localStorage.setItem('likeCount', String(next));
+  likeCount.textContent = next; likeCount2.textContent = next;
 }
-function fetchHeadcount(){
-  if (likeCount)  likeCount.textContent  = "…";
-  if (likeCount2) likeCount2.textContent = "…";
-  jsonp(SURVEY_API, { action:'getTotal', _ts: Date.now() }, (err, data)=>{
-    if (err || !data || data.ok !== true){
-      console.warn('getTotal failed', err || data);
-      renderHeadcount(0);
-      return;
-    }
-    renderHeadcount(Number(data.total) || 0);
-  });
-}
-// 클릭으로 숫자 증가하지 않도록(옵션: 설문 열기)
-[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', openSurvey));
-+// 페이지 처음 접속했을 때 1회 조회
-+document.addEventListener('DOMContentLoaded', fetchHeadcount);
+[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', addLike));
+loadLikes();
 
 /* ===== 참석하기 버튼 → 설문 모달 ===== */
 const ctaAttend = document.getElementById('ctaAttend');
@@ -73,12 +31,6 @@ const ctaAttend2 = document.getElementById('ctaAttend2');
 function openSurvey(){ document.getElementById('surveyModal')?.classList.remove('hidden'); }
 function closeSurvey(){ document.getElementById('surveyModal')?.classList.add('hidden'); }
 window.closeSurvey = closeSurvey; window.openSurvey = openSurvey;
-
-/* ===== In-app browser (Kakao 등) 감지 ===== */
-function isInAppKakao(){
-  const ua = (navigator.userAgent || '').toUpperCase();
-  return ua.includes('KAKAOTALK') || ua.includes('KAKAOWEBVIEW') || ua.includes('KAKAO');
-}
 
 /* ===== 페이지 진입 시 자동 팝업 ===== */
 document.addEventListener('DOMContentLoaded', () => {
@@ -250,72 +202,21 @@ function initGallery(){
   personInput.addEventListener('input', ()=>{ personInput.value = clampToMin1(personInput.value); });
 
   let submitted = false;
-  const submitBtn = form.querySelector('button[type="submit"]');
   form.addEventListener('submit', (e) => {
     const name  = form.name?.value?.trim();
     const hp    = form._hp?.value || '';
     if (!name) { e.preventDefault(); alert('이름을 입력해주세요.'); form.name?.focus(); return; }
     personInput.value = clampToMin1(personInput.value);
     if (hp) { e.preventDefault(); alert('제출 완료되었습니다.'); form.reset(); personInput.value = 1; return; }
-    // 공통 버튼 비활성화 + 토스트
-    submitBtn?.setAttribute('disabled','disabled');
-    submitBtn?.classList.add('opacity-60','pointer-events-none');
-    if (submitBtn) submitBtn.textContent = '전송 중…';
-    try { showToast('제출 중입니다…'); } catch(e){}
-
-    // 카카오 인앱 브라우저에서는 JSONP로 직접 기록 (iframe POST 회피)
-    if (isInAppKakao()){
-      e.preventDefault();
-      const payload = {
-        action: 'add',
-        name: name,
-        phone: form.phone?.value?.trim() || '',
-        eat: form.eat?.value || '',
-        bus: form.bus?.value || '',
-        person: clampToMin1(form.person?.value),
-        source_path: location.origin + location.pathname,
-        client_time: new Date().toISOString(),
-        ua: navigator.userAgent || '',
-        ref: document.referrer || ''
-      };
-      jsonp(SURVEY_API, payload, (err, data)=>{
-        if (err || !data || data.ok !== true){
-          console.warn('jsonp submit failed', err || data);
-          showToast('전송 실패, 다시 시도해주세요');
-        } else {
-          showToast('제출이 완료되었습니다. 감사합니다!');
-          form.reset(); personInput.value = 1;
-          // 설문 종료 후 1회만 조회
-          fetchHeadcount();
-        }
-        // UI 복원 및 모달 닫기
-        submitBtn?.removeAttribute('disabled');
-        submitBtn?.classList.remove('opacity-60','pointer-events-none');
-        if (submitBtn) submitBtn.textContent = '제출하기';
-        closeSurvey();
-      });
-      return;
-    }
-
-    // 일반 브라우저: 기존대로 iframe POST
     submitted = true;
-    setTimeout(closeSurvey, 0);
   });
   iframe.addEventListener('load', () => {
     if (!submitted) return; submitted = false;
-    // 완료 토스트만 표시 (모달은 이미 닫힘)
-    try { showToast('제출이 완료되었습니다. 감사합니다!'); } catch(e){}
-    msg?.classList.add('hidden');    form.reset(); if (personInput) personInput.value = 1;
+    msg.classList.remove('hidden'); msg.textContent = '제출 완료되었습니다.';
+    form.reset(); if (personInput) personInput.value = 1;
     if (src) src.value = location.origin + location.pathname;
     if (tm)  tm.value  = new Date().toISOString();
-    // 버튼 상태 복원
-    if (submitBtn){
-      submitBtn.removeAttribute('disabled');
-      submitBtn.classList.remove('opacity-60','pointer-events-none');
-      submitBtn.textContent = '제출하기';
-    }
-    // 설문 종료 후 1회만 조회
-    fetchHeadcount();
+    // setTimeout(closeSurvey, 1200);
   });
 })();
 
