@@ -260,6 +260,52 @@ function initGallery(){
   });
 })();
 
+/* ===== 배경음악 ===== */
+(function bgmInit(){
+  const audio = document.getElementById('bgm');
+  const btn   = document.getElementById('bgmToggle');
+  if (!audio || !btn) return;
+
+  function updateUI(playing){
+    btn.classList.toggle('on', !!playing);
+    btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    const ic = btn.querySelector('.icon');
+    if (ic) ic.textContent = playing ? '🔊' : '🔈';
+  }
+  async function play(){
+    try{ await audio.play(); localStorage.setItem('bgm_on','1'); updateUI(true); return true; }
+    catch(e){ /* iOS 등 사용자 제스처 필요 */ return false; }
+  }
+  function pause(){
+    try{ audio.pause(); }catch(e){}
+    localStorage.setItem('bgm_on','0'); updateUI(false);
+  }
+  // 버튼 토글
+  btn.addEventListener('click', async ()=>{
+    if (audio.paused) await play(); else pause();
+  });
+  // 이전 사용 의사 반영: on 상태였다면 첫 사용자 제스처 시 자동 재생 시도
+  const want = localStorage.getItem('bgm_on') === '1';
+  updateUI(false);
+  if (want){
+    const unlock = async ()=>{
+      await play();
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('touchstart', unlock);
+      window.removeEventListener('keydown', unlock);
+      window.removeEventListener('scroll', unlock, true);
+    };
+    window.addEventListener('pointerdown', unlock, { once:true, passive:true });
+    window.addEventListener('touchstart', unlock, { once:true, passive:true });
+    window.addEventListener('keydown', unlock, { once:true });
+    window.addEventListener('scroll', unlock, { once:true, passive:true, capture:true });
+  }
+  // 탭 전환 시 살짝 배려 (숨겨지면 일시정지)
+  document.addEventListener('visibilitychange', ()=>{
+    if (document.hidden) pause();
+  });
+})();
+
 /* ===== 고정 내비 높이 측정 → 컨텐츠 간격 확보 ===== */
 function setNavSpacer(){
   const nav = document.getElementById('topNav');
