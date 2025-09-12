@@ -33,16 +33,18 @@ function renderHeadcount(n){
   if (likeCount2) likeCount2.textContent = v;
 }
 // JSONP 유틸 (CORS 우회)
-function jsonp(url, params, cb){
-  const cbName = `__jsonp_cb_${Math.random().toString(36).slice(2)}`;
+function jsonp(url, params, cb, timeoutMs=8000){
+  const cbName = `__jsonp_cb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
   const q = new URLSearchParams(params || {});
   q.set('callback', cbName);
   const s = document.createElement('script');
   s.src = `${url}?${q.toString()}`;
   s.async = true;
-  const cleanup = () => { try{ delete window[cbName]; }catch{} s.remove(); };
-  window[cbName] = (data) => { try{ cb && cb(null, data); } finally { cleanup(); } };
-  s.onerror = () => { try{ cb && cb(new Error('JSONP load error')); } finally { cleanup(); } };
+  let done = false;
+  const cleanup = () => { if (done) return; done = true; try{ delete window[cbName]; }catch{} s.remove(); };
+  const timer = setTimeout(() => { if (done) return; cleanup(); cb && cb(new Error('JSONP timeout')); }, timeoutMs);
+  window[cbName] = (data) => { if (done) return; clearTimeout(timer); try{ cb && cb(null, data); } finally { cleanup(); } };
+  s.onerror = () => { if (done) return; clearTimeout(timer); try{ cb && cb(new Error('JSONP load error')); } finally { cleanup(); } };
   document.body.appendChild(s);
 }
 function fetchHeadcount(){
@@ -67,8 +69,8 @@ window.closeSurvey = closeSurvey; window.openSurvey = openSurvey;
 
 /* ===== In-app browser (Kakao 등) 감지 ===== */
 function isInAppKakao(){
-  const ua = navigator.userAgent || '';
-  return /KAKAOTALK|KAKAOWEBVIEW|KAKAO/i.test(ua);
+  const ua = (navigator.userAgent || '').toUpperCase();
+  return ua.includes('KAKAOTALK') || ua.includes('KAKAOWEBVIEW') || ua.includes('KAKAO');
 }
 
 /* ===== 페이지 진입 시 자동 팝업 ===== */
@@ -279,12 +281,18 @@ function initGallery(){
         if (err || !data || data.ok !== true){
           console.warn('jsonp submit failed', err || data);
           showToast('전송 실패, 다시 시도해주세요');
-        }else{
+          // 실패 시 낙관적 증가 롤백
+          try{
+            const inc = payload.person;
+            const cur = parseInt((likeCount?.textContent || likeCount2?.textContent || '0'), 10) || 0;
+            renderHeadcount(Math.max(0, cur - inc));
+          }catch(_){}
+        } else {
           showToast('제출이 완료되었습니다. 감사합니다!');
           form.reset(); personInput.value = 1;
-          // 최신 합계 재조회 (반영 지연 대비 재시도)
           fetchHeadcount();
-          setTimeout(fetchHeadcount, 1200);
+          setTimeout(fetchHeadcount, 1000);
+          setTimeout(fetchHeadcount, 3000);
         }
         // UI 복원 및 모달 닫기
         submitBtn?.removeAttribute('disabled');
