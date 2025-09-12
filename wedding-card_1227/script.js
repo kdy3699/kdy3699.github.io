@@ -202,21 +202,35 @@ function initGallery(){
   personInput.addEventListener('input', ()=>{ personInput.value = clampToMin1(personInput.value); });
 
   let submitted = false;
+  const submitBtn = form.querySelector('button[type="submit"]');
   form.addEventListener('submit', (e) => {
     const name  = form.name?.value?.trim();
     const hp    = form._hp?.value || '';
     if (!name) { e.preventDefault(); alert('이름을 입력해주세요.'); form.name?.focus(); return; }
     personInput.value = clampToMin1(personInput.value);
     if (hp) { e.preventDefault(); alert('제출 완료되었습니다.'); form.reset(); personInput.value = 1; return; }
+    // 실제 제출: 딜레이 없이 모달을 즉시 닫고 전송 진행
     submitted = true;
+    submitBtn?.setAttribute('disabled','disabled');
+    submitBtn?.classList.add('opacity-60','pointer-events-none');
+    if (submitBtn) submitBtn.textContent = '전송 중…';
+    try { showToast('제출 중입니다…'); } catch(e){}
+    // iframe으로 POST는 계속 진행되며, 모달만 바로 닫음
+    setTimeout(closeSurvey, 0);
   });
   iframe.addEventListener('load', () => {
     if (!submitted) return; submitted = false;
-    msg.classList.remove('hidden'); msg.textContent = '제출 완료되었습니다.';
-    form.reset(); if (personInput) personInput.value = 1;
+    // 완료 토스트만 표시 (모달은 이미 닫힘)
+    try { showToast('제출이 완료되었습니다. 감사합니다!'); } catch(e){}
+    msg?.classList.add('hidden');    form.reset(); if (personInput) personInput.value = 1;
     if (src) src.value = location.origin + location.pathname;
     if (tm)  tm.value  = new Date().toISOString();
-    // setTimeout(closeSurvey, 1200);
+    // 버튼 상태 복원
+    if (submitBtn){
+      submitBtn.removeAttribute('disabled');
+      submitBtn.classList.remove('opacity-60','pointer-events-none');
+      submitBtn.textContent = '제출하기';
+    }
   });
 })();
 
