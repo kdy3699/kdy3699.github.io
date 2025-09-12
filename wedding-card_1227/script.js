@@ -1,17 +1,3 @@
-/* ===== Fluid scale engine ===== */
-function applyFluidScale(){
-  document.querySelectorAll('[data-scale]').forEach(el=>{
-    const design = parseInt(el.getAttribute('data-scale'),10) || el.scrollWidth || 480;
-    el.style.setProperty('--design-width', design + 'px');
-    const parent = el.parentElement;
-    const parentW = parent ? parent.clientWidth : window.innerWidth;
-    const scale = Math.min(1, parentW / design);
-    el.style.transform = `scale(${scale})`;
-  });
-}
-window.addEventListener('resize', applyFluidScale);
-document.addEventListener('DOMContentLoaded', applyFluidScale);
-
 /* ===== 스무스 스크롤 + 메뉴 ===== */
 document.querySelectorAll('.emboss-btn[data-scroll]').forEach(btn=>{
   btn.addEventListener('click',()=>{
