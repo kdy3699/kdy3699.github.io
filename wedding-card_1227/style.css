@@ -83,8 +83,3 @@
 .font-luxury{
   font-family: "Luxury Modish", ui-serif, serif;
 }
-
-/* ===== Fluid scale (keep layout, scale group to fit) ===== */
-.scale-wrap{ display:flex; justify-content:center; align-items:center; overflow:hidden; }
-.scale-block{ display:inline-flex; transform-origin: center left; will-change: transform; }
-[data-scale]{ width: var(--design-width, auto); }
