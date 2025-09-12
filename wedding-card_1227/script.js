@@ -302,7 +302,7 @@ function initGallery(){
   const want = (pref === null) ? true : (pref === '1');
 
   // 초기 UI
-  updateUI(false);
+  updateUI(true);
 
   // 즉시 자동재생 시도(괄호 중첩 줄이기)
   async function tryAutoPlay() {
