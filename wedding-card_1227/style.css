@@ -5,14 +5,35 @@
 #topNav{ -webkit-backdrop-filter: saturate(180%) blur(10px); backdrop-filter: saturate(180%) blur(10px); }
 #topNav .mobile-frame{ padding-top: max(env(safe-area-inset-top, 0px), 0px); }
 
-/* 내비 버튼이 프레임을 벗어나지 않게 폰트/패딩 유연 조정 */
+/* ===== Nav buttons: prevent text overflow inside button ===== */
 .emboss-btn,
 .emboss-btn-primary{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;         /* allow shrink inside nowrap row */
+  min-width: 0;           /* critical for iOS/Safari flex overflow */
+  max-width: 42vw;        /* cap width on very small screens */
+  padding-inline: clamp(8px, 2.6vw, 12px);
+  padding-block: 8px;
   font-size: clamp(12px, 3.4vw, 14px);
   line-height: 1.1;
-  padding-inline: clamp(8px, 2.4vw, 12px);
-  padding-block: 8px;
+  overflow: hidden;       /* hide spill */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
+@media (max-width: 360px){
+  .emboss-btn, .emboss-btn-primary{ max-width: 46vw; }
+}
+.btn-txt{
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* 컨테이너/자식 너비 안전장치 */
 .mobile-frame{ width:100%; max-width:420px; margin-inline:auto; }
 *{ min-width:0; }
