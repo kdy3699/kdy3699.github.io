@@ -32,20 +32,26 @@ function renderHeadcount(n){
   if (likeCount)  likeCount.textContent  = v;
   if (likeCount2) likeCount2.textContent = v;
 }
-async function fetchHeadcount(){
-  try{
-    // 로딩 표시
-    if (likeCount)  likeCount.textContent  = "…";
-    if (likeCount2) likeCount2.textContent = "…";
-    const res  = await fetch(`${SURVEY_API}?action=total`, { method:'GET', mode:'cors', cache:'no-store' });
-    const data = await res.json();
-    renderHeadcount(Number(data.totalPersons)||0);
-  }catch(e){
-    // 실패 시 이전 값 유지, 처음이면 0
-    if (!likeCount?.textContent)  renderHeadcount(0);
-    if (!likeCount2?.textContent) renderHeadcount(0);
-    console.warn('headcount fetch failed', e);
-  }
+// JSONP 유틸 (CORS 우회)
+function jsonp(url, params, cb){
+  const cbName = `__jsonp_cb_${Math.random().toString(36).slice(2)}`;
+  const q = new URLSearchParams(params || {});
+  q.set('callback', cbName);
+  const s = document.createElement('script');
+  s.src = `${url}?${q.toString()}`;
+  s.async = true;
+  const cleanup = () => { try{ delete window[cbName]; }catch{} s.remove(); };
+  window[cbName] = (data) => { try{ cb && cb(null, data); } finally { cleanup(); } };
+  s.onerror = () => { try{ cb && cb(new Error('JSONP load error')); } finally { cleanup(); } };
+  document.body.appendChild(s);
+}
+function fetchHeadcount(){
+  if (likeCount)  likeCount.textContent  = "…";
+  if (likeCount2) likeCount2.textContent = "…";
+  jsonp(SURVEY_API, { action:'total' }, (err, data) => {
+    if (err){ console.warn('headcount jsonp failed', err); renderHeadcount(0); return; }
+    renderHeadcount(Number(data && data.totalPersons) || 0);
+  });
 }
 // 클릭으로 숫자 증가하지 않도록(옵션: 설문 열기)
 [likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', openSurvey));
