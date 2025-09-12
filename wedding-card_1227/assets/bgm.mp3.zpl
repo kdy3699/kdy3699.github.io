@@ -1,0 +1,114 @@
+<?zpl version="2.0"?>
+<smil>
+  <head>
+    <meta name="generator" content="Entertainment Platform -- 10.16092.1031.0" />
+    <meta name="itemCount" content="101" />
+    <meta name="totalDuration" content="22983320" />
+    <title>a</title>
+  </head>
+  <body>
+    <seq>
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\005. 다비치-03-내 옆에 그대인 걸.mp3" albumTitle="50 X HALF" albumArtist="다비치" trackTitle="내 옆에 그대인 걸" trackArtist="다비치" duration="225985" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\029. 정승환-01-너였다면.mp3" albumTitle="또 오해영 OST Part.5" albumArtist="정승환" trackTitle="너였다면" trackArtist="정승환" duration="272875" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\093. 벤-01-꿈처럼.mp3" albumTitle="또 오해영 OST Part.2" albumArtist="벤" trackTitle="꿈처럼" trackArtist="벤" duration="226742" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\078. Justin Bieber-05-Love Yourself.mp3" serviceId="{67125B09-0100-11DB-89CA-0019B92A3933}" albumTitle="Purpose (Deluxe Edition)" albumArtist="Justin Bieber" trackTitle="Love Yourself" trackArtist="Justin Bieber" duration="233795" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\053. 소유-01-잠은 다 잤나봐요.mp3" albumTitle="구르미 그린 달빛 OST Part.1" albumArtist="소유, 유승우" trackTitle="잠은 다 잤나봐요" trackArtist="소유, 유승우" duration="221466" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\097. 10cm-01-길어야 5분.mp3" albumTitle="3.3" albumArtist="10cm" trackTitle="길어야 5분" trackArtist="10cm" duration="204643" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\009. 한동근-01-이 소설의 끝을 다시 써보려 해.mp3" albumTitle="The 1st Digital Single `이 소설의 끝을 다시 써보려 해`" albumArtist="한동근" trackTitle="이 소설의 끝을 다시 써보려 해" trackArtist="한동근" duration="262034" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\003. 볼빨간사춘기-01-우주를 줄게.mp3" albumTitle="Full Album RED PLANET" albumArtist="볼빨간사춘기" trackTitle="우주를 줄게" trackArtist="볼빨간사춘기" duration="213890" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\100. 충완-01-Long Time.mp3" albumTitle="Long Time" albumArtist="충완" trackTitle="Long Time" trackArtist="충완" duration="214961" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\024. TWICE (트와이스)-01-CHEER UP.mp3" albumTitle="PAGE TWO" albumArtist="TWICE (트와이스)" trackTitle="CHEER UP" trackArtist="TWICE (트와이스)" duration="208901" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\083. BewhY (비와이)-11-The Time Goes On.mp3" albumTitle="Time Travel" albumArtist="BewhY (비와이)" trackTitle="The Time Goes On" trackArtist="BewhY (비와이)" duration="322664" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\038. 여자친구-03-너 그리고 나 (NAVILLERA).mp3" albumTitle="여자친구 The 1st Album `LOL`" albumArtist="여자친구" trackTitle="너 그리고 나 (NAVILLERA)" trackArtist="여자친구" duration="193619" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\020. BLACKPINK-01-휘파람.mp3" albumTitle="SQUARE ONE" albumArtist="BLACKPINK" trackTitle="휘파람" trackArtist="BLACKPINK" duration="211670" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\012. Red Velvet (레드벨벳)-01-러시안 룰렛 (Russian Roulette).mp3" albumTitle="Russian Roulette - The 3rd Mini Album" albumArtist="Red Velvet (레드벨벳)" trackTitle="러시안 룰렛 (Russian Roulette)" trackArtist="Red Velvet (레드벨벳)" duration="211278" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\015. 유재석-01-Dancing King.mp3" albumTitle="Dancing King" albumArtist="유재석, EXO" trackTitle="Dancing King" trackArtist="유재석, EXO" duration="244506" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\065. 보이비-06-호랑나비 (Feat. Gill, 리듬파워).mp3" albumTitle="쇼미더머니 5 Episode 3" albumArtist="Various Artists" trackTitle="호랑나비 (Feat. Gill, 리듬파워)" trackArtist="보이비" duration="230608" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\080. Maroon 5-01-Don`t Wanna Know (Feat. Kendrick Lamar).mp3" albumTitle="Don`t Wanna Know" albumArtist="Maroon 5" trackTitle="Don`t Wanna Know (Feat. Kendrick Lamar)" trackArtist="Maroon 5" duration="214543" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\041. 김나영-03-꺼내본다.mp3" albumTitle="The First Album `From The Heart`" albumArtist="김나영" trackTitle="꺼내본다" trackArtist="김나영" duration="275408" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\070. EXO-01-Lucky One.mp3" serviceId="{5D35D909-0100-11DB-89CA-0019B92A3933}" albumTitle="EX`ACT - The 3rd Album" albumArtist="EXO" trackTitle="Lucky One" trackArtist="EXO" duration="227526" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\086. 10cm-03-스토커.mp3" albumTitle="3.0" albumArtist="10cm" trackTitle="스토커" trackArtist="10cm" duration="252891" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\014. 신용재 (포맨)-01-빌려줄게.mp3" albumTitle="EMPATHY" albumArtist="신용재 (포맨)" trackTitle="빌려줄게" trackArtist="신용재 (포맨)" duration="211722" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\김영근 - Lay Me Down.mp3" albumTitle="슈퍼스타K 2016 김영근 - Lay Me Down" albumArtist="김영근 (슈퍼스타K2016) (Kim Young Simon)" trackTitle="Lay Me Down" trackArtist="김영근 (슈퍼스타K2016) (Kim Young Simon)" duration="181136" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\040. 아이오아이 (I.O.I)-02-잠깐만.mp3" albumTitle="miss me?" albumArtist="아이오아이 (I.O.I)" trackTitle="잠깐만" trackArtist="아이오아이 (I.O.I)" duration="184973" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\046. 방탄소년단-13-21세기 소녀.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="21세기 소녀" trackArtist="방탄소년단" duration="192626" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\021. 에일리-01-If You.mp3" albumTitle="If You" albumArtist="에일리" trackTitle="If You" trackArtist="에일리" duration="187193" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\084. 방탄소년단-15-Interlude _ Wings.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Interlude : Wings" trackArtist="방탄소년단" duration="144352" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\031. 첸 (CHEN)-01-너를 위해.mp3" albumTitle="달의 연인 - 보보경심 려 OST Part 1" albumArtist="첸 (CHEN), 백현 (BAEKHYUN), 시우민 (XIUMIN)" trackTitle="너를 위해" trackArtist="첸 (CHEN), 백현 (BAEKHYUN), 시우민 (XIUMIN)" duration="196597" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\039. EXO-01-Lotto.mp3" serviceId="{148AF409-0100-11DB-89CA-0019B92A3933}" albumTitle="LOTTO - The 3rd Album Repackage" albumArtist="EXO" trackTitle="Lotto" trackArtist="EXO" duration="189805" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\018. 젝스키스-01-세 단어.mp3" albumTitle="세 단어" albumArtist="젝스키스" trackTitle="세 단어" trackArtist="젝스키스" duration="243278" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\076. 권진아-02-끝.mp3" albumTitle="웃긴 밤" albumArtist="권진아" trackTitle="끝" trackArtist="권진아" duration="238001" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\060. 방탄소년단-06-First Love.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="First Love" trackArtist="방탄소년단" duration="189831" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\054. 다비치-01-그대를 잊는다는 건.mp3" albumTitle="달의 연인 - 보보경심 려 OST Part.4" albumArtist="다비치" trackTitle="그대를 잊는다는 건" trackArtist="다비치" duration="192470" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\050. 임창정-01-또 다시 사랑.mp3" albumTitle="또 다시 사랑" albumArtist="임창정" trackTitle="또 다시 사랑" trackArtist="임창정" duration="275774" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\035. 방탄소년단-04-Lie.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Lie" trackArtist="방탄소년단" duration="215797" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\071. 방탄소년단-07-Reflection.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Reflection" trackArtist="방탄소년단" duration="233952" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\048. 다비치-02-받는 사랑이 주는 사랑에게.mp3" albumTitle="50 X HALF" albumArtist="다비치" trackTitle="받는 사랑이 주는 사랑에게" trackArtist="다비치" duration="277916" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\068. 볼빨간사춘기-03-You(=I).mp3" albumTitle="Full Album RED PLANET" albumArtist="볼빨간사춘기" trackTitle="You(=I)" trackArtist="볼빨간사춘기" duration="169508" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\098. 마마무-01-NEW YORK.mp3" albumTitle="NEW YORK" albumArtist="마마무" trackTitle="NEW YORK" trackArtist="마마무" duration="181655" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\082. 박재범-11-DRIVE (Feat. GRAY).mp3" albumTitle="EVERYTHING YOU WANTED" albumArtist="박재범" trackTitle="DRIVE (Feat. GRAY)" trackArtist="박재범" duration="212375" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\074. 스탠딩 에그-01-여름밤에 우린.mp3" albumTitle="여름밤에 우린" albumArtist="스탠딩 에그" trackTitle="여름밤에 우린" trackArtist="스탠딩 에그" duration="206053" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\077. 케이윌-01-그게 뭐라고.mp3" albumTitle="빈티지박스 Vol.1" albumArtist="케이윌, 매드클라운" trackTitle="그게 뭐라고" trackArtist="케이윌, 매드클라운" duration="202553" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\075. Sam Smith-05-I`m Not The Only One.mp3" serviceId="{3F3D5208-0100-11DB-89CA-0019B92A3933}" albumTitle="In The Lonely Hour (Standard Edition)" albumArtist="Sam Smith" trackTitle="I`m Not The Only One" trackArtist="Sam Smith" duration="239386" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\095. 베이지-01-그리워 그리워서 (라온 Ver.).mp3" albumTitle="구르미 그린 달빛 OST Part.8" albumArtist="베이지" trackTitle="그리워 그리워서 (라온 Ver.)" trackArtist="베이지" duration="204225" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\081. 환희-01-사랑이 아프다.mp3" albumTitle="함부로 애틋하게 OST Part.10" albumArtist="환희" trackTitle="사랑이 아프다" trackArtist="환희" duration="242416" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\067. BLACKPINK-02-붐바야.mp3" albumTitle="SQUARE ONE" albumArtist="BLACKPINK" trackTitle="붐바야" trackArtist="BLACKPINK" duration="240822" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\043. 원더걸스-01-Why So Lonely.mp3" serviceId="{EDBEDC09-0100-11DB-89CA-0019B92A3933}" albumTitle="Why So Lonely" albumArtist="원더걸스" trackTitle="Why So Lonely" trackArtist="원더걸스" duration="206733" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\047. 벤-01-안갯길 (Prod. By 진영(B1A4)).mp3" albumTitle="구르미 그린 달빛 OST Part.4" albumArtist="벤" trackTitle="안갯길 (Prod. By 진영(B1A4))" trackArtist="벤" duration="238236" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\045. 엠씨더맥스-02-어디에도.mp3" albumTitle="pathos" albumArtist="엠씨더맥스" trackTitle="어디에도" trackArtist="엠씨더맥스" duration="331206" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\061. 정준일-03-안아줘.mp3" albumTitle="Lo9ve3r4s" albumArtist="정준일" trackTitle="안아줘" trackArtist="정준일" duration="274938" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\049. 김영근-01-사랑 그렇게 보내네.mp3" albumTitle="슈퍼스타K 2016 #5" albumArtist="Various Artists" trackTitle="사랑 그렇게 보내네" trackArtist="김영근, 이지은" duration="277263" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\072. 방탄소년단-01-Intro _ Boy Meets Evil.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Intro : Boy Meets Evil" trackArtist="방탄소년단" duration="121808" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\027. 볼빨간사춘기-04-심술.mp3" albumTitle="Half Album RED ICKLE" albumArtist="볼빨간사춘기" trackTitle="심술" trackArtist="볼빨간사춘기" duration="158511" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\030. 헤이즈 (Heize)-01-And July (Feat. DEAN, DJ Friz).mp3" albumTitle="And July" albumArtist="헤이즈 (Heize)" trackTitle="And July (Feat. DEAN, DJ Friz)" trackArtist="헤이즈 (Heize)" duration="226168" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\089. 정은지-01-하늘바라기 (Feat. 하림).mp3" albumTitle="Dream" albumArtist="정은지" trackTitle="하늘바라기 (Feat. 하림)" trackArtist="정은지" duration="220551" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\069. 방탄소년단-14-둘! 셋! (그래도 좋은 날이 더 많기를).mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="둘! 셋! (그래도 좋은 날이 더 많기를)" trackArtist="방탄소년단" duration="272587" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\057. 김범수-01-사랑해요.mp3" albumTitle="함부로 애틋하게 OST Part.9" albumArtist="김범수" trackTitle="사랑해요" trackArtist="김범수" duration="248555" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\064. 방탄소년단-08-MAMA.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="MAMA" trackArtist="방탄소년단" duration="212323" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\017. 어반자카파-01-목요일 밤 (Feat. 빈지노).mp3" albumTitle="목요일 밤" albumArtist="어반자카파" trackTitle="목요일 밤 (Feat. 빈지노)" trackArtist="어반자카파" duration="210808" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\034. BewhY (비와이)-05-Day Day (Feat. 박재범) (Prod. by GRAY).mp3" albumTitle="쇼미더머니 5 Episode 4" albumArtist="Various Artists" trackTitle="Day Day (Feat. 박재범) (Prod. by GRAY)" trackArtist="BewhY (비와이)" duration="209057" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\062. 방탄소년단-09-Awake.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Awake" trackArtist="방탄소년단" duration="226194" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\087. 에픽 하이-01-내 마음 들리나요 (Feat. 이하이).mp3" albumTitle="달의 연인 - 보보경심 려 OST Part.6" albumArtist="에픽 하이" trackTitle="내 마음 들리나요 (Feat. 이하이)" trackArtist="에픽 하이" duration="248189" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\066. 김영근-01-탈진.mp3" albumTitle="슈퍼스타K 2016 #1" albumArtist="Various Artists" trackTitle="탈진" trackArtist="김영근" duration="153652" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\011. 한동근-01-그대라는 사치.mp3" albumTitle="The 3rd Digital Single `그대라는 사치`" albumArtist="한동근" trackTitle="그대라는 사치" trackArtist="한동근" duration="296881" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\056. 방탄소년단-10-Lost.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Lost" trackArtist="방탄소년단" duration="241815" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\013. 볼빨간사춘기-05-나만 안되는 연애.mp3" albumTitle="Full Album RED PLANET" albumArtist="볼빨간사춘기" trackTitle="나만 안되는 연애" trackArtist="볼빨간사춘기" duration="219533" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\023. Apink-01-내가 설렐 수 있게.mp3" serviceId="{F2E1FD09-0100-11DB-89CA-0019B92A3933}" albumTitle="Pink Revolution" albumArtist="Apink" trackTitle="내가 설렐 수 있게" trackArtist="Apink" duration="192208" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\042. EXO-02-Monster.mp3" serviceId="{5E35D909-0100-11DB-89CA-0019B92A3933}" albumTitle="EX`ACT - The 3rd Album" albumArtist="EXO" trackTitle="Monster" trackArtist="EXO" duration="221387" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\025. 존박-01-네 생각.mp3" albumTitle="네 생각" albumArtist="존박" trackTitle="네 생각" trackArtist="존박" duration="230373" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\099. Crush-02-2411.mp3" albumTitle="wonderlust" albumArtist="Crush" trackTitle="2411" trackArtist="Crush" duration="143908" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\044. BewhY (비와이)-05-Forever (Prod. By GRAY).mp3" albumTitle="쇼미더머니 5 Episode 3" albumArtist="Various Artists" trackTitle="Forever (Prod. By GRAY)" trackArtist="BewhY (비와이)" duration="261224" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\032. 엠씨더맥스-01-그대 그대 그대.mp3" albumTitle="Pathos Tour Live Album" albumArtist="엠씨더맥스" trackTitle="그대 그대 그대" trackArtist="엠씨더맥스" duration="316159" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\033. 인피니트-02-태풍 (The Eye).mp3" albumTitle="INFINITE ONLY" albumArtist="인피니트" trackTitle="태풍 (The Eye)" trackArtist="인피니트" duration="240326" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\028. 박보검-01-내 사람.mp3" albumTitle="구르미 그린 달빛 OST Part.11" albumArtist="박보검" trackTitle="내 사람" trackArtist="박보검" duration="233247" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\007. 방탄소년단-02-피 땀 눈물.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="피 땀 눈물" trackArtist="방탄소년단" duration="217103" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\079. 방탄소년단-11-BTS Cypher 4.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="BTS Cypher 4" trackArtist="방탄소년단" duration="294504" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\052. 방탄소년단-05-Stigma.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Stigma" trackArtist="방탄소년단" duration="216111" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\092. 장동우 (인피니트)-01-마음에 묻다 (Feat. 윤소윤).mp3" albumTitle="마음에 묻다" albumArtist="장동우 (인피니트)" trackTitle="마음에 묻다 (Feat. 윤소윤)" trackArtist="장동우 (인피니트)" duration="166217" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\008. 박효신-09-숨.mp3" albumTitle="I am A Dreamer" albumArtist="박효신" trackTitle="숨" trackArtist="박효신" duration="283010" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\001. TWICE (트와이스)-01-TT.mp3" albumTitle="TWICEcoaster : LANE 1" albumArtist="TWICE (트와이스)" trackTitle="TT" trackArtist="TWICE (트와이스)" duration="213028" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\002. 아이오아이 (I.O.I)-01-너무너무너무.mp3" albumTitle="miss me?" albumArtist="아이오아이 (I.O.I)" trackTitle="너무너무너무" trackArtist="아이오아이 (I.O.I)" duration="203676" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\019. 어반자카파-01-널 사랑하지 않아.mp3" albumTitle="스틸" albumArtist="어반자카파" trackTitle="널 사랑하지 않아" trackArtist="어반자카파" duration="254955" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\036. DEAN-05-D (half moon) (Feat. 개코).mp3" serviceId="{21B99D09-0100-11DB-89CA-0019B92A3933}" albumTitle="130 mood : TRBL" albumArtist="DEAN" trackTitle="D (half moon) (Feat. 개코)" trackArtist="DEAN" duration="229433" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\059. 방탄소년단-12-Am I Wrong.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Am I Wrong" trackArtist="방탄소년단" duration="213133" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\022. 씨잼 (C Jamm)-01-puzzle.mp3" albumTitle="puzzle" albumArtist="씨잼 (C Jamm), BewhY (비와이)" trackTitle="puzzle" trackArtist="씨잼 (C Jamm), BewhY (비와이)" duration="261955" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\037. 방탄소년단-10-불타오르네 (FIRE).mp3" albumTitle="화양연화 Young Forever" albumArtist="방탄소년단" trackTitle="불타오르네 (FIRE)" trackArtist="방탄소년단" duration="203389" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\063. 정준영-01-공감 (Feat. 서영은).mp3" albumTitle="공감" albumArtist="정준영" trackTitle="공감 (Feat. 서영은)" trackArtist="정준영" duration="247928" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\010. 헤이즈 (Heize)-02-돌아오지마 (Feat. 용준형 Of 비스트).mp3" albumTitle="돌아오지마" albumArtist="헤이즈 (Heize)" trackTitle="돌아오지마 (Feat. 용준형 Of 비스트)" trackArtist="헤이즈 (Heize)" duration="217077" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\090. 샤이니 (SHINee)-02-1 of 1.mp3" albumTitle="1 of 1 - The 5th Album" albumArtist="샤이니 (SHINee)" trackTitle="1 of 1" trackArtist="샤이니 (SHINee)" duration="203911" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\051. 블락비 바스타즈-01-이기적인 걸.mp3" albumTitle="WELCOME 2 BASTARZ" albumArtist="블락비 바스타즈" trackTitle="이기적인 걸" trackArtist="블락비 바스타즈" duration="201456" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\058. 박효신-01-Home.mp3" albumTitle="I am A Dreamer" albumArtist="박효신" trackTitle="Home" trackArtist="박효신" duration="368744" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\091. 로꼬-01-Say Yes.mp3" albumTitle="달의 연인 - 보보경심 려 OST Part 2" albumArtist="로꼬, 펀치 (Punch)" trackTitle="Say Yes" trackArtist="로꼬, 펀치 (Punch)" duration="218932" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\094. 유승우-01-너만이 (Feat. 헤이즈).mp3" albumTitle="너만이" albumArtist="유승우" trackTitle="너만이 (Feat. 헤이즈)" trackArtist="유승우" duration="230191" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\073. 박효신-04-Beautiful Tomorrow.mp3" albumTitle="I am A Dreamer" albumArtist="박효신" trackTitle="Beautiful Tomorrow" trackArtist="박효신" duration="294530" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\026. 성시경-01-다정하게, 안녕히.mp3" albumTitle="구르미 그린 달빛 OST Part.5" albumArtist="성시경" trackTitle="다정하게, 안녕히" trackArtist="성시경" duration="229616" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\096. 박재범-04-All I Wanna Do (K) (Feat. Hoody, Loco).mp3" albumTitle="EVERYTHING YOU WANTED" albumArtist="박재범" trackTitle="All I Wanna Do (K) (Feat. Hoody, Loco)" trackArtist="박재범" duration="216816" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\016. 거미-01-구르미 그린 달빛.mp3" albumTitle="구르미 그린 달빛 OST Part.3" albumArtist="거미" trackTitle="구르미 그린 달빛" trackArtist="거미" duration="238576" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\088. 벤-01-안 괜찮아.mp3" albumTitle="안 괜찮아" albumArtist="벤" trackTitle="안 괜찮아" trackArtist="벤" duration="288496" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\085. 치타(CHEETAH)-01-NOT TODAY.mp3" albumTitle="NOT TODAY" albumArtist="치타 (CHEETAH)" trackTitle="NOT TODAY" trackArtist="치타 (CHEETAH)" duration="212610" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\055. 방탄소년단-03-Begin.mp3" albumTitle="WINGS" albumArtist="방탄소년단" trackTitle="Begin" trackArtist="방탄소년단" duration="229773" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\006. 임창정-11-내가 저지른 사랑.mp3" albumTitle="I`M" albumArtist="임창정" trackTitle="내가 저지른 사랑" trackArtist="임창정" duration="238288" />
+      <media src="D:\새 폴더\멜론(MelOn) 2016년 10월 25일 실시간 TOP100(21시 기준)\004. Crush-04-어떻게 지내.mp3" albumTitle="wonderlust" albumArtist="Crush" trackTitle="어떻게 지내" trackArtist="Crush" duration="231601" />
+    </seq>
+  </body>
+</smil>
