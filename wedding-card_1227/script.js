@@ -25,7 +25,7 @@ const likeBtn      = document.getElementById('likeBtn');
 const likeBtn2     = document.getElementById('likeBtn2');
 const likeCount    = document.getElementById('likeCount');
 const likeCount2   = document.getElementById('likeCount2');
-const SURVEY_API   = "https://script.google.com/macros/s/AKfycbzAl77U20vY9S6yizY6Jo2CIBQi6hhoNOG4Q4uJsOCzdQu5ZvZXqqrFfp8FLwjeYZKW/exec"; // ← 본인 Web App URL
+const SURVEY_API   = "https://script.google.com/macros/s/AKfycbxF7eT2eNZC2ORLB7DRC97d4WE43wc2I9Gn1buZjm9uXD6vj_Clzzt7OUsawofVhnei/exec"; // ← 본인 Web App URL
 
 function renderHeadcount(n){
   const v = Number.isFinite(n) ? n : 0;
