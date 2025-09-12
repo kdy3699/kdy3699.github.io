@@ -248,6 +248,12 @@ function initGallery(){
     submitBtn?.classList.add('opacity-60','pointer-events-none');
     if (submitBtn) submitBtn.textContent = '전송 중…';
     try { showToast('제출 중입니다…'); } catch(e){}
+    // Optimistic UI: 바로 합계 올려서 체감 지연 감소
+    try{
+      const inc = clampToMin1(personInput.value);
+      const cur = parseInt((likeCount?.textContent || likeCount2?.textContent || '0'), 10) || 0;
+      renderHeadcount(cur + inc);
+    }catch(_){}
     // iframe으로 POST는 계속 진행되며, 모달만 바로 닫음
     setTimeout(closeSurvey, 0);
   });
@@ -264,8 +270,10 @@ function initGallery(){
       submitBtn.classList.remove('opacity-60','pointer-events-none');
       submitBtn.textContent = '제출하기';
     }
-    // 제출 후 최신 합계 재조회
+    // 서버 반영까지 지연 대비: 재조회 3회
     fetchHeadcount();
+    setTimeout(fetchHeadcount, 1500);
+    setTimeout(fetchHeadcount, 4000);
   });
 })();
 
