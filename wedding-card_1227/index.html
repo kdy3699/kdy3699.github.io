@@ -8,29 +8,23 @@
   <meta name="description" content="김도엽 ❤️ 나두리 결혼식 모바일 청첩장" />
   <meta property="og:title" content="One Breath | 모바일 청첩장" />
   <meta property="og:description" content="2025.12.27(토) 13:00 삼성전자 서초사옥 5F" />
-
-  <!-- Open Graph: video(지원 플랫폼에서) + image(폴백) -->
-  <meta property="og:video" content="https://kdy3699.github.io/wedding-card_1227/assets/hero.mp4" />
-  <meta property="og:video:secure_url" content="https://kdy3699.github.io/wedding-card_1227/assets/hero.mp4" />
-  <meta property="og:video:type" content="video/mp4" />
-  <meta property="og:video:width" content="1080" />
-  <meta property="og:video:height" content="1350" />
-  <meta property="og:image" content="https://kdy3699.github.io/wedding-card_1227/assets/hero.jpg" />
-  <!-- Speed up first request to Apps Script -->
-  <link rel="preconnect" href="https://script.google.com">
-  <link rel="dns-prefetch" href="//script.google.com">
+  <meta property="og:image" content="assets/hero.jpg" />
   <meta name="theme-color" content="#111827" />
 
-  <!-- Tailwind (CDN) + 폰트 -->
+  <!-- 성능: Apps Script 사전연결 -->
+  <link rel="preconnect" href="https://script.google.com">
+  <link rel="dns-prefetch" href="//script.google.com">
+
+  <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-[#fff8f9] text-gray-800 font-['Noto_Sans_KR',ui-sans-serif]">
+<body class="bg-[#fff8f9] text-gray-800">
 
-  <!-- 상단 고정 내비(엠보싱 버튼) -->
+  <!-- 상단 고정 내비(텍스트만) -->
   <nav id="topNav" class="fixed top-0 left-0 w-full z-50 backdrop-blur bg-white/70 border-b border-pink-100">
-    <div class="mobile-frame px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar whitespace-nowrap items-center">
+    <div class="mobile-frame px-3 py-2 flex gap-3 overflow-x-auto no-scrollbar whitespace-nowrap items-center">
       <button class="emboss-btn" data-scroll="#info"><span class="btn-txt">기본정보</span></button>
       <button class="emboss-btn" data-scroll="#credits"><span class="btn-txt">출연/제작진</span></button>
       <button class="emboss-btn" data-scroll="#schedule"><span class="btn-txt">상영일정</span></button>
@@ -42,27 +36,11 @@
       <button id="ctaAttend" class="emboss-btn-primary"><span class="btn-txt">참석하기</span></button>
     </div>
   </nav>
-  <!-- 고정 내비 높이만큼 공간 확보 -->
-  <div id="navSpacer" class="h-[var(--nav-h,56px)]"></div>
+  <div id="navSpacer" class="h-[56px]"></div>
 
-  <!-- HERO (루프 비디오 배경) -->
-  <header id="hero" class="relative h-[68vh] md:h-[72vh] bg-black">
-    <!-- 배경 비디오: iOS 자동재생을 위해 muted + playsinline 필수 -->
-    <video id="heroVideo"
-           class="absolute inset-0 w-full h-full object-cover"
-           autoplay muted loop playsinline preload="metadata"
-           poster="assets/hero.jpg" aria-hidden="true">
-      <!-- 파일명이 한글이면 서버/브라우저에 따라 인코딩 문제가 생길 수 있어 ASCII 이름으로 바꾸는 걸 권장합니다 -->
-      <source src="assets/hero.mp4" type="video/mp4" />
-      <!-- 옵션: WebM 추가 가능
-      <source src="assets/hero.webm" type="video/webm" />
-      -->
-      <!-- 비디오 미지원일 때는 poster가 표시됩니다 -->
-    </video>
-
-    <!-- 가독성용 그라데이션 오버레이 -->
+  <!-- HERO -->
+  <header id="hero" class="relative h-[68vh] md:h-[72vh] bg-cover bg-center" style="background-image:url('assets/hero.jpg')">
     <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/10"></div>
-
     <div class="absolute inset-0 flex items-end md:items-center justify-center">
       <div class="mobile-frame text-center text-white px-6 pb-10">
         <h1 class="font-luxury fz-title font-extrabold tracking-wide drop-shadow balance">One Breath</h1>
@@ -72,8 +50,7 @@
   </header>
 
   <main class="mobile-frame -mt-6 relative z-10">
-
-    <!-- 개요 (영화 정보 카드) -->
+    <!-- 개요 -->
     <section class="card">
       <div class="flex items-start gap-4">
         <img src="assets/poster.jpg" alt="포스터" class="w-24 h-36 object-cover rounded-lg shadow" />
@@ -81,23 +58,15 @@
           <h2 class="section-title">개요</h2>
           <p class="text-sm text-gray-600">로맨스 코미디 · 한국 · 90분</p>
           <p class="text-sm text-gray-600">개봉 : 2025.12.27.</p>
-          <p class="text-sm mt-2 line-clamp-3 whitespace-pre-line" id="synopsis">
-            서로 다른 길 위에서 살아온 ‘두리’와 ‘도엽’.
-            우연 같은 만남은 점점 필연이 되어
-            서울의 분주한 하루와 바다의 고요한 숨결 속에서
-            하나의 호흡으로 이어졌다.
-            섬세함과 따뜻함으로 마음을 품는 ‘두리’,
-            넉넉한 웃음과 긍정으로 곁을 지키는 ‘도엽’.
-            닮은 듯 달라 부딪히기도 했지만,
-            끝내 서로를 향해 걸어온 발걸음은 같은 자리에서 멈췄다.
-            
-            그리고 이제,
-            각자의 세계가 포개어져
-            ‘결혼’이라는 첫 막을 열게 되는데…
+          <p class="text-sm mt-2 whitespace-pre-line line-clamp-5" id="synopsis">
+서로 다른 길 위에서 살아온 ‘두리’와 ‘도엽’.
+우연 같은 만남은 점점 필연이 되어
+서울의 분주한 하루와 바다의 고요한 숨결 속에서
+하나의 호흡으로 이어졌다…
           </p>
           <button id="moreBtn" class="text-pink-600 text-sm mt-1">더보기</button>
           <div class="mt-3 flex gap-2">
-            <button id="likeBtn2" class="emboss-btn !bg-pink-50 !border-pink-200 !shadow-emboss-pink" aria-label="현재 참석 인원 합계">기대돼요 💗 <span id="likeCount2">0</span></button>
+            <button id="likeBtn2" class="emboss-btn">기대돼요 💗 <span id="likeCount2">0</span></button>
             <button id="ctaAttend2" class="emboss-btn-primary">참석하기</button>
           </div>
         </div>
@@ -111,165 +80,65 @@
         김도엽 ❤️ 나두리의 결혼식<br/>
         2025.12.27(토) 13:00 &nbsp; 삼성전자 서초사옥 5F
       </p>
-
-      <!-- ✅ Google Maps Embed (표시용 지도) -->
       <div class="mt-3 grid gap-2">
         <div class="rounded-lg overflow-hidden border">
-          <iframe class="w-full h-52"
-                  src="https://www.google.com/maps?q=37.4966083,127.0269028&z=16&output=embed"
+          <iframe class="w-full h-52" src="https://www.google.com/maps?q=삼성전자%20서초사옥&output=embed"
                   loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-
-        <!-- 장소/복사 + 길찾기(카카오/네이버) -->
         <div class="flex flex-wrap items-center gap-2 text-sm">
           <span id="venueText" class="px-2 py-1 rounded bg-gray-50 border prose-safe">삼성전자 서초사옥 5F</span>
           <button class="emboss-mini" id="copyVenue">복사</button>
-
-          <!-- 카카오 길찾기(웹) : 목적지만 세팅 -->
-          <a class="emboss-mini"
-             href="https://map.kakao.com/link/to/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90%20%EC%84%9C%EC%B4%88%EC%82%AC%EC%98%A5,37.4966083,127.0269028"
-             target="_blank" rel="noopener">카카오 길찾기</a>
-
-          <!-- 네이버 지도(웹) : 검색/장소 페이지 -->
-          <a class="emboss-mini"
-             href="https://map.naver.com/v5/search/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90%20%EC%84%9C%EC%B4%88%EC%82%AC%EC%98%A5"
-             target="_blank" rel="noopener">네이버 길찾기</a>
+          <a class="emboss-mini" href="https://map.kakao.com/link/to/삼성전자 서초사옥,37.4966083,127.0269028" target="_blank" rel="noopener">카카오 길찾기</a>
+          <a class="emboss-mini" href="nmap://route/car?dlat=37.4966083&dlng=127.0269028&dname=삼성전자%20서초사옥" target="_blank" rel="noopener">네이버 길찾기</a>
         </div>
-
-        <p class="text-xs text-gray-500">대중교통: 강남역 8번출구 도보 5분</p>
-      </div>
-      
-      <!-- 초대의 말 -->
-      <div class="mt-4">
-        <h3 class="font-semibold mb-1">초대의 말</h3>
-        <p class="text-sm text-gray-700">
-          두 개의 호흡이 만나 하나의 이야기가 시작됩니다. 새로운 첫 막에 함께해 주세요.
-        </p>
       </div>
     </section>
 
-    <!-- 출연/제작진 (신부 → 신랑, 한 줄 배치 + 사진) -->
+    <!-- 출연/제작진 (간단 버전) -->
     <section id="credits" class="card">
       <h2 class="section-title">출연 / 제작진</h2>
-
-      <!-- 감독: 같은 줄(2열 그리드, 둥근 작게) -->
       <div class="grid grid-cols-2 gap-3 mb-4">
-        <!-- 예수님 -->
-        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
-          <img src="assets/예수님.jpg" alt="예수님 사진"
-               class="w-24 h-24 rounded-full object-cover" />
-          <figcaption class="mt-2 text-center">
-            <div class="text-xs text-gray-500">감독</div>
-            <div class="text-sm font-semibold text-gray-900">Jesus</div>
-          </figcaption>
-        </figure>
-        <!-- 부처님 -->
-        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
-          <img src="assets/부처님.jpg" alt="부처님 사진"
-               class="w-24 h-24 rounded-full object-cover" />
-          <figcaption class="mt-2 text-center">
-            <div class="text-xs text-gray-500">감독</div>
-            <div class="text-sm font-semibold text-gray-900">Buddha</div>
-          </figcaption>
-        </figure>
-      </div>
-
-      <!-- 신부/신랑: 같은 줄(2열 그리드) -->
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <!-- 신부 카드 -->
         <figure class="bg-white border rounded-xl p-2 shadow-sm">
-          <img src="assets/신부.jpg" alt="신부 사진"
-               class="w-full aspect-[3/4] object-cover rounded-lg" />
+          <img src="assets/신부.jpg" alt="신부" class="w-full aspect-[3/4] object-cover rounded-lg" />
           <figcaption class="mt-2 text-center">
             <div class="text-xs text-pink-700 font-semibold">신부</div>
             <div class="text-base font-bold text-gray-900">나두리</div>
           </figcaption>
         </figure>
-
-        <!-- 신랑 카드 -->
         <figure class="bg-white border rounded-xl p-2 shadow-sm">
-          <img src="assets/신랑.jpg" alt="신랑 사진"
-               class="w-full aspect-[3/4] object-cover rounded-lg" />
+          <img src="assets/신랑.jpg" alt="신랑" class="w-full aspect-[3/4] object-cover rounded-lg" />
           <figcaption class="mt-2 text-center">
             <div class="text-xs text-pink-700 font-semibold">신랑</div>
             <div class="text-base font-bold text-gray-900">김도엽</div>
           </figcaption>
         </figure>
       </div>
-      
-      <!-- 아버님들: 같은 줄(2열 그리드, 둥근 작게) -->
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <!-- 신부 아버지 -->
-        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
-          <img src="assets/신부아버지.jpg" alt="신부 아버지 사진"
-               class="w-24 h-24 rounded-full object-cover" />
-          <figcaption class="mt-2 text-center">
-            <div class="text-xs text-gray-500">신부 父</div>
-            <div class="text-sm font-semibold text-gray-900">나형준</div>
-          </figcaption>
-        </figure>
-        <!-- 신랑 아버지 -->
-        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
-          <img src="assets/신랑아버지.jpg" alt="신랑 아버지 사진"
-               class="w-24 h-24 rounded-full object-cover" />
-          <figcaption class="mt-2 text-center">
-            <div class="text-xs text-gray-500">신랑 父</div>
-            <div class="text-sm font-semibold text-gray-900">故김낙년</div>
-          </figcaption>
-        </figure>
-      </div>
-
-      <!-- 신랑 부모님: 같은 줄(2열 그리드, 둥근 작게) -->
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <!-- 신부 어머니 -->
-        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
-          <img src="assets/신부어머니.jpg" alt="신부 어머니 사진"
-               class="w-24 h-24 rounded-full object-cover" />
-          <figcaption class="mt-2 text-center">
-            <div class="text-xs text-gray-500">신부 母</div>
-            <div class="text-sm font-semibold text-gray-900">한임순</div>
-          </figcaption>
-        </figure>
-        <!-- 신랑 어머니 -->
-        <figure class="bg-white border rounded-xl p-3 shadow-sm flex flex-col items-center">
-          <img src="assets/신랑어머니.jpg" alt="신랑 어머니 사진"
-               class="w-24 h-24 rounded-full object-cover" />
-          <figcaption class="mt-2 text-center">
-            <div class="text-xs text-gray-500">신랑 母</div>
-            <div class="text-sm font-semibold text-gray-900">권영미</div>
-          </figcaption>
-        </figure>
-      </div>
+      <ul class="credit-list">
+        <li><span class="role">감독</span> <span class="name">Jesus & Buddha</span></li>
+      </ul>
     </section>
 
-    <!-- 상영일정 (D-DAY 문구 + 달력 이미지) -->
+    <!-- 상영일정 (D-DAY 문구 + 달력 이미지 자리) -->
     <section id="schedule" class="card">
       <h2 class="section-title">상영일정</h2>
       <p id="ddayLine" class="text-sm text-gray-700 balance">
         김도엽 ❤️ 나두리의 결혼식 &nbsp; D-— &nbsp; 2025.12.27(토) 13:00 &nbsp; 삼성전자 서초사옥 5F
       </p>
       <div class="mt-3 rounded-lg overflow-hidden border">
-        <img src="assets/calendar.jpg" alt="12월 달력" class="w-full h-auto block">
+        <img src="assets/calendar_2025_12_white.jpg" alt="Calendar" class="w-full h-auto block">
       </div>
     </section>
 
-    <!-- 포토 (3열 그리드 + 라이트박스) -->
+    <!-- 포토 -->
     <section id="photos" class="card">
       <h2 class="section-title">스틸컷</h2>
       <div id="gallery" class="gallery-grid">
-        <!-- 썸네일/원본 동일 경로 사용. assets/gallery/ 에 이미지 배치 -->
-        <a href="assets/photo1.jpg" class="gallery-item"><img loading="lazy" src="assets/photo1.jpg" alt="gallery 01"></a>
-        <a href="assets/photo2.jpg" class="gallery-item"><img loading="lazy" src="assets/photo2.jpg" alt="gallery 02"></a>
-        <a href="assets/photo3.jpg" class="gallery-item"><img loading="lazy" src="assets/photo3.jpg" alt="gallery 03"></a>
-        <a href="assets/photo4.jpg" class="gallery-item"><img loading="lazy" src="assets/photo4.jpg" alt="gallery 04"></a>
-        <a href="assets/photo5.jpg" class="gallery-item"><img loading="lazy" src="assets/photo5.jpg" alt="gallery 05"></a>
-        <a href="assets/photo6.jpg" class="gallery-item"><img loading="lazy" src="assets/photo6.jpg" alt="gallery 06"></a>
-        <a href="assets/photo7.jpg" class="gallery-item"><img loading="lazy" src="assets/photo7.jpg" alt="gallery 07"></a>
-        <a href="assets/photo8.jpg" class="gallery-item"><img loading="lazy" src="assets/photo8.jpg" alt="gallery 08"></a>
-        <a href="assets/photo9.jpg" class="gallery-item"><img loading="lazy" src="assets/photo9.jpg" alt="gallery 09"></a>
-        <a href="assets/photo10.jpg" class="gallery-item"><img loading="lazy" src="assets/photo10.jpg" alt="gallery 10"></a>
-        <a href="assets/photo11.jpg" class="gallery-item"><img loading="lazy" src="assets/photo11.jpg" alt="gallery 11"></a>
-        <a href="assets/photo12.jpg" class="gallery-item"><img loading="lazy" src="assets/photo12.jpg" alt="gallery 12"></a>
+        <a class="gallery-item" href="assets/gallery/01.jpg"><img src="assets/gallery/01.jpg" alt="01"></a>
+        <a class="gallery-item" href="assets/gallery/02.jpg"><img src="assets/gallery/02.jpg" alt="02"></a>
+        <a class="gallery-item" href="assets/gallery/03.jpg"><img src="assets/gallery/03.jpg" alt="03"></a>
+        <a class="gallery-item" href="assets/gallery/04.jpg"><img src="assets/gallery/04.jpg" alt="04"></a>
+        <a class="gallery-item" href="assets/gallery/05.jpg"><img src="assets/gallery/05.jpg" alt="05"></a>
+        <a class="gallery-item" href="assets/gallery/06.jpg"><img src="assets/gallery/06.jpg" alt="06"></a>
       </div>
     </section>
 
@@ -278,38 +147,17 @@
       <h2 class="section-title">마음 전하실 곳</h2>
       <div class="space-y-3">
         <div class="acc-row">
-          <div class="acc-label">신랑</div>
-          <div class="acc-value prose-safe">
-            새마을 9003240076282 김도엽
-            <a href="새마을 9003240076282" class="copy-link acc-copy">복사</a>
-          </div>
-        </div>
-        <div class="acc-row">
           <div class="acc-label">신부</div>
           <div class="acc-value prose-safe">
             국민 91086371822 나두리
-            <a href="국민 91086371822" class="copy-link acc-copy">복사</a>
+            <a href="국민 91086371822 나두리" class="copy-link acc-copy">복사</a>
           </div>
         </div>
         <div class="acc-row">
           <div class="acc-label">신랑 母</div>
           <div class="acc-value prose-safe">
             농협 73312020422 권영미
-            <a href="농협 73312020422" class="copy-link acc-copy">복사</a>
-          </div>
-        </div>
-        <div class="acc-row">
-          <div class="acc-label">신부 母</div>
-          <div class="acc-value prose-safe">
-            농협 60115552353837 한임순
-            <a href="농협 60115552353837" class="copy-link acc-copy">복사</a>
-          </div>
-        </div>
-        <div class="acc-row">
-          <div class="acc-label">신부 父</div>
-          <div class="acc-value prose-safe">
-            농협 61302178747 나형준
-            <a href="농협 61302178747" class="copy-link acc-copy">복사</a>
+            <a href="농협 73312020422 권영미" class="copy-link acc-copy">복사</a>
           </div>
         </div>
       </div>
@@ -327,7 +175,7 @@
     <div class="counter" id="lbCounter" aria-live="polite" role="status"></div>
   </div>
 
-  <!-- RSVP 모달 -->
+  <!-- 설문 모달 (iframe POST + Kakao 인앱 JSONP) -->
   <div id="surveyModal" class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50 hidden">
     <div class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-[420px] p-6 shadow-lg relative">
       <button onclick="closeSurvey()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl">✕</button>
@@ -343,15 +191,15 @@
         </div>
         <div>
           <label class="text-sm">전화번호</label>
-          <input name="phone" type="tel" inputmode="tel" pattern="[0-9\\-+\\s()]{7,}"
-                 class="mt-1 w-full border rounded-md px-3 py-2" placeholder="예: 010-1234-5678" />
+          <input name="phone" type="tel" inputmode="tel" pattern="[0-9\-+\s()]{7,}"
+                 class="mt-1 w-full border rounded-md px-3 py-2" placeholder="010-1234-5678" />
         </div>
         <div>
           <label class="text-sm">식사여부</label>
           <select name="eat" class="mt-1 w-full border rounded-md px-3 py-2">
-            <option value="미참여">미참여</option>
             <option value="한식">한식</option>
             <option value="일식">일식</option>
+            <option value="미참여">미참여</option>
           </select>
         </div>
         <div>
@@ -370,12 +218,12 @@
             <input name="person" id="personInput" type="number" min="1" step="1" value="1" inputmode="numeric" class="stepper-input" aria-label="동행인원" />
             <button type="button" class="stepper-btn" data-action="increment" aria-label="동행인원 증가">＋</button>
           </div>
-          <p class="text-xs text-gray-500 mt-1">최소 1명부터 입력됩니다. (본인 포함 인원 수)</p>
+          <p class="text-xs text-gray-500 mt-1">최소 1명부터 입력됩니다.</p>
         </div>
         <input type="hidden" name="source_path" value="">
         <input type="hidden" name="client_time" value="">
         <input type="text" name="_hp" class="hidden" tabindex="-1" autocomplete="off" />
-        <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-md">제출하기</button>
+        <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-md" id="surveySubmitBtn">제출하기</button>
       </form>
       <iframe name="survey_iframe" id="survey_iframe" class="hidden"></iframe>
       <p id="surveyMsg" class="text-center text-sm text-green-600 mt-2 hidden">제출 완료되었습니다.</p>
@@ -383,14 +231,5 @@
   </div>
 
   <script src="script.js"></script>
-
-  <!-- (선택) 모션 줄이기 선호 시 자동재생 멈춤 -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
-      const vid = document.getElementById('heroVideo');
-      if (mq && mq.matches && vid) { try { vid.pause(); } catch(e){} vid.removeAttribute('autoplay'); }
-    });
-  </script>
 </body>
 </html>
