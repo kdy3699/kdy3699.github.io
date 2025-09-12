@@ -261,7 +261,7 @@ function initGallery(){
 })();
 
 /* ===== 배경음악: 기본 재생 시도 ===== */
-(function bgmInit() {
+; (function bgmInit() {
   const audio = document.getElementById('bgm');
   const btn   = document.getElementById('bgmToggle');
   if (!audio || !btn) { return; }
@@ -304,8 +304,8 @@ function initGallery(){
   // 초기 UI
   updateUI(false);
 
-  // 즉시 자동재생 시도
-  (async () => {
+  // 즉시 자동재생 시도(괄호 중첩 줄이기)
+  async function tryAutoPlay() {
     if (!want) { return; }              // 사용자가 이전에 끔
     const ok = await play();            // 자동재생 시도
     if (ok) { return; }
@@ -321,7 +321,8 @@ function initGallery(){
     window.addEventListener('touchstart', unlock, { once: true, passive: true });
     window.addEventListener('keydown', unlock, { once: true });
     window.addEventListener('scroll', unlock, { once: true, passive: true, capture: true });
-  })();
+  }
+  tryAutoPlay();
 
   // 탭 전환 시 숨겨지면 일시정지
   document.addEventListener('visibilitychange', () => {
