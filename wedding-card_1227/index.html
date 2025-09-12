@@ -26,7 +26,7 @@
 <body class="bg-[#fff8f9] text-gray-800 font-['Noto_Sans_KR',ui-sans-serif]">
 
   <!-- 상단 고정 내비(엠보싱 버튼) -->
-  <nav class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-pink-100">
+  <nav id="topNav" class="fixed top-0 left-0 w-full z-50 backdrop-blur bg-white/70 border-b border-pink-100">
     <div class="mobile-frame px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar whitespace-nowrap items-center">
       <button class="emboss-btn" data-scroll="#hero">전체</button>
       <button class="emboss-btn" data-scroll="#info">기본정보</button>
@@ -40,6 +40,8 @@
       <button id="ctaAttend" class="emboss-btn-primary">참석하기</button>
     </div>
   </nav>
+  <!-- 고정 내비 높이만큼 공간 확보 -->
+  <div id="navSpacer" class="h-[var(--nav-h,56px)]"></div>
 
   <!-- HERO (루프 비디오 배경) -->
   <header id="hero" class="relative h-[68vh] md:h-[72vh] bg-black">
