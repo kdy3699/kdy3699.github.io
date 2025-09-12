@@ -1,3 +1,17 @@
+/* ===== Mobile-first frame & overflow safety ===== */
+html, body { overflow-x: hidden; }
+.mobile-frame{ width:100%; max-width:420px; margin-left:auto; margin-right:auto; }
+img, video{ max-width:100%; height:auto; display:block; }
+*{ min-width:0; } /* prevent flex children from overflowing */
+
+/* Safer text wrapping + balanced headings */
+.balance{ text-wrap: balance; }
+.prose-safe{ overflow-wrap:anywhere; word-break:keep-all; }
+
+/* Fluid typography for hero */
+.fz-title{ font-size: clamp(28px, 7.2vw, 40px); line-height: 1.28; }
+.fz-subtitle{ font-size: clamp(12px, 3.6vw, 16px); line-height: 1.45; }
+
 /* 공통 카드 / 타이포 */
 .card {
   background: #fff;
@@ -41,7 +55,7 @@
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 @media (min-width: 640px){ .gallery-grid { gap: 12px; } }
 .gallery-item { display:block; border-radius:10px; overflow:hidden; }
-.gallery-item img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+.gallery-item img { width:100%; max-width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
 
 /* 라이트박스 + 카운터 */
 .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 60; touch-action: none; }
@@ -62,7 +76,7 @@
 /* 계좌 행 */
 .acc-row{ display:grid; grid-template-columns: 80px 1fr; gap:10px; align-items:center; }
 .acc-label{ font-weight:700; color:#9a2047; }
-.acc-value{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.acc-value{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; overflow-wrap:anywhere; word-break:keep-all; }
 .acc-copy{ border:1px solid #e5e7eb; padding:4px 8px; border-radius:999px; font-size:12px; }
 
 /* 토스트 */
