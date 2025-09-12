@@ -260,11 +260,25 @@ function initGallery(){
   });
 })();
 
-/* ===== 배경음악: 기본 재생 시도 ===== */
+/* ===== 배경음악: 기본 재생 시도 (중복 방지/안정화) ===== */
 ; (function bgmInit() {
+  // 이미 초기화되었으면 재실행 금지 (스크립트 중복 로드 대비)
+  if (window.__bgm_inited__) { return; }
+  window.__bgm_inited__ = true;
+
+  // 같은 id를 가진 audio가 중복 생성된 경우 정리
+  const bgmNodes = document.querySelectorAll('audio#bgm');
+  if (bgmNodes.length > 1) {
+    for (let i = 1; i < bgmNodes.length; i++) {
+      try { bgmNodes[i].pause(); } catch {}
+      try { bgmNodes[i].remove(); } catch {}
+    }
+  }
   const audio = document.getElementById('bgm');
   const btn   = document.getElementById('bgmToggle');
   if (!audio || !btn) { return; }
+
+  let toggling = false; // 클릭 토글 중복 방지 플래그
 
   function updateUI(playing) {
     btn.classList.toggle('on', !!playing);
@@ -276,6 +290,8 @@ function initGallery(){
   async function play() {
     try {
       audio.muted = false;
+      // 이미 재생 중이면 중복 play() 호출 회피
+      if (!audio.paused) { updateUI(true); return true; }
       await audio.play();
       localStorage.setItem('bgm_on', '1');
       updateUI(true);
@@ -287,14 +303,22 @@ function initGallery(){
   }
 
   function pause() {
-    try { audio.pause(); } catch (e) {}
+    try { if (!audio.paused) audio.pause(); } catch (e) {}
     localStorage.setItem('bgm_on', '0');
     updateUI(false);
   }
 
   // 버튼 토글
-  btn.addEventListener('click', async () => {
-    if (audio.paused) { await play(); } else { pause(); }
+  btn.addEventListener('click', async (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (toggling) return;
+    toggling = true;
+    try {
+      if (audio.paused) { await play(); } else { pause(); }
+    } finally {
+      toggling = false;
+    }
   });
 
   // 기본값 = 재생 의향 있음(로컬 스토리지에 값 없으면 true)
@@ -311,12 +335,17 @@ function initGallery(){
     if (ok) { return; }
     // 차단된 경우: 첫 사용자 제스처에서 재생
     const unlock = async () => {
+      // 이미 재생 중이면 아무 것도 안 함
+      if (!audio.paused) { cleanup(); return; }
       await play();
+      cleanup();
+    };
+    function cleanup(){
       window.removeEventListener('pointerdown', unlock);
       window.removeEventListener('touchstart', unlock);
       window.removeEventListener('keydown', unlock);
       window.removeEventListener('scroll', unlock, true);
-    };
+    }
     window.addEventListener('pointerdown', unlock, { once: true, passive: true });
     window.addEventListener('touchstart', unlock, { once: true, passive: true });
     window.addEventListener('keydown', unlock, { once: true });
