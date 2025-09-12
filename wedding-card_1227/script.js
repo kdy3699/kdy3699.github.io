@@ -47,17 +47,22 @@ function jsonp(url, params, cb, timeoutMs=8000){
   s.onerror = () => { if (done) return; clearTimeout(timer); try{ cb && cb(new Error('JSONP load error')); } finally { cleanup(); } };
   document.body.appendChild(s);
 }
-function fetchHeadcount(){
+function fetchHeadcount(force=false){
   if (likeCount)  likeCount.textContent  = "…";
   if (likeCount2) likeCount2.textContent = "…";
-  jsonp(SURVEY_API, { action:'total' }, (err, data) => {
+  jsonp(SURVEY_API, { action:'total', force: force ? 1 : 0 }, (err, data) => {
     if (err){ console.warn('headcount jsonp failed', err); renderHeadcount(0); return; }
     renderHeadcount(Number(data && data.totalPersons) || 0);
   });
 }
 // 클릭으로 숫자 증가하지 않도록(옵션: 설문 열기)
 [likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', openSurvey));
-document.addEventListener('DOMContentLoaded', fetchHeadcount);
+// 첫 로드 1회는 강제 리프레시로 캐시 무시 (시트 수동 수정 반영)
+document.addEventListener('DOMContentLoaded', () => {
+  const first = !sessionStorage.getItem('headcount_refreshed');
+  fetchHeadcount(first /* force */);
+  if (first) sessionStorage.setItem('headcount_refreshed', '1');
+});
 
 /* ===== 참석하기 버튼 → 설문 모달 ===== */
 const ctaAttend = document.getElementById('ctaAttend');
@@ -290,9 +295,9 @@ function initGallery(){
         } else {
           showToast('제출이 완료되었습니다. 감사합니다!');
           form.reset(); personInput.value = 1;
-          fetchHeadcount();
-          setTimeout(fetchHeadcount, 1000);
-          setTimeout(fetchHeadcount, 3000);
+          fetchHeadcount(true);          // 즉시 강제 재계산
+          setTimeout(()=>fetchHeadcount(true), 1200);
+          setTimeout(()=>fetchHeadcount(), 3000);
         }
         // UI 복원 및 모달 닫기
         submitBtn?.removeAttribute('disabled');
@@ -327,9 +332,9 @@ function initGallery(){
       submitBtn.textContent = '제출하기';
     }
     // 서버 반영까지 지연 대비: 재조회 3회
-    fetchHeadcount();
-    setTimeout(fetchHeadcount, 1500);
-    setTimeout(fetchHeadcount, 4000);
+    fetchHeadcount(true);                // 즉시 강제 재계산
+    setTimeout(()=>fetchHeadcount(true), 1200);
+    setTimeout(()=>fetchHeadcount(), 4000);
   });
 })();
 
