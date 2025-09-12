@@ -1,3 +1,16 @@
+/* ===== 고정 내비 높이 측정 → 컨텐츠 간격 확보 ===== */
+function setNavSpacer(){
+  const nav = document.getElementById('topNav');
+  const sp  = document.getElementById('navSpacer');
+  if (!nav || !sp) return;
+  const h = Math.ceil(nav.getBoundingClientRect().height);
+  document.documentElement.style.setProperty('--nav-h', h + 'px');
+  sp.style.height = `calc(${h}px + env(safe-area-inset-top, 0px))`;
+}
+window.addEventListener('resize', setNavSpacer, { passive:true });
+window.addEventListener('orientationchange', setNavSpacer);
+document.addEventListener('DOMContentLoaded', setNavSpacer);
+
 /* ===== 스무스 스크롤 + 메뉴 ===== */
 document.querySelectorAll('.emboss-btn[data-scroll]').forEach(btn=>{
   btn.addEventListener('click',()=>{
