@@ -27,7 +27,7 @@
 
   <!-- 상단 고정 내비(엠보싱 버튼) -->
   <nav class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-pink-100">
-    <div class="max-w-xl mx-auto px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar">
+    <div class="mobile-frame px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar whitespace-nowrap items-center">
       <button class="emboss-btn" data-scroll="#hero">전체</button>
       <button class="emboss-btn" data-scroll="#info">기본정보</button>
       <button class="emboss-btn" data-scroll="#credits">출연/제작진</button>
@@ -60,18 +60,14 @@
     <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/10"></div>
 
     <div class="absolute inset-0 flex items-end md:items-center justify-center">
-      <div class="text-center text-white px-6 pb-10">
-        <h1 class="font-luxury text-4xl md:text-5xl font-extrabold tracking-wide drop-shadow leading-[1.25] md:leading-[1.3]">
-          One Breath
-        </h1>
-        <p class="mt-5 text-sm md:text-base opacity-90 leading-relaxed">
-          2025. 12. 27. Sat. &nbsp; 삼성전자 서초사옥 5F
-        </p>
+      <div class="mobile-frame text-center text-white px-6 pb-10">
+        <h1 class="font-luxury fz-title font-extrabold tracking-wide drop-shadow balance">One Breath</h1>
+        <p class="mt-4 fz-subtitle opacity-90 balance">2025. 12. 27. Sat. &nbsp; 삼성전자 서초사옥 5F</p>
       </div>
     </div>
   </header>
 
-  <main class="max-w-xl mx-auto px-4 -mt-6 relative z-10">
+  <main class="mobile-frame -mt-6 relative z-10">
 
     <!-- 개요 (영화 정보 카드) -->
     <section class="card">
@@ -122,7 +118,7 @@
 
         <!-- 장소/복사 + 길찾기(카카오/네이버) -->
         <div class="flex flex-wrap items-center gap-2 text-sm">
-          <span id="venueText" class="px-2 py-1 rounded bg-gray-50 border">삼성전자 서초사옥 5F</span>
+          <span id="venueText" class="px-2 py-1 rounded bg-gray-50 border prose-safe">삼성전자 서초사옥 5F</span>
           <button class="emboss-mini" id="copyVenue">복사</button>
 
           <!-- 카카오 길찾기(웹) : 목적지만 세팅 -->
@@ -245,7 +241,7 @@
     <!-- 상영일정 (D-DAY 문구 + 달력 이미지) -->
     <section id="schedule" class="card">
       <h2 class="section-title">상영일정</h2>
-      <p id="ddayLine" class="text-sm text-gray-700">
+      <p id="ddayLine" class="text-sm text-gray-700 balance">
         김도엽 ❤️ 나두리의 결혼식 &nbsp; D-— &nbsp; 2025.12.27(토) 13:00 &nbsp; 삼성전자 서초사옥 5F
       </p>
       <div class="mt-3 rounded-lg overflow-hidden border">
@@ -279,35 +275,35 @@
       <div class="space-y-3">
         <div class="acc-row">
           <div class="acc-label">신랑</div>
-          <div class="acc-value">
+          <div class="acc-value prose-safe">
             새마을 9003240076282 김도엽
             <a href="새마을 9003240076282" class="copy-link acc-copy">복사</a>
           </div>
         </div>
         <div class="acc-row">
           <div class="acc-label">신부</div>
-          <div class="acc-value">
+          <div class="acc-value prose-safe">
             국민 91086371822 나두리
             <a href="국민 91086371822" class="copy-link acc-copy">복사</a>
           </div>
         </div>
         <div class="acc-row">
           <div class="acc-label">신랑 母</div>
-          <div class="acc-value">
+          <div class="acc-value prose-safe">
             농협 73312020422 권영미
             <a href="농협 73312020422" class="copy-link acc-copy">복사</a>
           </div>
         </div>
         <div class="acc-row">
           <div class="acc-label">신부 母</div>
-          <div class="acc-value">
+          <div class="acc-value prose-safe">
             농협 60115552353837 한임순
             <a href="농협 60115552353837" class="copy-link acc-copy">복사</a>
           </div>
         </div>
         <div class="acc-row">
           <div class="acc-label">신부 父</div>
-          <div class="acc-value">
+          <div class="acc-value prose-safe">
             농협 61302178747 나형준
             <a href="농협 61302178747" class="copy-link acc-copy">복사</a>
           </div>
