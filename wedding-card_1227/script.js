@@ -20,22 +20,36 @@ document.querySelectorAll('.emboss-btn[data-scroll]').forEach(btn=>{
   });
 });
 
-/* ===== 기대돼요(좋아요) 로컬 카운트 ===== */
-const likeBtn = document.getElementById('likeBtn');
-const likeBtn2 = document.getElementById('likeBtn2');
-const likeCount = document.getElementById('likeCount');
-const likeCount2 = document.getElementById('likeCount2');
-function loadLikes(){
-  const n = parseInt(localStorage.getItem('likeCount')||'0',10)||0;
-  likeCount.textContent = n; likeCount2.textContent = n;
+/* ===== 참석 인원 실시간 집계(=스프레드시트 person 합계) ===== */
+const likeBtn      = document.getElementById('likeBtn');
+const likeBtn2     = document.getElementById('likeBtn2');
+const likeCount    = document.getElementById('likeCount');
+const likeCount2   = document.getElementById('likeCount2');
+const SURVEY_API   = "https://script.google.com/macros/s/AKfycbzAl77U20vY9S6yizY6Jo2CIBQi6hhoNOG4Q4uJsOCzdQu5ZvZXqqrFfp8FLwjeYZKW/exec"; // ← 본인 Web App URL
+
+function renderHeadcount(n){
+  const v = Number.isFinite(n) ? n : 0;
+  if (likeCount)  likeCount.textContent  = v;
+  if (likeCount2) likeCount2.textContent = v;
 }
-function addLike(){
-  const n = parseInt(localStorage.getItem('likeCount')||'0',10)||0;
-  const next = n+1; localStorage.setItem('likeCount', String(next));
-  likeCount.textContent = next; likeCount2.textContent = next;
+async function fetchHeadcount(){
+  try{
+    // 로딩 표시
+    if (likeCount)  likeCount.textContent  = "…";
+    if (likeCount2) likeCount2.textContent = "…";
+    const res  = await fetch(`${SURVEY_API}?action=total`, { method:'GET', mode:'cors', cache:'no-store' });
+    const data = await res.json();
+    renderHeadcount(Number(data.totalPersons)||0);
+  }catch(e){
+    // 실패 시 이전 값 유지, 처음이면 0
+    if (!likeCount?.textContent)  renderHeadcount(0);
+    if (!likeCount2?.textContent) renderHeadcount(0);
+    console.warn('headcount fetch failed', e);
+  }
 }
-[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', addLike));
-loadLikes();
+// 클릭으로 숫자 증가하지 않도록(옵션: 설문 열기)
+[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', openSurvey));
+document.addEventListener('DOMContentLoaded', fetchHeadcount);
 
 /* ===== 참석하기 버튼 → 설문 모달 ===== */
 const ctaAttend = document.getElementById('ctaAttend');
@@ -244,6 +258,8 @@ function initGallery(){
       submitBtn.classList.remove('opacity-60','pointer-events-none');
       submitBtn.textContent = '제출하기';
     }
+    // 제출 후 최신 합계 재조회
+    fetchHeadcount();
   });
 })();
 
