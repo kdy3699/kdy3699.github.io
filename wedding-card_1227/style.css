@@ -128,6 +128,22 @@ img, video{ max-width:100%; height:auto; display:block; }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(8px); background: rgba(0,0,0,.85); color: #fff; padding: 10px 14px; border-radius: 999px; font-size: 13px; letter-spacing: .2px; z-index: 70; opacity: 0; transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* ==== 음악 토글 버튼 ==== */
+.music-btn{
+  position: fixed; right: 14px; bottom: 24px; z-index: 65;
+  width: 44px; height: 44px; border-radius: 9999px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  display:flex; align-items:center; justify-content:center;
+  font-size: 18px;
+  backdrop-filter: blur(6px);
+  transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+}
+.music-btn:active{ transform: scale(.96); }
+.music-btn.on{ background:#fff; box-shadow: 0 10px 24px rgba(219,39,119,.25); }
+.music-btn .icon{ pointer-events:none; }
+
 /* Luxury Modish font */
 @font-face{
   font-family: "Luxury Modish";
