@@ -50,9 +50,13 @@ function jsonp(url, params, cb, timeoutMs=8000){
 function fetchHeadcount(){
   if (likeCount)  likeCount.textContent  = "…";
   if (likeCount2) likeCount2.textContent = "…";
-  jsonp(SURVEY_API, { action:'total' }, (err, data) => {
-    if (err){ console.warn('headcount jsonp failed', err); renderHeadcount(0); return; }
-    renderHeadcount(Number(data && data.totalPersons) || 0);
+  jsonp(SURVEY_API, { action:'getTotal' }, (err, data)=>{
+    if (err || !data || data.ok !== true){
+      console.warn('getTotal failed', err || data);
+      renderTotal(0);
+      return;
+    }
+    renderTotal(Number(data.total) || 0);
   });
 }
 // 클릭으로 숫자 증가하지 않도록(옵션: 설문 열기)
