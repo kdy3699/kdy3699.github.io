@@ -32,6 +32,8 @@ function renderHeadcount(n){
   if (likeCount)  likeCount.textContent  = v;
   if (likeCount2) likeCount2.textContent = v;
 }
+// 과거 코드 호환용: renderTotal 호출을 renderHeadcount로 위임
+function renderTotal(n){ renderHeadcount(n); }
 // JSONP 유틸 (CORS 우회)
 function jsonp(url, params, cb, timeoutMs=8000){
   const cbName = `__jsonp_cb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
@@ -50,13 +52,13 @@ function jsonp(url, params, cb, timeoutMs=8000){
 function fetchHeadcount(){
   if (likeCount)  likeCount.textContent  = "…";
   if (likeCount2) likeCount2.textContent = "…";
-  jsonp(SURVEY_API, { action:'getTotal' }, (err, data)=>{
+  jsonp(SURVEY_API, { action:'getTotal', _ts: Date.now() }, (err, data)=>{
     if (err || !data || data.ok !== true){
       console.warn('getTotal failed', err || data);
-      renderTotal(0);
+      renderHeadcount(0);
       return;
     }
-    renderTotal(Number(data.total) || 0);
+    renderHeadcount(Number(data.total) || 0);
   });
 }
 // 클릭으로 숫자 증가하지 않도록(옵션: 설문 열기)
