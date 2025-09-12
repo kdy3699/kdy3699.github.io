@@ -65,6 +65,12 @@ function openSurvey(){ document.getElementById('surveyModal')?.classList.remove(
 function closeSurvey(){ document.getElementById('surveyModal')?.classList.add('hidden'); }
 window.closeSurvey = closeSurvey; window.openSurvey = openSurvey;
 
+/* ===== In-app browser (Kakao 등) 감지 ===== */
+function isInAppKakao(){
+  const ua = navigator.userAgent || '';
+  return /KAKAOTALK|KAKAOWEBVIEW|KAKAO/i.test(ua);
+}
+
 /* ===== 페이지 진입 시 자동 팝업 ===== */
 document.addEventListener('DOMContentLoaded', () => {
   try { openSurvey(); } catch(e){}
@@ -242,19 +248,61 @@ function initGallery(){
     if (!name) { e.preventDefault(); alert('이름을 입력해주세요.'); form.name?.focus(); return; }
     personInput.value = clampToMin1(personInput.value);
     if (hp) { e.preventDefault(); alert('제출 완료되었습니다.'); form.reset(); personInput.value = 1; return; }
-    // 실제 제출: 딜레이 없이 모달을 즉시 닫고 전송 진행
-    submitted = true;
+    // 공통 버튼 비활성화 + 토스트
     submitBtn?.setAttribute('disabled','disabled');
     submitBtn?.classList.add('opacity-60','pointer-events-none');
     if (submitBtn) submitBtn.textContent = '전송 중…';
     try { showToast('제출 중입니다…'); } catch(e){}
-    // Optimistic UI: 바로 합계 올려서 체감 지연 감소
+
+    // 카카오 인앱 브라우저에서는 JSONP로 직접 기록 (iframe POST 회피)
+    if (isInAppKakao()){
+      e.preventDefault();
+      const payload = {
+        action: 'add',
+        name: name,
+        phone: form.phone?.value?.trim() || '',
+        eat: form.eat?.value || '',
+        bus: form.bus?.value || '',
+        person: clampToMin1(form.person?.value),
+        source_path: location.origin + location.pathname,
+        client_time: new Date().toISOString(),
+        ua: navigator.userAgent || '',
+        ref: document.referrer || ''
+      };
+      // 낙관적 증가로 체감 지연 감소
+      try{
+        const inc = payload.person;
+        const cur = parseInt((likeCount?.textContent || likeCount2?.textContent || '0'), 10) || 0;
+        renderHeadcount(cur + inc);
+      }catch(_){}
+      jsonp(SURVEY_API, payload, (err, data)=>{
+        if (err || !data || data.ok !== true){
+          console.warn('jsonp submit failed', err || data);
+          showToast('전송 실패, 다시 시도해주세요');
+        }else{
+          showToast('제출이 완료되었습니다. 감사합니다!');
+          form.reset(); personInput.value = 1;
+          // 최신 합계 재조회 (반영 지연 대비 재시도)
+          fetchHeadcount();
+          setTimeout(fetchHeadcount, 1200);
+        }
+        // UI 복원 및 모달 닫기
+        submitBtn?.removeAttribute('disabled');
+        submitBtn?.classList.remove('opacity-60','pointer-events-none');
+        if (submitBtn) submitBtn.textContent = '제출하기';
+        closeSurvey();
+      });
+      return;
+    }
+
+    // 일반 브라우저: 기존대로 iframe POST
+    submitted = true;
+    // Optimistic UI
     try{
       const inc = clampToMin1(personInput.value);
       const cur = parseInt((likeCount?.textContent || likeCount2?.textContent || '0'), 10) || 0;
       renderHeadcount(cur + inc);
     }catch(_){}
-    // iframe으로 POST는 계속 진행되며, 모달만 바로 닫음
     setTimeout(closeSurvey, 0);
   });
   iframe.addEventListener('load', () => {
