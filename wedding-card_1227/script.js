@@ -261,68 +261,71 @@ function initGallery(){
 })();
 
 /* ===== 배경음악: 기본 재생 시도 ===== */
-(function bgmInit(){
+(function bgmInit() {
   const audio = document.getElementById('bgm');
   const btn   = document.getElementById('bgmToggle');
-  if (!audio || !btn) return;
+  if (!audio || !btn) { return; }
 
-  function updateUI(playing){
+  function updateUI(playing) {
     btn.classList.toggle('on', !!playing);
     btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
     const ic = btn.querySelector('.icon');
-    if (ic) ic.textContent = playing ? '🔊' : '🔈';
+    if (ic) { ic.textContent = playing ? '🔊' : '🔈'; }
   }
-  async function play(){
-    try{ await audio.play(); localStorage.setItem('bgm_on','1'); updateUI(true); return true; }
-    catch(e){ /* iOS 등 사용자 제스처 필요 */ return false; }
-    async function play(){
-    try{
-      // iOS 정책 회피는 불가하지만 먼저 시도
+
+  async function play() {
+    try {
       audio.muted = false;
       await audio.play();
-      localStorage.setItem('bgm_on','1');
+      localStorage.setItem('bgm_on', '1');
       updateUI(true);
       return true;
-    }catch(e){
-      // 자동재생 차단됨
+    } catch (e) {
       updateUI(false);
       return false;
     }
   }
-  function pause(){
-    try{ audio.pause(); }catch(e){}
-    localStorage.setItem('bgm_on','0'); updateUI(false);
+
+  function pause() {
+    try { audio.pause(); } catch (e) {}
+    localStorage.setItem('bgm_on', '0');
+    updateUI(false);
   }
+
   // 버튼 토글
-  btn.addEventListener('click', async ()=>{
-    if (audio.paused) await play(); else pause();
+  btn.addEventListener('click', async () => {
+    if (audio.paused) { await play(); } else { pause(); }
   });
+
   // 기본값 = 재생 의향 있음(로컬 스토리지에 값 없으면 true)
   const pref = localStorage.getItem('bgm_on');
-  const want = (pref === null) ? true : pref === '1';
+  const want = (pref === null) ? true : (pref === '1');
+
   // 초기 UI
   updateUI(false);
+
   // 즉시 자동재생 시도
-  (async ()=>{
-    if (!want) return;                 // 사용자가 이전에 끔
-    const ok = await play();           // 자동재생 시도
-    if (ok) return;
+  (async () => {
+    if (!want) { return; }              // 사용자가 이전에 끔
+    const ok = await play();            // 자동재생 시도
+    if (ok) { return; }
     // 차단된 경우: 첫 사용자 제스처에서 재생
-    const unlock = async ()=>{
+    const unlock = async () => {
       await play();
       window.removeEventListener('pointerdown', unlock);
       window.removeEventListener('touchstart', unlock);
       window.removeEventListener('keydown', unlock);
       window.removeEventListener('scroll', unlock, true);
     };
-    window.addEventListener('pointerdown', unlock, { once:true, passive:true });
-    window.addEventListener('touchstart', unlock, { once:true, passive:true });
-    window.addEventListener('keydown', unlock, { once:true });
-    window.addEventListener('scroll', unlock, { once:true, passive:true, capture:true });
+    window.addEventListener('pointerdown', unlock, { once: true, passive: true });
+    window.addEventListener('touchstart', unlock, { once: true, passive: true });
+    window.addEventListener('keydown', unlock, { once: true });
+    window.addEventListener('scroll', unlock, { once: true, passive: true, capture: true });
   })();
-  // 탭 전환 시 살짝 배려 (숨겨지면 일시정지)
-  document.addEventListener('visibilitychange', ()=>{
-    if (document.hidden) pause();
+
+  // 탭 전환 시 숨겨지면 일시정지
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { pause(); }
   });
 })();
 
