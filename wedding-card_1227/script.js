@@ -315,8 +315,7 @@ function initGallery(){
     if (toggling) return;
     toggling = true;
     try {
-      if (audio.paused) { audio.muted = false; await play(); }
-      else { pause(); }}
+      if (audio.paused) { await play(); } else { pause(); }
     } finally {
       toggling = false;
     }
