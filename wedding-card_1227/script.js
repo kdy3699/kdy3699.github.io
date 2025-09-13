@@ -315,7 +315,8 @@ function initGallery(){
     if (toggling) return;
     toggling = true;
     try {
-      if (audio.paused) { await play(); } else { pause(); }
+      if (audio.paused) { audio.muted = false; await play(); }
+      else { pause(); }}
     } finally {
       toggling = false;
     }
@@ -325,19 +326,15 @@ function initGallery(){
   const pref = localStorage.getItem('bgm_on');
   const want = (pref === null) ? true : (pref === '1');
 
-  // 초기 UI
-  updateUI(true);
-
-  // 즉시 자동재생 시도(괄호 중첩 줄이기)
-  async function tryAutoPlay() {
-    if (!want) { return; }              // 사용자가 이전에 끔
-    const ok = await play();            // 자동재생 시도
-    if (ok) { return; }
-    // 차단된 경우: 첫 사용자 제스처에서 재생
-    const unlock = async () => {
-      // 이미 재생 중이면 아무 것도 안 함
-      if (!audio.paused) { cleanup(); return; }
-      await play();
+  // 디폴트 ON이면: 무음 자동재생 시작 → 첫 제스처에서 자동 unmute
+  if (want) {
+    audio.muted = true;        // 자동재생 허용
+    audio.autoplay = true;
+    audio.play().catch(()=>{}); // 실패해도 무시(브라우저 정책)
+    updateUI(true);            // UI는 ON으로 표기
+    const unlock = () => {
+      audio.muted = false;     // 소리만 켬(재생 재호출하지 않음 → 중복방지)
+      updateUI(!audio.paused && !audio.muted);
       cleanup();
     };
     function cleanup(){
@@ -346,12 +343,13 @@ function initGallery(){
       window.removeEventListener('keydown', unlock);
       window.removeEventListener('scroll', unlock, true);
     }
-    window.addEventListener('pointerdown', unlock, { once: true, passive: true });
-    window.addEventListener('touchstart', unlock, { once: true, passive: true });
-    window.addEventListener('keydown', unlock, { once: true });
-    window.addEventListener('scroll', unlock, { once: true, passive: true, capture: true });
+    window.addEventListener('pointerdown', unlock, { once:true, passive:true });
+    window.addEventListener('touchstart', unlock, { once:true, passive:true });
+    window.addEventListener('keydown', unlock, { once:true });
+    window.addEventListener('scroll', unlock, { once:true, passive:true, capture:true });
+  } else {
+    updateUI(false);
   }
-  tryAutoPlay();
 
   // 탭 전환 시 숨겨지면 일시정지
   document.addEventListener('visibilitychange', () => {
