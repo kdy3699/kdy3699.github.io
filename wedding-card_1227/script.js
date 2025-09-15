@@ -276,6 +276,9 @@ function initGallery(){
   }
   const audio = document.getElementById('bgm');
   const btn   = document.getElementById('bgmToggle');
+  const ov    = document.getElementById('bgmOverlay');
+  const ovBtn = document.getElementById('bgmOverlayBtn');
+  
   if (!audio || !btn) { return; }
 
   let toggling = false; // 클릭 토글 중복 방지 플래그
@@ -325,6 +328,8 @@ function initGallery(){
       if (p && p.catch) p.catch(()=>{});
     } catch(_){}
   }
+  function showOverlay(){ if (ov) ov.classList.remove('hidden'); }
+  function hideOverlay(){ if (ov) ov.classList.add('hidden'); }
   
   // 실제로 "소리가 나는 중" 기준으로 아이콘/상태 표시
   function updateUI() {
@@ -392,7 +397,11 @@ function initGallery(){
     audio.autoplay = true;
     audio.play().catch(()=>{}); // 실패해도 OK (정책상 막힐 수 있음)
     updateUI();                 // 실제 상태(무음)이면 🔈 로 표시
-
+    // 무음/정지 상태면 오버레이로 첫 제스처 유도
+    setTimeout(() => {
+      if (audio.paused || audio.muted) { showOverlay(); }
+    }, 0);
+    
     // 첫 제스처에서 즉시 unmute + (필요 시) play() 실행
     const unlock = () => {
       try {
@@ -402,19 +411,22 @@ function initGallery(){
         // 재생이 멈춰있다면 제스처 컨텍스트에서 즉시 play
         if (audio.paused) { hardPlaySync(); }
         updateUI();
+        hideOverlay();
       } finally { detach(); }
     };
     function attach(){
-      const T  = [window, document, document.body];
+      const T  = [window, document, document.body, ov, ovBtn, document.getElementById('surveyModal')].filter(Boolean);
       const EV = ['pointerup','pointerdown','touchend','touchstart','click','keydown','wheel'];
       T.forEach(t => EV.forEach(e => { try { t.addEventListener(e, unlock, { once:true, capture:true }); } catch(_){} }));
     }
     function detach(){
-      const T  = [window, document, document.body];
+      const T  = [window, document, document.body, ov, ovBtn, document.getElementById('surveyModal')].filter(Boolean);
       const EV = ['pointerup','pointerdown','touchend','touchstart','click','keydown','wheel'];
       T.forEach(t => EV.forEach(e => { try { t.removeEventListener(e, unlock, { capture:true }); } catch(_){} }));
     }
     attach();
+    // 오버레이 버튼 직접 탭도 허용(캡처로 못 잡는 환경 대비)
+    if (ovBtn) { ovBtn.addEventListener('click', unlock, { once:true }); }
   } else {
     updateUI();
   }
