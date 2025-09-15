@@ -279,7 +279,18 @@ function initGallery(){
   if (!audio || !btn) { return; }
 
   let toggling = false; // 클릭 토글 중복 방지 플래그
-
+  // iOS/Safari 보정: WebAudio 컨텍스트를 제스처에서 resume
+  let AC = null;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) AC = new Ctx();
+  } catch(_) {}
+  function unlockAudioHW(){
+    if (AC && AC.state !== 'running') {
+      try { AC.resume(); } catch(_) {}
+    }
+  }
+  
   function updateUI(playing) {
     btn.classList.toggle('on', !!playing);
     btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
@@ -330,38 +341,44 @@ function initGallery(){
     audio.muted = true;         // 무음 자동재생 허용
     audio.autoplay = true;
     audio.play().catch(()=>{}); // 실패해도 OK (정책상 막힐 수 있음)
-    updateUI(true);
+    updateUI(true);              // UI는 ON으로 표시(무음 상태)
 
+    // 첫 제스처에서 즉시 unmute + (필요 시) play() 실행
     const unlock = () => {
+      unlockAudioHW();
       try {
-        // 이미 재생 중이면 unmute만, 멈춰있으면 play()도 같이
         if (audio.paused) {
+          // 1) 바로 unmute 후 play 시도
           audio.muted = false;
           const p = audio.play();
+          // 2) 실패 시: muted=true 상태로 play → 성공하면 곧바로 unmute
           if (p && p.catch) {
-            // 혹시 실패하면 muted로 한번 더 시도 후 즉시 unmute
             p.catch(() => {
               audio.muted = true;
               const q = audio.play();
-              if (q && q.then) q.then(()=>{ audio.muted = false; }).catch(()=>{});
+              if (q && q.then) {
+                q.then(() => { audio.muted = false; }).catch(()=>{ /* 마지막까지 실패하면 유지 */ });
+              }
             });
           }
         } else {
+          // 이미 재생 중이면 음소거만 해제
           audio.muted = false;
         }
         updateUI(!audio.paused && !audio.muted);
-      } finally {
-        window.removeEventListener('pointerdown', unlock);
-        window.removeEventListener('touchstart', unlock);
-        window.removeEventListener('keydown', unlock);
-        window.removeEventListener('scroll', unlock, true);
-      }
+      } finally { detach(); }
     };
-    // 첫 사용자 제스처에 연결 (passive=false가 꼭 필요하진 않지만 안정성 위해 기본값 사용)
-    window.addEventListener('pointerdown', unlock, { once:true });
-    window.addEventListener('touchstart',  unlock, { once:true });
-    window.addEventListener('keydown',     unlock, { once:true });
-    window.addEventListener('scroll',      unlock, { once:true, capture:true });
+    function attach(){
+      const T  = [window, document, document.body];
+      const EV = ['pointerup','pointerdown','touchend','touchstart','click','keydown','wheel'];
+      T.forEach(t => EV.forEach(e => { try { t.addEventListener(e, unlock, { once:true, capture:true }); } catch(_){} }));
+    }
+    function detach(){
+      const T  = [window, document, document.body];
+      const EV = ['pointerup','pointerdown','touchend','touchstart','click','keydown','wheel'];
+      T.forEach(t => EV.forEach(e => { try { t.removeEventListener(e, unlock, { capture:true }); } catch(_){} }));
+    }
+    attach();
   } else {
     updateUI(false);
   }
