@@ -319,31 +319,35 @@ function initGallery(){
     } catch(_){}
   }
   function hardPlaySync(){
-    // 동기 제스처 컨텍스트에서 바로 호출
+    // 제스처 핸들러 동기 컨텍스트에서 play 시도
     try {
       const p = audio.play();
       if (p && p.catch) p.catch(()=>{});
     } catch(_){}
   }
   
-  function updateUI(playing) {
-    btn.classList.toggle('on', !!playing);
-    btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+  // 실제로 "소리가 나는 중" 기준으로 아이콘/상태 표시
+  function updateUI() {
+    const audible = (!audio.paused && !audio.muted && audio.volume > 0);
+    btn.classList.toggle('on', audible);
+    btn.setAttribute('aria-pressed', audible ? 'true' : 'false');
     const ic = btn.querySelector('.icon');
-    if (ic) { ic.textContent = playing ? '🔊' : '🔈'; }
+    if (ic) { ic.textContent = audible ? '🔊' : '🔈'; }
   }
 
   async function play() {
     try {
-      audio.muted = false;
-      // 이미 재생 중이면 중복 play() 호출 회피
-      if (!audio.paused) { updateUI(true); return true; }
-      await audio.play();
+      // WebAudio 연결(하드웨어 깨우기)
+      connectToWebAudio();
+      hardUnmute();
+      // 이미 재생 중이면 중복 호출 회피
+      if (!audio.paused) { updateUI(); return true; }
+      await audio.play().catch(()=>{});
       localStorage.setItem('bgm_on', '1');
-      updateUI(true);
+      updateUI();
       return true;
     } catch (e) {
-      updateUI(false);
+      updateUI();
       return false;
     }
   }
@@ -351,17 +355,28 @@ function initGallery(){
   function pause() {
     try { if (!audio.paused) audio.pause(); } catch (e) {}
     localStorage.setItem('bgm_on', '0');
-    updateUI(false);
+    updateUI();
   }
 
-  // 버튼 토글
+  // 버튼 토글 (3-상태: paused→unmute+play / playing&muted→unmute / playing&unmuted→pause)
   btn.addEventListener('click', async (ev) => {
     ev.preventDefault();
     ev.stopPropagation();
     if (toggling) return;
     toggling = true;
     try {
-      if (audio.paused) { await play(); } else { pause(); }
+      connectToWebAudio(); // 버튼 탭에서도 컨텍스트 보장
+      if (audio.paused) {
+        hardUnmute();
+        await audio.play().catch(()=>{});
+        localStorage.setItem('bgm_on', '1');
+      } else if (audio.muted) {
+        hardUnmute();
+        localStorage.setItem('bgm_on', '1');
+      } else {
+        pause();
+      }
+      updateUI();
     } finally {
       toggling = false;
     }
@@ -376,31 +391,17 @@ function initGallery(){
     audio.muted = true;         // 무음 자동재생 허용
     audio.autoplay = true;
     audio.play().catch(()=>{}); // 실패해도 OK (정책상 막힐 수 있음)
-    updateUI(true);              // UI는 ON으로 표시(무음 상태)
+    updateUI();                 // 실제 상태(무음)이면 🔈 로 표시
 
     // 첫 제스처에서 즉시 unmute + (필요 시) play() 실행
     const unlock = () => {
-      unlockAudioHW();
       try {
-        if (audio.paused) {
-          // 1) 바로 unmute 후 play 시도
-          audio.muted = false;
-          const p = audio.play();
-          // 2) 실패 시: muted=true 상태로 play → 성공하면 곧바로 unmute
-          if (p && p.catch) {
-            p.catch(() => {
-              audio.muted = true;
-              const q = audio.play();
-              if (q && q.then) {
-                q.then(() => { audio.muted = false; }).catch(()=>{ /* 마지막까지 실패하면 유지 */ });
-              }
-            });
-          }
-        } else {
-          // 이미 재생 중이면 음소거만 해제
-          audio.muted = false;
-        }
-        updateUI(!audio.paused && !audio.muted);
+        // WebAudio 연결 + 하드 언뮤트
+        connectToWebAudio();
+        hardUnmute();
+        // 재생이 멈춰있다면 제스처 컨텍스트에서 즉시 play
+        if (audio.paused) { hardPlaySync(); }
+        updateUI();
       } finally { detach(); }
     };
     function attach(){
@@ -415,7 +416,7 @@ function initGallery(){
     }
     attach();
   } else {
-    updateUI(false);
+    updateUI();
   }
 
   // 탭 전환 시 숨겨지면 일시정지
