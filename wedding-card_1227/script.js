@@ -325,27 +325,43 @@ function initGallery(){
   const pref = localStorage.getItem('bgm_on');
   const want = (pref === null) ? true : (pref === '1');
 
-  // 디폴트 ON이면: 무음 자동재생 시작 → 첫 제스처에서 자동 unmute
+  // 디폴트 ON이면: 무음 자동재생 시도 → 첫 제스처에서 (필요하면) play() + unmute
   if (want) {
-    audio.muted = true;        // 자동재생 허용
+    audio.muted = true;         // 무음 자동재생 허용
     audio.autoplay = true;
-    audio.play().catch(()=>{}); // 실패해도 무시(브라우저 정책)
-    updateUI(true);            // UI는 ON으로 표기
+    audio.play().catch(()=>{}); // 실패해도 OK (정책상 막힐 수 있음)
+    updateUI(true);
+
     const unlock = () => {
-      audio.muted = false;     // 소리만 켬(재생 재호출하지 않음 → 중복방지)
-      updateUI(!audio.paused && !audio.muted);
-      cleanup();
+      try {
+        // 이미 재생 중이면 unmute만, 멈춰있으면 play()도 같이
+        if (audio.paused) {
+          audio.muted = false;
+          const p = audio.play();
+          if (p && p.catch) {
+            // 혹시 실패하면 muted로 한번 더 시도 후 즉시 unmute
+            p.catch(() => {
+              audio.muted = true;
+              const q = audio.play();
+              if (q && q.then) q.then(()=>{ audio.muted = false; }).catch(()=>{});
+            });
+          }
+        } else {
+          audio.muted = false;
+        }
+        updateUI(!audio.paused && !audio.muted);
+      } finally {
+        window.removeEventListener('pointerdown', unlock);
+        window.removeEventListener('touchstart', unlock);
+        window.removeEventListener('keydown', unlock);
+        window.removeEventListener('scroll', unlock, true);
+      }
     };
-    function cleanup(){
-      window.removeEventListener('pointerdown', unlock);
-      window.removeEventListener('touchstart', unlock);
-      window.removeEventListener('keydown', unlock);
-      window.removeEventListener('scroll', unlock, true);
-    }
-    window.addEventListener('pointerdown', unlock, { once:true, passive:true });
-    window.addEventListener('touchstart', unlock, { once:true, passive:true });
-    window.addEventListener('keydown', unlock, { once:true });
-    window.addEventListener('scroll', unlock, { once:true, passive:true, capture:true });
+    // 첫 사용자 제스처에 연결 (passive=false가 꼭 필요하진 않지만 안정성 위해 기본값 사용)
+    window.addEventListener('pointerdown', unlock, { once:true });
+    window.addEventListener('touchstart',  unlock, { once:true });
+    window.addEventListener('keydown',     unlock, { once:true });
+    window.addEventListener('scroll',      unlock, { once:true, capture:true });
   } else {
     updateUI(false);
   }
