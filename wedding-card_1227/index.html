@@ -394,6 +394,13 @@
 
   <script src="script.js"></script>
 
+  <!-- BGM 오버레이 (첫 제스처 유도) -->
+  <div id="bgmOverlay" class="bgm-overlay hidden" role="dialog" aria-label="Enable sound">
+    <button id="bgmOverlayBtn" class="bgm-overlay-btn" type="button">
+      🔊 소리 켜기
+    </button>
+  </div>
+
   <!-- (선택) 모션 줄이기 선호 시 자동재생 멈춤 -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
