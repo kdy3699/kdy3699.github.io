@@ -279,16 +279,51 @@ function initGallery(){
   if (!audio || !btn) { return; }
 
   let toggling = false; // 클릭 토글 중복 방지 플래그
-  // iOS/Safari 보정: WebAudio 컨텍스트를 제스처에서 resume
-  let AC = null;
-  try {
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if (Ctx) AC = new Ctx();
-  } catch(_) {}
-  function unlockAudioHW(){
-    if (AC && AC.state !== 'running') {
-      try { AC.resume(); } catch(_) {}
+  // === iOS/Safari 보정: WebAudio 사용 (무음 스위치 영향 최소화) ===
+  let AC = null;            // AudioContext
+  let SRC = null;           // MediaElementSourceNode
+  let webAudioReady = false;
+  function ensureAudioContext(){
+    if (!AC) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) AC = new Ctx();
     }
+    return AC;
+  }
+  function connectToWebAudio(){
+    const ctx = ensureAudioContext();
+    if (!ctx) return false;
+    if (ctx.state !== 'running') {
+      try { ctx.resume(); } catch(_) {}
+    }
+    try {
+      // 한 mediaElement는 한 번만 createMediaElementSource 가능
+      if (!SRC) {
+        SRC = (ctx.createMediaElementSource ? ctx.createMediaElementSource(audio) : null);
+        if (SRC) SRC.connect(ctx.destination);
+      }
+      webAudioReady = true;
+      return true;
+    } catch(_) {
+      // 이미 연결되어 있거나 실패한 경우도 통과
+      webAudioReady = true;
+      return true;
+    }
+  }
+  function hardUnmute(){
+    try {
+      // 속성과 attribute 모두 오프로
+      audio.muted = false;
+      audio.volume = 1.0;
+      audio.removeAttribute('muted');
+    } catch(_){}
+  }
+  function hardPlaySync(){
+    // 동기 제스처 컨텍스트에서 바로 호출
+    try {
+      const p = audio.play();
+      if (p && p.catch) p.catch(()=>{});
+    } catch(_){}
   }
   
   function updateUI(playing) {
