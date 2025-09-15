@@ -158,3 +158,31 @@ img, video{ max-width:100%; height:auto; display:block; }
 .font-luxury{
   font-family: "Luxury Modish", ui-serif, serif;
 }
+
+/* ===== BGM Overlay ===== */
+.bgm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;              /* 설문 모달보다 위 */
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.bgm-overlay.hidden { display: none !important; }
+.bgm-overlay-btn {
+  appearance: none;
+  border: 0;
+  border-radius: 9999px;
+  padding: 14px 22px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  background: #fff;
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.15),
+    inset 0 -2px 0 rgba(0,0,0,0.05);
+}
+.bgm-overlay-btn:active { transform: translateY(1px); }
