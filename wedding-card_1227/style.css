@@ -160,6 +160,24 @@ img, video{ max-width:100%; height:auto; display:block; }
   letter-spacing: .01em;
 }
 
+/* ===== Eulyoo1945 (Korean body font) ===== */
+@font-face{
+  font-family: 'Eulyoo1945';
+  src:
+    url('assets/Eulyoo1945-Regular.woff')  format('woff'),
+    url('assets/Eulyoo1945-Regular.ttf')   format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 헬퍼: 한국어 본문/버튼 등에 적용 */
+.font-eulyoo{
+  font-family: 'Eulyoo1945-Regular', 'Noto Sans KR', 'Apple SD Gothic Neo',
+               'Malgun Gothic', system-ui, -apple-system, sans-serif;
+  letter-spacing: .01em;
+}
+
 /* ==== 음악 토글 버튼 ==== */
 .music-btn{
   position: fixed; right: 14px; bottom: 24px; z-index: 65;
