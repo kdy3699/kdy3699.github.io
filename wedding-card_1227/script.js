@@ -128,7 +128,8 @@ function gbBind(){
         }
         showToast('등록되었습니다!');
         form.reset();
-        document.getElementById('gbCount')?.textContent = '0';
+        const cntEl = document.getElementById('gbCount');
+        if (cntEl) cntEl.textContent = '0';
         await gbRefresh();
       });
     });
