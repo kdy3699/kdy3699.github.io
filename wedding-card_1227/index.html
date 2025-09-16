@@ -282,6 +282,39 @@
       </div>
     </section>
 
+    <!-- 방명록 -->
+    <section id="guestbook" class="card">
+      <h2 class="section-title">방명록</h2>
+      <form id="gbForm" class="space-y-3">
+        <div class="grid grid-cols-3 gap-2">
+          <div class="col-span-1">
+            <label class="text-sm">이름</label>
+            <input name="gb_name" type="text" required maxlength="20"
+                   class="mt-1 w-full border rounded-md px-3 py-2" placeholder="홍길동" />
+          </div>
+          <div class="col-span-2">
+            <label class="text-sm flex items-center justify-between">
+              <span>메시지</span><span class="text-xs text-gray-500"><span id="gbCount">0</span>/200</span>
+            </label>
+            <textarea name="gb_msg" id="gbMsg" rows="2" maxlength="200" required
+                      class="mt-1 w-full border rounded-md px-3 py-2 resize-none"
+                      placeholder="축하 메시지를 남겨주세요 (최대 200자)"></textarea>
+          </div>
+        </div>
+        <!-- 스팸 방지 허니팟 -->
+        <input type="text" name="_hp_gb" class="hidden" tabindex="-1" autocomplete="off" />
+        <div class="flex gap-2">
+          <button type="submit" id="gbSubmit" class="emboss-btn-primary">등록</button>
+          <button type="button" id="gbRefresh" class="emboss-btn">새로고침</button>
+        </div>
+      </form>
+
+      <ul id="gbList" class="gb-list mt-4"></ul>
+      <div class="mt-2 text-center">
+        <button id="gbMore" class="emboss-mini">더 보기</button>
+      </div>
+    </section>
+    
     <!-- 마음 전하실 곳 -->
     <section id="accounts" class="card">
       <h2 class="section-title">마음 전하실 곳</h2>
