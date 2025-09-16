@@ -34,6 +34,113 @@ function jsonp(url, params, cb, timeoutMs=8000){
   s.onerror = ()=>{ if(done) return; clearTimeout(timer); try{ cb && cb(new Error('jsonp error')); } finally{ cleanup(); } };
   document.body.appendChild(s);
 }
+
+/* ===== Guestbook state ===== */
+const GB_PAGE_SIZE = 10;
+let gbSkip = 0; // 페이지네이션: 서버에서 최근순으로 가져오며 skip/limit 사용
+
+function escapeHtml(s=''){
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function fmtDate(iso){
+  try {
+    const d = new Date(iso);
+    const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), da = String(d.getDate()).padStart(2,'0');
+    const hh = String(d.getHours()).padStart(2,'0'), mm = String(d.getMinutes()).padStart(2,'0');
+    return `${y}.${m}.${da} ${hh}:${mm}`;
+  } catch { return iso; }
+}
+
+function gbRender(items, {append=false}={}){
+  const ul = document.getElementById('gbList');
+  if (!ul) return;
+  if (!append) ul.innerHTML = '';
+  items.forEach(it=>{
+    const li = document.createElement('li');
+    li.className = 'gb-item';
+    li.innerHTML = `
+      <div class="gb-name">${escapeHtml(it.name || '익명')}</div>
+      <div class="gb-time">${escapeHtml(fmtDate(it.timestamp))}</div>
+      <div class="gb-msg">${escapeHtml(it.message || '')}</div>
+    `;
+    ul.appendChild(li);
+  });
+}
+
+function gbFetch({skip=0, limit=GB_PAGE_SIZE}={}){
+  return new Promise((resolve)=>{
+    jsonp(SURVEY_API, { action:'gb_list', skip, limit, _ts: Date.now() }, (err, data)=>{
+      if (err || !data || data.ok !== true) { console.warn('gb_list failed', err||data); resolve([]); return; }
+      resolve(Array.isArray(data.items) ? data.items : []);
+    });
+  });
+}
+
+async function gbRefresh(){
+  gbSkip = 0;
+  const items = await gbFetch({ skip:0, limit:GB_PAGE_SIZE });
+  gbRender(items, {append:false});
+  gbSkip = items.length;
+}
+
+async function gbMore(){
+  const items = await gbFetch({ skip: gbSkip, limit: GB_PAGE_SIZE });
+  gbRender(items, {append:true});
+  gbSkip += items.length;
+}
+
+function gbBind(){
+  const ta = document.getElementById('gbMsg');
+  const cnt= document.getElementById('gbCount');
+  ta?.addEventListener('input', ()=>{ cnt && (cnt.textContent = String(ta.value.length)); });
+
+  document.getElementById('gbRefresh')?.addEventListener('click', gbRefresh);
+  document.getElementById('gbMore')?.addEventListener('click', gbMore);
+
+  const form = document.getElementById('gbForm');
+  if (form){
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const submit = document.getElementById('gbSubmit');
+      const name = form.gb_name?.value?.trim();
+      const msg  = form.gb_msg?.value?.trim();
+      const hp   = form._hp_gb?.value || '';
+      if (!name) { alert('이름을 입력해주세요.'); form.gb_name?.focus(); return; }
+      if (!msg)  { alert('메시지를 입력해주세요.'); form.gb_msg?.focus(); return; }
+      submit?.setAttribute('disabled','disabled');
+      submit?.classList.add('opacity-60','pointer-events-none');
+      // JSONP로 추가 (CORS 회피)
+      jsonp(SURVEY_API, {
+        action:'gb_add',
+        name, message: msg,
+        source_path: location.origin + location.pathname,
+        client_time: new Date().toISOString(),
+        ua: navigator.userAgent || '',
+        ref: document.referrer || '',
+        _hp: hp
+      }, async (err, data)=>{
+        submit?.removeAttribute('disabled');
+        submit?.classList.remove('opacity-60','pointer-events-none');
+        if (err || !data || data.ok !== true){
+          showToast('등록 실패, 잠시 후 다시 시도해주세요.');
+          console.warn('gb_add failed', err||data);
+          return;
+        }
+        showToast('등록되었습니다!');
+        form.reset();
+        document.getElementById('gbCount')?.textContent = '0';
+        await gbRefresh();
+      });
+    });
+  }
+}
+
+// 페이지 진입 시 바인딩 및 첫 로드
+document.addEventListener('DOMContentLoaded', ()=>{
+  gbBind();
+  gbRefresh();
+});
+
 function fetchK1(){
   if (likeCount)  likeCount.textContent  = '…';
   if (likeCount2) likeCount2.textContent = '…';
