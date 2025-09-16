@@ -270,7 +270,7 @@ function initGallery(){
     btn.classList.toggle('on', !!playing);
     btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
     const ic = btn.querySelector('.icon');
-    if (ic) ic.textContent = playing ? '📽' : '🤫';
+    if (ic) ic.textContent = playing ? '🔊' : '🔈';
   }
   async function play(){
     try{
