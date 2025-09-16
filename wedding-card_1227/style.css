@@ -132,7 +132,6 @@ img, video{ max-width:100%; height:auto; display:block; }
 @font-face{
   font-family: "Luxury Modish";
   src:
-    url("assets/Luxury Modish.woff2") format("woff2"),
     url("assets/Luxury Modish.otf") format("opentype"),
     url("assets/Luxury Modish.ttf") format("truetype");
   font-weight: 400;
@@ -141,6 +140,24 @@ img, video{ max-width:100%; height:auto; display:block; }
 }
 .font-luxury{
   font-family: "Luxury Modish", ui-serif, serif;
+}
+
+/* ===== MapoFlowerIsland (Korean body font) ===== */
+@font-face{
+  font-family: 'MapoFlowerIsland';
+  src:
+    url('assets/MapoFlowerIsland.woff')  format('woff'),
+    url('assets/MapoFlowerIsland.ttf')   format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 헬퍼: 한국어 본문/버튼 등에 적용 */
+.font-flower{
+  font-family: 'MapoFlowerIsland', 'Noto Sans KR', 'Apple SD Gothic Neo',
+               'Malgun Gothic', system-ui, -apple-system, sans-serif;
+  letter-spacing: .01em;
 }
 
 /* ==== 음악 토글 버튼 ==== */
