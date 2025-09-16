@@ -171,11 +171,9 @@ img, video{ max-width:100%; height:auto; display:block; }
   font-display: swap;
 }
 
-/* 헬퍼: 한국어 본문/버튼 등에 적용 */
-.font-eulyoo{
-  font-family: 'Eulyoo1945-Regular', 'Noto Sans KR', 'Apple SD Gothic Neo',
-               'Malgun Gothic', system-ui, -apple-system, sans-serif;
-  letter-spacing: .01em;
+.font-eulyoo {
+  font-family: 'Eulyoo1945', 'Noto Serif KR', 'Noto Sans KR',
+               'Apple SD Gothic Neo', 'Malgun Gothic', serif;
 }
 
 /* ==== 음악 토글 버튼 ==== */
