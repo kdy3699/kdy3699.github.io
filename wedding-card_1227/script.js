@@ -260,180 +260,66 @@ function initGallery(){
   });
 })();
 
-/* ===== 배경음악: 기본 재생 시도 (중복 방지/안정화) ===== */
-; (function bgmInit() {
-  // 이미 초기화되었으면 재실행 금지 (스크립트 중복 로드 대비)
-  if (window.__bgm_inited__) { return; }
-  window.__bgm_inited__ = true;
-
-  // 같은 id를 가진 audio가 중복 생성된 경우 정리
-  const bgmNodes = document.querySelectorAll('audio#bgm');
-  if (bgmNodes.length > 1) {
-    for (let i = 1; i < bgmNodes.length; i++) {
-      try { bgmNodes[i].pause(); } catch {}
-      try { bgmNodes[i].remove(); } catch {}
-    }
-  }
+/* ===== 배경음악: 기본 재생 시도 ===== */
+(function bgmInit(){
   const audio = document.getElementById('bgm');
   const btn   = document.getElementById('bgmToggle');
-  const ov    = document.getElementById('bgmOverlay');
-  const ovBtn = document.getElementById('bgmOverlayBtn');
-  
-  if (!audio || !btn) { return; }
+  if (!audio || !btn) return;
 
-  let toggling = false; // 클릭 토글 중복 방지 플래그
-  // === iOS/Safari 보정: WebAudio 사용 (무음 스위치 영향 최소화) ===
-  let AC = null;            // AudioContext
-  let SRC = null;           // MediaElementSourceNode
-  let webAudioReady = false;
-  function ensureAudioContext(){
-    if (!AC) {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (Ctx) AC = new Ctx();
-    }
-    return AC;
-  }
-  function connectToWebAudio(){
-    const ctx = ensureAudioContext();
-    if (!ctx) return false;
-    if (ctx.state !== 'running') {
-      try { ctx.resume(); } catch(_) {}
-    }
-    try {
-      // 한 mediaElement는 한 번만 createMediaElementSource 가능
-      if (!SRC) {
-        SRC = (ctx.createMediaElementSource ? ctx.createMediaElementSource(audio) : null);
-        if (SRC) SRC.connect(ctx.destination);
-      }
-      webAudioReady = true;
-      return true;
-    } catch(_) {
-      // 이미 연결되어 있거나 실패한 경우도 통과
-      webAudioReady = true;
-      return true;
-    }
-  }
-  function hardUnmute(){
-    try {
-      // 속성과 attribute 모두 오프로
-      audio.muted = false;
-      audio.volume = 1.0;
-      audio.removeAttribute('muted');
-    } catch(_){}
-  }
-  function hardPlaySync(){
-    // 제스처 핸들러 동기 컨텍스트에서 play 시도
-    try {
-      const p = audio.play();
-      if (p && p.catch) p.catch(()=>{});
-    } catch(_){}
-  }
-  function showOverlay(){ if (ov) ov.classList.remove('hidden'); }
-  function hideOverlay(){ if (ov) ov.classList.add('hidden'); }
-  
-  // 실제로 "소리가 나는 중" 기준으로 아이콘/상태 표시
-  function updateUI() {
-    const audible = (!audio.paused && !audio.muted && audio.volume > 0);
-    btn.classList.toggle('on', audible);
-    btn.setAttribute('aria-pressed', audible ? 'true' : 'false');
+  function updateUI(playing){
+    btn.classList.toggle('on', !!playing);
+    btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
     const ic = btn.querySelector('.icon');
-    if (ic) { ic.textContent = audible ? '🔊' : '🔈'; }
+    if (ic) ic.textContent = playing ? '🔊' : '🔈';
   }
-
-  async function play() {
-    try {
-      // WebAudio 연결(하드웨어 깨우기)
-      connectToWebAudio();
-      hardUnmute();
-      // 이미 재생 중이면 중복 호출 회피
-      if (!audio.paused) { updateUI(); return true; }
-      await audio.play().catch(()=>{});
-      localStorage.setItem('bgm_on', '1');
-      updateUI();
+  async function play(){
+    try{
+      // iOS 정책 회피는 불가하지만 먼저 시도
+      audio.muted = false;
+      await audio.play();
+      localStorage.setItem('bgm_on','1');
+      updateUI(true);
       return true;
-    } catch (e) {
-      updateUI();
+    }catch(e){
+      // 자동재생 차단됨
+      updateUI(false);
       return false;
     }
   }
-
-  function pause() {
-    try { if (!audio.paused) audio.pause(); } catch (e) {}
-    localStorage.setItem('bgm_on', '0');
-    updateUI();
+  function pause(){
+    try{ audio.pause(); }catch(e){}
+    localStorage.setItem('bgm_on','0'); updateUI(false);
   }
-
-  // 버튼 토글 (3-상태: paused→unmute+play / playing&muted→unmute / playing&unmuted→pause)
-  btn.addEventListener('click', async (ev) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-    if (toggling) return;
-    toggling = true;
-    try {
-      connectToWebAudio(); // 버튼 탭에서도 컨텍스트 보장
-      if (audio.paused) {
-        hardUnmute();
-        await audio.play().catch(()=>{});
-        localStorage.setItem('bgm_on', '1');
-      } else if (audio.muted) {
-        hardUnmute();
-        localStorage.setItem('bgm_on', '1');
-      } else {
-        pause();
-      }
-      updateUI();
-    } finally {
-      toggling = false;
-    }
+  // 버튼 토글
+  btn.addEventListener('click', async ()=>{
+    if (audio.paused) await play(); else pause();
   });
-
   // 기본값 = 재생 의향 있음(로컬 스토리지에 값 없으면 true)
   const pref = localStorage.getItem('bgm_on');
-  const want = (pref === null) ? true : (pref === '1');
-
-  // 디폴트 ON이면: 무음 자동재생 시도 → 첫 제스처에서 (필요하면) play() + unmute
-  if (want) {
-    audio.muted = true;         // 무음 자동재생 허용
-    audio.autoplay = true;
-    audio.play().catch(()=>{}); // 실패해도 OK (정책상 막힐 수 있음)
-    updateUI();                 // 실제 상태(무음)이면 🔈 로 표시
-    // 무음/정지 상태면 오버레이로 첫 제스처 유도
-    setTimeout(() => {
-      if (audio.paused || audio.muted) { showOverlay(); }
-    }, 0);
-    
-    // 첫 제스처에서 즉시 unmute + (필요 시) play() 실행
-    const unlock = () => {
-      try {
-        // WebAudio 연결 + 하드 언뮤트
-        connectToWebAudio();
-        hardUnmute();
-        // 재생이 멈춰있다면 제스처 컨텍스트에서 즉시 play
-        if (audio.paused) { hardPlaySync(); }
-        updateUI();
-        hideOverlay();
-      } finally { detach(); }
+  const want = (pref === null) ? true : pref === '1';
+  // 초기 UI
+  updateUI(false);
+  // 즉시 자동재생 시도
+  (async ()=>{
+    if (!want) return;                 // 사용자가 이전에 끔
+    const ok = await play();           // 자동재생 시도
+    if (ok) return;
+    // 차단된 경우: 첫 사용자 제스처에서 재생
+    const unlock = async ()=>{
+      await play();
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('touchstart', unlock);
+      window.removeEventListener('keydown', unlock);
+      window.removeEventListener('scroll', unlock, true);
     };
-    function attach(){
-      const T  = [window, document, document.body, ov, ovBtn, document.getElementById('surveyModal')].filter(Boolean);
-      const EV = ['pointerup','pointerdown','touchend','touchstart','click','keydown','wheel'];
-      T.forEach(t => EV.forEach(e => { try { t.addEventListener(e, unlock, { once:true, capture:true }); } catch(_){} }));
-    }
-    function detach(){
-      const T  = [window, document, document.body, ov, ovBtn, document.getElementById('surveyModal')].filter(Boolean);
-      const EV = ['pointerup','pointerdown','touchend','touchstart','click','keydown','wheel'];
-      T.forEach(t => EV.forEach(e => { try { t.removeEventListener(e, unlock, { capture:true }); } catch(_){} }));
-    }
-    attach();
-    // 오버레이 버튼 직접 탭도 허용(캡처로 못 잡는 환경 대비)
-    if (ovBtn) { ovBtn.addEventListener('click', unlock, { once:true }); }
-  } else {
-    updateUI();
-  }
-
-  // 탭 전환 시 숨겨지면 일시정지
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { pause(); }
+    window.addEventListener('pointerdown', unlock, { once:true, passive:true });
+    window.addEventListener('touchstart', unlock, { once:true, passive:true });
+    window.addEventListener('keydown', unlock, { once:true });
+    window.addEventListener('scroll', unlock, { once:true, passive:true, capture:true });
+  })();
+  // 탭 전환 시 살짝 배려 (숨겨지면 일시정지)
+  document.addEventListener('visibilitychange', ()=>{
+    if (document.hidden) pause();
   });
 })();
 
