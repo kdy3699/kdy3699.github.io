@@ -298,7 +298,7 @@ function initGallery(){
   const pref = localStorage.getItem('bgm_on');
   const want = (pref === null) ? true : pref === '1';
   // 초기 UI
-  updateUI(false);
+  updateUI(true);
   // 즉시 자동재생 시도
   (async ()=>{
     if (!want) return;                 // 사용자가 이전에 끔
