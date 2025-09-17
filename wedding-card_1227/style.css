@@ -208,3 +208,16 @@ img, video{ max-width:100%; height:auto; display:block; }
 .gb-name { font-weight: 700; color: #111827; }
 .gb-time { font-size: 12px; color: #6b7280; }
 .gb-msg  { grid-column: 1 / -1; white-space: pre-wrap; word-break: break-word; }
+
+/* 공유/복사 (인라인) */
+#shareInline .share-btn{
+  display:flex; align-items:center; gap:.5rem;
+  padding:.6rem .9rem; border-radius:9999px;
+  border:1px solid #f1d1dc; background:#fff;
+  font-size:14px; line-height:1; color:#444;
+}
+#shareInline .share-btn.kakao{
+  background:#FEE500; border-color:#FEE500; color:#181600;
+}
+#shareInline .share-btn .ico{ font-size:18px; line-height:1; }
+@media (min-width:480px){ #shareInline .share-btn{ font-size:15px; } }
