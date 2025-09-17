@@ -444,43 +444,15 @@ window.addEventListener('resize', setNavSpacer, { passive:true });
 window.addEventListener('orientationchange', setNavSpacer);
 document.addEventListener('DOMContentLoaded', setNavSpacer);
 
-/* ===== 공유/복사 (마음전하실곳 뒤) ===== */
-(function shareInit(){
-  const shareBtn = document.getElementById('btnKakaoShare');
-  const copyBtn  = document.getElementById('btnCopyLink');
-  if (!shareBtn && !copyBtn) return;
-
+/* ===== 주소 복사 (마음전하실곳 뒤) ===== */
+(function copyOnlyInit(){
+  const copyBtn = document.getElementById('btnCopyLink');
+  if (!copyBtn) return;
   const shareUrl = location.href.split('#')[0];
-  // Kakao SDK 초기화 (이미 init 되어 있으면 패스)
-  try{
-    if (window.Kakao && !window.Kakao.isInitialized?.()){
-      window.Kakao.init('243bffddd0f090d5a85151747fa7e347'); // 카카오 개발자 콘솔의 JS 키
-    }
-  }catch(e){ /* noop */ }
-
-  shareBtn?.addEventListener('click', () => {
-    if (!(window.Kakao && window.Kakao.isInitialized?.())){
-      showToast('카카오 공유를 준비 중입니다. 잠시 후 다시 눌러주세요.');
-      return;
-    }
-    const img = `${location.origin}${location.pathname.replace(/[^/]*$/, '')}assets/poster.jpg`; // 대표 이미지(있으면 교체 가능)
-    window.Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: 'One Breath',
-        description: '2025.12.27 Sat · 삼성전자 서초사옥 5F',
-        imageUrl: img,
-        link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
-      },
-      buttons: [
-        { title: '모바일청첩장 열기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }
-      ]
-    });
-  });
-
-  copyBtn?.addEventListener('click', async () => {
+  copyBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
     try{
-      await copyText(shareUrl);   // 네가 이미 쓰고 있는 copyText() 재사용
+      await copyText(shareUrl);     // 기존 copyText() 유틸 재사용
       showToast('주소가 복사되었습니다');
     }catch{
       showToast('복사에 실패했습니다');
