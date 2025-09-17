@@ -72,7 +72,7 @@ img, video{ max-width:100%; height:auto; display:block; }
   border: 1px solid #f3d1da;
   border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 10px 30px rgba(255, 0, 80, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   margin: 12px 0;
 }
 .section-title {
