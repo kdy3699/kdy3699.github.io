@@ -357,6 +357,18 @@
       </div>
     </section>
 
+    <!-- 공유/복사 (마음전하실곳 바로 뒤) -->
+    <div id="shareInline" class="mobile-frame mt-6 mb-2">
+      <div class="flex justify-center gap-3">
+        <button id="btnKakaoShare" class="share-btn kakao" type="button" aria-label="카카오톡 공유">
+          <span class="ico">🟡</span><span>카카오 공유</span>
+        </button>
+        <button id="btnCopyLink" class="share-btn" type="button" aria-label="주소 복사">
+          <span class="ico">🔗</span><span>청첩장 주소 복사</span>
+       </button>
+      </div>
+    </div>
+    
     <div class="h-16"></div>
   </main>
 
@@ -441,5 +453,6 @@
       if (mq && mq.matches && vid) { try { vid.pause(); } catch(e){} vid.removeAttribute('autoplay'); }
     });
   </script>
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
