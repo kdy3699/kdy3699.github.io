@@ -22,6 +22,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Force light appearance regardless of OS/browser dark mode -->
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <!-- Keep browser UI (address bar) light in both modes -->
+  <meta name="theme-color" content="#e9fff6">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#e9fff6">
+
 </head>
 <body class="bg-[#e9fff6] text-gray-800 font-eulyoo">
 
