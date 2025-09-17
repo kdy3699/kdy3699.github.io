@@ -215,9 +215,10 @@ img, video{ max-width:100%; height:auto; display:block; }
   padding:.6rem .9rem; border-radius:9999px;
   border:1px solid #f1d1dc; background:#fff;
   font-size:14px; line-height:1; color:#444;
-}
-#shareInline .share-btn.kakao{
-  background:#FEE500; border-color:#FEE500; color:#181600;
+  cursor:pointer; transition:transform .06s ease, box-shadow .12s ease;
 }
 #shareInline .share-btn .ico{ font-size:18px; line-height:1; }
+/* PC에서 아이콘/라벨만 선택되어 복사되는 것 방지 */
+#shareInline .share-btn *{ user-select:none; }
+#shareInline .share-btn:active{ transform:scale(.98); }
 @media (min-width:480px){ #shareInline .share-btn{ font-size:15px; } }
