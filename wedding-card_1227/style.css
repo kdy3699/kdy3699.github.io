@@ -77,7 +77,7 @@ img, video{ max-width:100%; height:auto; display:block; }
 }
 .section-title {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 8px;
 }
 
@@ -242,3 +242,12 @@ img, video{ max-width:100%; height:auto; display:block; }
 .btn-outline-black:hover{ background: transparent !important; }
 .btn-outline-black:active{ background: transparent !important; transform: none !important; }
 .btn-outline-black:focus{ outline: none; box-shadow: none !important; }
+
+/* === Section/Card borders: force solid black === */
+:root {
+  --card-border: #000; /* if cards use a CSS var anywhere */
+}
+section.card,
+.card {
+  border: 1px solid #000 !important;
+}
