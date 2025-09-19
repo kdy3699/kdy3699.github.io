@@ -232,9 +232,9 @@ img, video{ max-width:100%; height:auto; display:block; }
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
   margin-bottom: 10px;
 }
-.gb-name { font-weight: 700; color: #111827; }
-.gb-time { font-size: 12px; color: #6b7280; }
-.gb-msg  { grid-column: 1 / -1; white-space: pre-wrap; word-break: break-word; }
+.gb-name { font-size: 12px; font-weight: 700; color: #111827; }
+.gb-time { font-size: 11px; color: #6b7280; }
+.gb-msg  { font-size: 12px; grid-column: 1 / -1; white-space: pre-wrap; word-break: break-word; }
 
 /* 공유/복사 (인라인) */
 #shareInline .share-btn{
