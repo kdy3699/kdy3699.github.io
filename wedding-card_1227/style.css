@@ -128,19 +128,20 @@ img, video{ max-width:100%; height:auto; display:block; }
 .stepper-input { width:90px; text-align:center; border:1px solid #e6e1db; border-radius:10px; padding:10px 8px; font-size:16px; background:#fff; }
 
 /* 계좌 행 */
-.acc-row{ display:grid; grid-template-columns: 80px 1fr; gap:10px; align-items:center; }
+/*.acc-row{ display:grid; grid-template-columns: 80px 1fr; gap:10px; align-items:center; }
 .acc-label{ font-weight:700; color:#9a2047; }
 .acc-value{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; overflow-wrap:anywhere; word-break:keep-all; }
-.acc-copy{ border:1px solid #e5e7eb; padding:4px 8px; border-radius:999px; font-size:12px; }
+.acc-copy{ border:1px solid #e5e7eb; padding:4px 8px; border-radius:999px; font-size:12px; }*/
 
 /* === Accounts section: make text smaller === */
+/*
 #accounts .acc-label,
 #accounts .acc-value {
-  font-size: 0.75rem; /* ~12px */
+  font-size: 0.75rem;
   line-height: 1.35;
 }
 #accounts .acc-copy {
-  font-size: 0.75rem;  /* ~12px */
+  font-size: 0.75rem;
   padding: 2px 6px;
   border: 1px solid #000;
   border-radius: 6px;
@@ -148,8 +149,40 @@ img, video{ max-width:100%; height:auto; display:block; }
 }
 @media (max-width: 360px) {
   #accounts .acc-label,
-  #accounts .acc-value { font-size: 0.75rem; } /* ~12px */
+  #accounts .acc-value { font-size: 0.75rem; }
 }
+*/
+/* === Accounts accordion === */
+#accounts .acc-accordion {
+  border: 1px solid #000;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+#accounts .acc-accordion > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  font-weight: 700;
+}
+#accounts .acc-accordion > summary::-webkit-details-marker { display: none; }
+#accounts .acc-accordion > summary::after {
+  content: '▸';
+  transition: transform .2s ease;
+  font-size: 0.9em;
+}
+#accounts .acc-accordion[open] > summary::after { transform: rotate(90deg); }
+#accounts .acc-side { font-size: 0.75rem; }
+#accounts .acc-hint { font-size: 0.75rem; font-weight: 500; opacity: .7; }
+#accounts .acc-list { border-top: 1px solid #000; padding: 10px 12px; }
+#accounts .acc-row { display: flex; gap: 10px; padding: 8px 0; }
+#accounts .acc-label { width: 56px; flex: 0 0 auto; font-weight: 700; }
+#accounts .acc-value { flex: 1 1 auto; }
 
 /* 토스트 */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(8px); background: rgba(0,0,0,.85); color: #fff; padding: 10px 14px; border-radius: 999px; font-size: 13px; letter-spacing: .2px; z-index: 70; opacity: 0; transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
