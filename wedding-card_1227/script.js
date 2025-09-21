@@ -212,6 +212,16 @@ document.addEventListener('click', async (e)=>{
   try { await copyText(text); showToast('계좌가 복사되었습니다'); } catch(e){ showToast('복사에 실패했습니다'); }
 });
 
+/* ===== Accounts accordion: only one open at a time ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const accs = Array.from(document.querySelectorAll('#accounts details.acc-accordion'));
+  accs.forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (d.open) accs.forEach(o => { if (o !== d) o.open = false; });
+    });
+  });
+});
+
 /* ===== 라이트박스 ===== */
 document.addEventListener('DOMContentLoaded', initGallery);
 function initGallery(){
