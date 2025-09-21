@@ -81,6 +81,12 @@ img, video{ max-width:100%; height:auto; display:block; }
   margin-bottom: 8px;
 }
 
+.section-title0 {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
 /* 상단 메뉴: 엠보싱 버튼 */
 .emboss-btn, .emboss-btn-primary, .emboss-mini {
   appearance: none; border-radius: 999px; border: 1px solid #e4c5cf;
