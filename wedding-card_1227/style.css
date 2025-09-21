@@ -182,7 +182,23 @@ img, video{ max-width:100%; height:auto; display:block; }
 #accounts .acc-list { border-top: 1px solid #000; padding: 10px 12px; }
 #accounts .acc-row { display: flex; gap: 10px; padding: 8px 0; }
 #accounts .acc-label { width: 56px; flex: 0 0 auto; font-weight: 700; }
-#accounts .acc-value { flex: 1 1 auto; }
+#accounts .acc-value {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0; /* for ellipsis */
+}
+#accounts .acc-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#accounts .acc-copy {
+  margin-left: auto;           /* 버튼을 오른쪽 끝으로 밀기 */
+}
 
 /* 토스트 */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(8px); background: rgba(0,0,0,.85); color: #fff; padding: 10px 14px; border-radius: 999px; font-size: 13px; letter-spacing: .2px; z-index: 70; opacity: 0; transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
