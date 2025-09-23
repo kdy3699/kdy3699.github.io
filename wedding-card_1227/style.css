@@ -332,18 +332,12 @@ section.card,
   --bg-fallback:#eaf7f4; /* 이미지 로드 전/실패 대비 */
 }
 
-/* 배경이미지 */
-.bg-has-image{
-  background: var(--bg-fallback) url('assets/background.jpg') center / cover no-repeat;
-  /* iOS 성능 고려해 fixed는 기본 제외. 필요하면 아래 주석 해제 */
-  /* background-attachment: fixed; */
-}
-
-/* 가독성 향상을 위한 아주 옅은 오버레이(선택) */
-.bg-has-image::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,255,255,0.35));
+/* 배경 이미지를 '타일'처럼 반복 */
+body.bg-has-image{
+  --bg-tile-size: 240px; /* 타일 크기(원하는 크기로 조절) */
+  background-color: var(--bg-fallback) !important;
+  background-image: url('assets/background.jpg') !important;
+  background-repeat: repeat !important;
+  background-position: top left !important;
+  background-size: var(--bg-tile-size) auto !important; /* 가로 기준 스케일 */
 }
