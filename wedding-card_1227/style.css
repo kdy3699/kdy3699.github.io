@@ -327,3 +327,23 @@ section.card,
 .card {
   border: 1px solid #000 !important;
 }
+
+:root{
+  --bg-fallback:#eaf7f4; /* 이미지 로드 전/실패 대비 */
+}
+
+/* 배경이미지 */
+.bg-has-image{
+  background: var(--bg-fallback) url('assets/background.jpg') center / cover no-repeat;
+  /* iOS 성능 고려해 fixed는 기본 제외. 필요하면 아래 주석 해제 */
+  /* background-attachment: fixed; */
+}
+
+/* 가독성 향상을 위한 아주 옅은 오버레이(선택) */
+.bg-has-image::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,255,255,0.35));
+}
