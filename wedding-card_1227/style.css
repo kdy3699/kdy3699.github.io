@@ -334,7 +334,7 @@ section.card,
 
 /* 배경이미지 */
 .bg-has-image{
-  background: var(--bg-fallback) url('assets/background.jpg') center / cover no-repeat;
+  background: var(--bg-fallback) url('assets/신부.jpg') center / cover no-repeat;
   /* iOS 성능 고려해 fixed는 기본 제외. 필요하면 아래 주석 해제 */
   /* background-attachment: fixed; */
 }
