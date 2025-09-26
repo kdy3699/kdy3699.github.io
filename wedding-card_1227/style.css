@@ -332,11 +332,12 @@ section.card,
   --bg-fallback:#eaf7f4; /* 이미지 로드 전/실패 대비 */
 }
 
+/* 배경 이미지를 '타일'처럼 반복 */
 body.bg-has-image{
-  /* 채우기(cover): 화면을 꽉 채우도록 확대/자르기 */
+  --bg-tile-size: 500px; /* 타일 크기(원하는 크기로 조절) */
   background-color: var(--bg-fallback) !important;
   background-image: url('assets/background.jpg') !important;
-  background-repeat: no-repeat !important;
-  background-position: center center !important;
-  background-size: cover !important;
+  background-repeat: repeat !important;
+  background-position: top left !important;
+  background-size: var(--bg-tile-size) auto !important; /* 가로 기준 스케일 */
 }
