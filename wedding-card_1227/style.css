@@ -333,5 +333,10 @@ section.card,
 }
 
 body.bg-has-image{
-  background: var(--bg-fallback) url('assets/bg_wedding.jpg') center / cover no-repeat !important;
+/* 채우기(cover): 화면을 꽉 채우도록 확대/자르기 */
+  background-color: var(--bg-fallback) !important;
+  background-image: url('assets/bg_wedding.jpg') !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
 }
