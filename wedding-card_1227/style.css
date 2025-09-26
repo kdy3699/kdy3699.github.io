@@ -341,3 +341,13 @@ body.bg-has-image{
   background-position: top left !important;
   background-size: var(--bg-tile-size) auto !important; /* 가로 기준 스케일 */
 }
+
+.btn-outline-black.btn-white{
+  background: #fff !important;      /* 흰색 배경 */
+  color: #111 !important;            /* 글자 검정 */
+  border-color: #111 !important;     /* 테두리 검정 */
+}
+.btn-outline-black.btn-white:hover{
+  background: #fff !important;       /* 호버 시에도 흰색 유지 */
+  filter: brightness(0.98);          /* 살짝만 눌림 느낌 */
+}
