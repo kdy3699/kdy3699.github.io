@@ -224,11 +224,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ===== 라이트박스 ===== */
 document.addEventListener('DOMContentLoaded', initGallery);
-function initGallery(){
+async function initGallery(){
   const container = document.getElementById('gallery');
   const lightbox  = document.getElementById('lightbox');
   if (!container || !lightbox) return;
 
+  // 1) assets/ 에 있는 photo**.* 파일 자동 탐색
+  const urls = await discoverPhotosFromAssets();
+  // 2) 기존 마크업보다 자동탐색 우선. 자동탐색 결과가 있으면 갤러리를 재구성
+  if (urls.length){
+    buildGallery(container, urls);
+  }
+  // 3) DOM에서 실제 아이템 수집
   const items = Array.from(container.querySelectorAll('.gallery-item'));
   const imgs  = items.map(a => a.getAttribute('href') || a.querySelector('img')?.src).filter(Boolean);
 
@@ -469,3 +476,68 @@ document.addEventListener('DOMContentLoaded', setNavSpacer);
     }
   });
 })();
+
+// === helpers: assets/photo**.* 자동 탐색 ===
+async function discoverPhotosFromAssets(){
+  // 시도 범위/확장자
+  const exts = ['jpg','jpeg','png','webp'];
+  const MAX  = 200;         // 최대 200장까지 시도
+  const PAD  = 2;           // photo01, photo02 ... (3으로 바꿔도 동작)
+  const urls = [];
+  let foundAny = false;
+  let consecutiveMiss = 0;  // 뒤쪽 연속 실패가 너무 길면 조기 종료
+  const MISS_THRESHOLD = 20;
+
+  for (let i=1;i<=MAX;i++){
+    const num = String(i).padStart(PAD,'0');
+    let ok = false;
+    for (const ext of exts){
+      const url = `assets/photo${num}.${ext}`;
+      // 존재 여부 비동기 체크
+      if (await canLoadImage(url)){
+        urls.push(url);
+        ok = true;
+        foundAny = true;
+        break;
+      }
+    }
+    if (!ok){
+      if (foundAny){
+        consecutiveMiss++;
+        if (consecutiveMiss >= MISS_THRESHOLD) break;
+      }
+      // 아직 아무 것도 못 찾은 초반부는 계속 탐색
+    } else {
+      consecutiveMiss = 0;
+    }
+  }
+  return urls;
+}
+
+function canLoadImage(src, timeout=3500){
+  return new Promise((resolve)=>{
+    const img = new Image();
+    const timer = setTimeout(()=>{ cleanup(); resolve(false); }, timeout);
+    function cleanup(){
+      clearTimeout(timer);
+      img.onload = null; img.onerror = null;
+    }
+    img.onload = ()=>{ cleanup(); resolve(true); };
+    img.onerror= ()=>{ cleanup(); resolve(false); };
+    img.src = src + `?v=${Date.now()}`; // 캐시 회피(동명이미지 교체 대비)
+  });
+}
+
+function buildGallery(container, urls){
+  // 기존 내용을 지우고, 자동 생성
+  container.innerHTML = '';
+  // 필요하면 그리드 클래스 유지 (container에 이미 grid 클래스가 있다면 생략)
+  container.classList.add('grid','grid-cols-3','gap-2'); // 프로젝트에 맞게 조절
+  urls.forEach((u)=>{
+    const a = document.createElement('a');
+    a.href = u;
+    a.className = 'gallery-item block';
+    a.innerHTML = `<img src="${u}" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-md" alt="">`;
+    container.appendChild(a);
+  });
+}
