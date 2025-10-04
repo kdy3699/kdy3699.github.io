@@ -224,22 +224,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ===== 라이트박스 ===== */
 document.addEventListener('DOMContentLoaded', initGallery);
-async function initGallery(){
+function initGallery(){
   const container = document.getElementById('gallery');
   const lightbox  = document.getElementById('lightbox');
   if (!container || !lightbox) return;
 
-  // 갤러리 그리드 기본값 보장
-  container.classList.add('grid','grid-cols-3','gap-2');
+  const items = Array.from(container.querySelectorAll('.gallery-item'));
+  const imgs  = items.map(a => a.getAttribute('href') || a.querySelector('img')?.src).filter(Boolean);
 
-  // 찾는 즉시 붙여넣는 진행형 로드
-  progressiveDiscover(container);
-
-  // 현재 DOM을 기준으로 이미지 목록을 가져오는 헬퍼
-  const getItems = () => Array.from(container.querySelectorAll('.gallery-item'));
-  const getImgs  = () => getItems().map(a => a.getAttribute('href') || a.querySelector('img')?.src).filter(Boolean);
-  let idx = 0, wheelLock = false;
-  
   const lbImg    = lightbox.querySelector('img');
   const btnClose = lightbox.querySelector('.close');
   const btnNext  = lightbox.querySelector('.next');
@@ -273,9 +265,7 @@ async function initGallery(){
     lbImg.removeEventListener('contextmenu', prevent);
     lbImg.removeEventListener('dragstart', prevent);
   }
-  
   function open(i){
-    const imgs = getImgs();
     idx = i; lbImg.src = imgs[idx]; setImageTo3xOfThumb(idx); updateCounter();
     lightbox.classList.add('show'); lightbox.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
     bindNoZoom();
@@ -284,25 +274,10 @@ async function initGallery(){
     lightbox.classList.remove('show'); lightbox.setAttribute('aria-hidden','true'); document.body.style.overflow='';
     unbindNoZoom();
   }
-  function next(){
-    const imgs = getImgs();
-    idx = (idx + 1) % imgs.length; lbImg.src = imgs[idx]; setImageTo3xOfThumb(idx); updateCounter();
-  }
-  function prev(){
-    const imgs = getImgs();
-    idx = (idx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[idx]; setImageTo3xOfThumb(idx); updateCounter();
-  }
+  function next(){ idx = (idx + 1) % imgs.length; lbImg.src = imgs[idx]; setImageTo3xOfThumb(idx); updateCounter(); }
+  function prev(){ idx = (idx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[idx]; setImageTo3xOfThumb(idx); updateCounter(); }
 
-  // 이벤트 위임: 동적으로 추가된 썸네일도 동일하게 동작
-  container.addEventListener('click', (e)=>{
-    const a = e.target.closest('.gallery-item');
-    if (!a) return;
-    e.preventDefault();
-    const imgs = getImgs();
-    const i = imgs.indexOf(a.getAttribute('href') || a.querySelector('img')?.src);
-    if (i >= 0) open(i);
-  });
-  
+  items.forEach((a,i) => a.addEventListener('click', (e)=>{ e.preventDefault(); open(i); }));
   btnClose.addEventListener('click', close);
   btnNext.addEventListener('click', next);
   btnPrev.addEventListener('click', prev);
@@ -494,64 +469,3 @@ document.addEventListener('DOMContentLoaded', setNavSpacer);
     }
   });
 })();
-
-// === helpers: 진행형 자동 탐색 & 즉시 렌더 ===
-const PHOTO_EXTS = ['jpg','jpeg','png','webp'];
-const PHOTO_MAX  = 200;  // 최대 시도 개수
-const PHOTO_PAD  = 2;    // photo01 … 형식
-const FIRST_BATCH = 24;  // 첫 화면 빠른 로드 개수
-const NEXT_BATCH  = 24;  // 이후 스크롤 시 추가 로드
-
-async function progressiveDiscover(container){
-  // 1) 첫 배치: 바로 붙이기
-  await loadBatchAndAppend(container, 1, FIRST_BATCH);
-  // 2) 스크롤 근접 시 다음 배치 계속
-  const sentinel = document.createElement('div');
-  sentinel.id = 'galleryMoreSentinel';
-  sentinel.style.height = '1px';
-  container.after(sentinel);
-  let nextStart = FIRST_BATCH + 1;
-  const io = new IntersectionObserver(async (entries)=>{
-    if (!entries[0].isIntersecting) return;
-    const added = await loadBatchAndAppend(container, nextStart, NEXT_BATCH);
-    nextStart += NEXT_BATCH;
-    if (added === 0 || nextStart > PHOTO_MAX) io.disconnect();
-  }, { rootMargin: '800px 0px' });
-  io.observe(sentinel);
-}
-
-async function loadBatchAndAppend(container, start, count){
-  const tasks = [];
-  for (let i=start; i<start+count && i<=PHOTO_MAX; i++){
-    tasks.push(findAndAppend(container, i));
-  }
-  const results = await Promise.all(tasks);
-  return results.filter(Boolean).length; // 실제 추가된 수
-}
-
-async function findAndAppend(container, idx){
-  const num = String(idx).padStart(PHOTO_PAD,'0');
-  for (const ext of PHOTO_EXTS){
-    const url = `assets/photo${num}.${ext}`;
-    if (await canLoad(url)) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.className = 'gallery-item block';
-      a.innerHTML = `<img src="${url}" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-md" alt="">`;
-      container.appendChild(a);
-      return true;
-    }
-  }
-  return false;
-}
-
-function canLoad(src, timeout=2500){
-  return new Promise((resolve)=>{
-    const img = new Image();
-    const timer = setTimeout(()=>{ cleanup(); resolve(false); }, timeout);
-    function cleanup(){ clearTimeout(timer); img.onload=null; img.onerror=null; }
-    img.onload = ()=>{ cleanup(); resolve(true); };
-    img.onerror= ()=>{ cleanup(); resolve(false); };
-    img.src = src + `?v=${Date.now()}`; // 캐시 회피
-  });
-}
