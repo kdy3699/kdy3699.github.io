@@ -13,7 +13,7 @@ const likeBtn2  = document.getElementById('likeBtn2');
 const likeCount = document.getElementById('likeCount');
 const likeCount2= document.getElementById('likeCount2');
 // Apps Script 웹앱 URL (index.html의 form action과 동일하게 맞추세요)
-const SURVEY_API = 'https://script.google.com/macros/s/AKfycbx08TFs95FbJxbN-3ehEK6ksH8BVARR3uFIG2fjDR2p7VQnUzKCr7wnjyCJ1N-Kzreo/exec';
+const SURVEY_API = 'https://script.google.com/macros/s/AKfycbxgYpXVhlJ9oBfSq0JRcrIFy4eCwX-ECPU_kmpXeY62BdBssx51StIwRdrRzR6kvxhR/exec';
 
 function renderK1(n){
   const v = Number.isFinite(n) ? n : 0;
