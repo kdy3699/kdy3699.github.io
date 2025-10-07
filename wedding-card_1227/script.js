@@ -150,10 +150,50 @@ function fetchK1(){
     renderK1(Number(data.total) || 0);
   });
 }
-// 하트 버튼 클릭 시 증가 대신 설문 열기(선택)
-[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', openSurvey));
+
+// === 기대돼요: K1 +1 (브라우저당 1회)
+const LIKE_KEY = 'wcard_liked_v1';
+function markLikedUI(disabled=true){
+  [likeBtn, likeBtn2].forEach(b=>{
+    if (!b) return;
+    if (disabled) {
+      b.classList.add('pointer-events-none','opacity-60');
+      b.setAttribute('aria-disabled','true');
+    } else {
+      b.classList.remove('pointer-events-none','opacity-60');
+      b.removeAttribute('aria-disabled');
+    }
+  });
+}
+function alreadyLiked(){ return localStorage.getItem(LIKE_KEY) === '1'; }
+function setLiked(){ localStorage.setItem(LIKE_KEY,'1'); markLikedUI(true); }
+
+async function onLikeClick(e){
+  e?.preventDefault?.();
+  if (alreadyLiked()){ try{ showToast('이미 반영되었습니다 😊'); }catch{}; return; }
+  // 낙관적 UI 띄우기
+  markLikedUI(true);
+  jsonp(SURVEY_API, { action:'incK1', _ts: Date.now() }, (err, data)=>{
+    if (err || !data || data.ok !== true){
+      console.warn('incK1 failed', err || data);
+      try{ showToast('잠시 후 다시 시도해주세요'); }catch{}
+      // 실패 시 재시도 가능하도록 다시 활성화
+      markLikedUI(false);
+      return;
+    }
+    setLiked();
+    renderK1(Number(data.total) || 0);
+    try{ showToast('고마워요! 💗'); }catch{}
+  });
+}
+[likeBtn, likeBtn2].forEach(b => b && b.addEventListener('click', onLikeClick));
+
 // 페이지 진입 시 1회 조회
 document.addEventListener('DOMContentLoaded', fetchK1);
+// 페이지 진입 시 이미 눌렀던 사용자면 UI 비활성화
+document.addEventListener('DOMContentLoaded', ()=>{
+  if (alreadyLiked()) markLikedUI(true);
+});
 
 /* ===== 참석하기 버튼 → 설문 모달 ===== */
 const ctaAttend = document.getElementById('ctaAttend');
