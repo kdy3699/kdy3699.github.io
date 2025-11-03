@@ -509,3 +509,25 @@ document.addEventListener('DOMContentLoaded', setNavSpacer);
     }
   });
 })();
+
+// --- Map fallback for in-app browsers ---
+(function mapCompat(){
+  const lat = 37.4966083, lon = 127.0269028; // 서초사옥
+  const ua = (navigator.userAgent || '');
+  const isInApp = /(KAKAOTALK|Instagram|FBAN|FBAV|NAVER|Daum|Line)/i.test(ua);
+ const g = document.getElementById('mapGoogle');
+  const o = document.getElementById('mapOSM');
+  if (!g || !o) return;
+  // 인앱에서는 구글맵이 종종 막히므로 OSM으로 대체
+  if (isInApp) {
+    const bbox = [
+     (lon-0.005).toFixed(6),
+      (lat-0.003).toFixed(6),
+      (lon+0.005).toFixed(6),
+      (lat+0.003).toFixed(6)
+    ].join('%2C');
+    o.src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
+    g.classList.add('hidden');
+    o.classList.remove('hidden');
+  }
+})();
